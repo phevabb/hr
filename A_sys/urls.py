@@ -19,7 +19,9 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from A_sys import settings
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('superadmin.urls')),
+    path('', include('account.urls',)),
+    path('superadmin/', include('superadmin.urls' , namespace='superadmin')),
 ]

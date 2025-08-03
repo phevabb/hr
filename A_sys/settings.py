@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'superadmin.apps.SuperadminConfig',
     'manager.apps.ManagerConfig',
     'staff.apps.StaffConfig',
+
+    # third party
+    'widget_tweaks',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
