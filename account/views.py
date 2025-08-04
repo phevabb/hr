@@ -42,11 +42,39 @@ def login_view(request):
 
                     #  FOR Admin
                     if staff_department == "Admin":
-                        admin_ = User.objects.filter(user_id__icontains=user_ID)
+                        admin_ = User.objects.filter(user_id__icontains=user_ID).first()
 
 
-                        if admin_:
+
+                        if admin_ and admin_.role == 'Admin':
                             return redirect(next_url or "superadmin:dashboard")
+                        else:
+                            messages.error(
+                                request, "please select appropriate department"
+                            )
+                            return redirect("display_login_page")
+
+                    #  FOR hr manager
+                    if staff_department == "Manager":
+                        manager_ = User.objects.filter(user_id__icontains=user_ID).first()
+
+
+                        if manager_ and manager_.role == 'Manager':
+                            return redirect(next_url or "manager:dashboard")
+                        else:
+                            messages.error(
+                                request, "please select appropriate department"
+                            )
+                            return redirect("display_login_page")
+
+
+                    #  FOR hr manager
+                    if staff_department == "Staff":
+                        staff_ = User.objects.filter(user_id__icontains=user_ID).first()
+
+
+                        if staff_ and staff_.role == 'Staff':
+                            return redirect(next_url or "staff:dashboard")
                         else:
                             messages.error(
                                 request, "please select appropriate department"
