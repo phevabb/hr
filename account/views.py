@@ -97,3 +97,16 @@ def login_view(request):
         form = Login_form()
 
     return render(request, "registration/login.html", {"form": form})
+
+
+
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.views import PasswordResetView
+from django.urls import reverse_lazy
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'registration/password_reset_form.html'
+    success_url = reverse_lazy('password_reset_done')
+    email_template_name = 'password_reset_email.html'
+    subject_template_name = 'password_reset_subject.txt'
+    form_class = PasswordResetForm

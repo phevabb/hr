@@ -74,7 +74,7 @@ class CustomUserManager(BaseUserManager):
             'social_security_number': 'SSN-000000100', # change
             'national_health_insurance_number': 'NHIS-0100000000', #change
             'bank_name': 'Default Bank',
-            'bank_account_number': '0000000010', # change
+            'bank_account_number': '0', # change
             'bank_account_branch': 'Head Office',
             'management_unit_cost_centre': '0101 ASL: Office Of The Admin Of Stool Lands',
             'payroll_status': 'Active',
@@ -133,154 +133,60 @@ class User(AbstractUser):
     ]
 
     STAFF_CHOICES = [
-        ('senior_staff', "SENIOR STAFF"),
-        ('junior_staff', "JUNIOR STAFF"),
+        ('SENIOR STAFF', "SENIOR STAFF"),
+        ('JUNIOR STAFF', "JUNIOR STAFF"),
     ]
 
     DISTRICT_CHOICES = [
         ('Accra Metropolitan Assembly', 'Accra Metropolitan Assembly'),
-        ('Asunafo North', 'Asunafo North'),
-        ('Sekondi-Takoradi Metropolitan Assembly', 'Sekondi-Takoradi Metropolitan Assembly'),
-        ('Sekondi', 'Sekondi'),
-        ('Techiman', 'Techiman'),
-        ('Mfantseman Municipal Assembly', 'Mfantseman Municipal Assembly'),
-        ('Head Office', 'Head Office'),
-        ('Sunyani Municipal', 'Sunyani Municipal'),
-        ('Berekum', 'Berekum'),
-        ('Tano North Municipal', 'Tano North Municipal'),
-        ('Regional Office', 'Regional Office'),
-        ('Asuogyaman District Assembly', 'Asuogyaman District Assembly'),
-        ('Kade District', 'Kade District'),
-        ('Nkoranza North & South', 'Nkoranza North & South'),
-        ('Aowin', 'Aowin'),
-        ('Abuakwa North Municipal', 'Abuakwa North Municipal'),
-        ('Kwahu West', 'Kwahu West'),
-        ('Kwahu', 'Kwahu'),
-        ('Yeji Pru East', 'Yeji Pru East'),
-        ('Aowin Municipal', 'Aowin Municipal'),
-        ('Birim North District', 'Birim North District'),
-        ('Kwahu Afram Plains South', 'Kwahu Afram Plains South'),
-        ('Asuogyaman', 'Asuogyaman'),
         ('Akim Oda', 'Akim Oda'),
+        ('Akim Ofoase', 'Akim Ofoase'),
+        ('Akyemansa', 'Akyemansa'),
         ('Asamankese', 'Asamankese'),
-        ('New Juaben South', 'New Juaben South'),
-        ('Kwaebibirem Municipality', 'Kwaebibirem Municipality'),
-        ('Birim South District', 'Birim South District'),
-        ('Atiwa East', 'Atiwa East'),
-        ('West Akim Municipal', 'West Akim Municipal'),
-        ('New Abirem', 'New Abirem'),
-        ('New Tafo-Akyem (Abuakwa North Municipal Assembly)', 'New Tafo-Akyem (Abuakwa North Municipal Assembly)'),
-        ('Sunyani Municipal Assembly', 'Sunyani Municipal Assembly'),
         ('Asene Manso Akroso', 'Asene Manso Akroso'),
-        ('Fanteakwa North District Assembly', 'Fanteakwa North District Assembly'),
-        ('New Juaben North', 'New Juaben North'),
-        ('Sunyani', 'Sunyani'),
-        ('Sunyani Municipality', 'Sunyani Municipality'),
-        ('Jaman South Municipal', 'Jaman South Municipal'),
-        ('Bia West', 'Bia West'),
-        ('Wenchi', 'Wenchi'),
-        ('Dormaa West', 'Dormaa West'),
+        ('Asunafo North', 'Asunafo North'),
+        ('Asutifi North', 'Asutifi North'),
+        ('Axim', 'Axim'),
         ('Begoro', 'Begoro'),
-        ('Banda District', 'Banda District'),
+        ('Berekum', 'Berekum'),
+        ('Birim North District', 'Birim North District'),
+        ('Birim South District', 'Birim South District'),
+        ('Bolgatanga Municipal', 'Bolgatanga Municipal'),
+        ('Cape Coast', 'Cape Coast'),
+        ('Daboase', 'Daboase'),
+        ('Dormaa Municipal', 'Dormaa Municipal'),
+        ('Dormaa West', 'Dormaa West'),
+        ('Duayaw Nkwanta', 'Duayaw Nkwanta'),
+        ('Ejisu', 'Ejisu'),
+        ('Elubo', 'Elubo'),
+        ('Enchi', 'Enchi'),
+        ('Essikado', 'Essikado'),
+        ('Kade District', 'Kade District'),
+        ('Koforidua', 'Koforidua'),
+        ('Kumasi Metropolitan Assembly', 'Kumasi Metropolitan Assembly'),
+        ('Kumasi Metropolitan District', 'Kumasi Metropolitan District'),
+        ('Kwahu Afram Plains South', 'Kwahu Afram Plains South'),
+        ('Kwahu West', 'Kwahu West'),
         ('Kyebi', 'Kyebi'),
         ('La Dadekotopone', 'La Dadekotopone'),
-        ('Dambai', 'Dambai'),
-        ('Assin Foso', 'Assin Foso'),
-        ('Techiman North', 'Techiman North'),
+        ('Mfantseman Municipal Assembly', 'Mfantseman Municipal Assembly'),
+        ('New Juaben South Municipal', 'New Juaben South Municipal'),
+        ('New Tafo-Akyem (Abuakwa North Municipal Assembly)', 'New Tafo-Akyem (Abuakwa North Municipal Assembly)'),
+        ('Nkawkaw', 'Nkawkaw'),
+        ('Nkoranza North & South', 'Nkoranza North & South'),
+        ('Osu', 'Osu'),
         ('Sefwi Wiawso Municipal', 'Sefwi Wiawso Municipal'),
-        ('La Dade Kotopong', 'La Dade Kotopong'),
-        ('Asutifi North', 'Asutifi North'),
-        ('Kumasi Metropolitan Assembly', 'Kumasi Metropolitan Assembly'),
-        ('Bolgatanga Municipal', 'Bolgatanga Municipal'),
-        ('Weija Gbawe', 'Weija Gbawe'),
-        ('Jaman North', 'Jaman North'),
-        ('Elubo', 'Elubo'),
-        ('Kwabiberium Municipal Assembly', 'Kwabiberium Municipal Assembly'),
-        ('Dormaa Municipal', 'Dormaa Municipal'),
+        ('Sekondi', 'Sekondi'),
+        ('Sekondi-Takoradi Metropolitan Assembly', 'Sekondi-Takoradi Metropolitan Assembly'),
+        ('Sunyani Municipal', 'Sunyani Municipal'),
+        ('Sunyani Municipal Assembly', 'Sunyani Municipal Assembly'),
+        ('Tano North Municipal', 'Tano North Municipal'),
         ('Tarkwa Nsuaem', 'Tarkwa Nsuaem'),
-        ('Akyemansa', 'Akyemansa'),
-        ('Kumasi', 'Kumasi'),
-        ('Cape Coast', 'Cape Coast'),
-        ('Asankragwa', 'Asankragwa'),
-        ('Sefwi Bodi', 'Sefwi Bodi'),
-        ('Daboase', 'Daboase'),
-        ('Axim', 'Axim'),
-        ('Nkwanta - South', 'Nkwanta - South'),
-        ('Shai Osu-Doku District', 'Shai Osu-Doku District'),
-        ('Bosomtwe District', 'Bosomtwe District'),
-        ('Antwima Mponua', 'Antwima Mponua'),
-        ('Wassa East', 'Wassa East'),
-        ('Kasoa', 'Kasoa'),
-        ('Ga Central Municipality', 'Ga Central Municipality'),
-        ('Bole', 'Bole'),
-        ('Twifo Atti-Morkwa', 'Twifo Atti-Morkwa'),
-        ('Obuasi', 'Obuasi'),
-        ('Madina Municipal Branch Office', 'Madina Municipal Branch Office'),
-        ('Builsa North Municipal', 'Builsa North Municipal'),
-        ('Amansie West', 'Amansie West'),
-        ('Madina Municipal', 'Madina Municipal'),
-        ('Offinso', 'Offinso'),
-        ('Sekondi-Takoradi', 'Sekondi-Takoradi'),
-        ('Twifo Praso', 'Twifo Praso'),
-        ('Bia East', 'Bia East'),
-        ('Bibiani Anhwiaso Bekwai', 'Bibiani Anhwiaso Bekwai'),
-        ('Ledzekuku-Krowor', 'Ledzekuku-Krowor'),
-        ('West Mamprusi', 'West Mamprusi'),
-        ('Teshie-Nungua', 'Teshie-Nungua'),
-        ('Salaga', 'Salaga'),
-        ('Atwima Mponua', 'Atwima Mponua'),
-        ('Bawku Municipal', 'Bawku Municipal'),
-        ('Juaboso', 'Juaboso'),
-        ('Bibiani', 'Bibiani'),
-        ('Atwima Nwabiagya North', 'Atwima Nwabiagya North'),
-        ('Bibiani, Awheaso, Bekwai', 'Bibiani, Awheaso, Bekwai'),
-        ('Kassena Nankana West', 'Kassena Nankana West'),
-        ('Techiman Municipal', 'Techiman Municipal'),
-        ('Konongo', 'Konongo'),
-        ('Afigya Kwabre South District', 'Afigya Kwabre South District'),
-        ('Kasoa Sub-Region', 'Kasoa Sub-Region'),
-        ('Secondi Takoradi', 'Secondi Takoradi'),
-        ('Jomoro', 'Jomoro'),
-        ('Assin Foso', 'Assin Foso'),
-        ('Prestea-Huni Valley', 'Prestea-Huni Valley'),
-        ('Adansi South District', 'Adansi South District'),
-        ('Madina District', 'Madina District'),
-        ('Wassa Akropong', 'Wassa Akropong'),
-        ('Kwabre East Municipal', 'Kwabre East Municipal'),
-        ('Osu Klottey', 'Osu Klottey'),
-        ('Tano South', 'Tano South'),
-        ('Asante Mampong Municipality', 'Asante Mampong Municipality'),
-        ('Sekyere South', 'Sekyere South'),
-        ('Atwima Kwanwoma District', 'Atwima Kwanwoma District'),
-        ('Suaman', 'Suaman'),
-        ('Ahafo Ano North', 'Ahafo Ano North'),
-        ('Agona Swedru', 'Agona Swedru'),
-        ('Asunafo North Municipal Assembly', 'Asunafo North Municipal Assembly'),
-        ('Awutu Senya West', 'Awutu Senya West'),
-        ('Nkawie', 'Nkawie'),
-        ('Asunafo South', 'Asunafo South'),
-        ('Adansi South', 'Adansi South'),
-        ('Sekyere-East District', 'Sekyere-East District'),
-        ('Nzema East Municipal', 'Nzema East Municipal'),
-        ('Asutifi South', 'Asutifi South'),
-        ('Asikuma Odoben Brakwa', 'Asikuma Odoben Brakwa'),
-        ('Awutu Senya East Municipal Assembly', 'Awutu Senya East Municipal Assembly'),
-        ('Asokore Mampong', 'Asokore Mampong'),
-        ('Ejisu Municipal', 'Ejisu Municipal'),
-        ('Suame', 'Suame'),
-        ('Ejura-Sekyedumase', 'Ejura-Sekyedumase'),
-        ('Prampram', 'Prampram'),
-        ('Offinso North District', 'Offinso North District'),
-        ('Ahafo Ano South', 'Ahafo Ano South'),
-        ('Sekyere Kumawu', 'Sekyere Kumawu'),
-        ('Sefwi Wiawso Municipal Assembly', 'Sefwi Wiawso Municipal Assembly'),
-        ('Game North', 'Game North'),
-        ('Dunkwa-On-Offin', 'Dunkwa-On-Offin'),
-        ('Sunyani East Municipality', 'Sunyani East Municipality'),
-        ('Dormaa Central', 'Dormaa Central'),
-        ('Kintampo South', 'Kintampo South'),
-        ('Atebubu', 'Atebubu'),
-        ('Kintampo North', 'Kintampo North'),
+        ('Techiman', 'Techiman'),
+        ('Techiman North', 'Techiman North'),
+        ('Weija Gbawe', 'Weija Gbawe'),
+        ('Wenchi', 'Wenchi'),
+        ('Yeji Pru East', 'Yeji Pru East'),
     ]
 
     REGION_CHOICES = (
@@ -401,107 +307,119 @@ class User(AbstractUser):
     ]
     MANAGEMENT_UNIT_CHOICES = [
         ('0101 ASL: Office Of The Admin Of Stool Lands', '0101 ASL: Office Of The Admin Of Stool Lands'),
-        ('0101 ASL: Admin Of Stool Lands, Accra', '0101 ASL: Admin Of Stool Lands, Accra'),
-        ('0101 CAGD/MT Stool Lands', '0101 CAGD/MT Stool Lands'),
-        ('0101 MLF (OASL)', '0101 MLF (OASL)'),
         ('0101 MOC: Info. Services Dept. Head O COST CENTER', '0101 MOC: Info. Services Dept. Head O COST CENTER'),
-        ('0101 PG: Parks And Gardens HQ', '0101 PG: Parks And Gardens HQ'),
-        ('0200 MOF/CAGD-Eastern Regional Directorate', '0200 MOF/CAGD-Eastern Regional Directorate'),
-        ('0208 ASL: Admin Of Stool Lands, Koforidua', '0208 ASL: Admin Of Stool Lands, Koforidua'),
-        ('0313 ASL: Admin Of Stool Lands, Cape Coast', '0313 ASL: Admin Of Stool Lands, Cape Coast'),
+        ('0613 ASL: ADMIN. OF STOOL LANDS, KUMASI', '0613 ASL: ADMIN. OF STOOL LANDS, KUMASI'),
+        ('0408 ASL: Admin Of Stool Lands-Sekondi', '0408 ASL: Admin Of Stool Lands-Sekondi'),
+        ('0712 ASL Admin Of Stool Lands Sunyani', '0712 ASL Admin Of Stool Lands Sunyani'),
+        ('0313 ASL: Admin of stool lands Cape C Coast CENTRE', '0313 ASL: Admin of stool lands Cape C Coast CENTRE'),
+        ('0600 REGIONAL ADMINI: ASHANTI REGIONAL', '0600 REGIONAL ADMINI: ASHANTI REGIONAL'),
+        ('0208 ASL:ADMIN OF STOOL LANDS,KOFORIDUA COST CENTRE', '0208 ASL:ADMIN OF STOOL LANDS,KOFORIDUA COST CENTRE'),
+        ('0101 OHCS: PROCUREMENT AND SUPPLY CHAIN COST CENTRE', '0101 OHCS: PROCUREMENT AND SUPPLY CHAIN COST CENTRE'),
+        ('0408 LGS SEKONDI TAKORADI METRO. ASSEMBLY', '0408 LGS SEKONDI TAKORADI METRO. ASSEMBLY'),
+        ('0101 CAGD/MT Stool Lands', '0101 CAGD/MT Stool Lands'),
+        ('0101 ASL: Admin Of Stool Lands, Accra', '0101 ASL: Admin Of Stool Lands, Accra'),
+        ('310 MOF/CAGD CENTRAL REGIONAL DIRECT', '310 MOF/CAGD CENTRAL REGIONAL DIRECT'),
+        ('0200MOF/CAGD-Eastern Regional Directorate', '0200MOF/CAGD-Eastern Regional Directorate'),
+        ('0600 MOF/CAGD: ASHANTIREGIONAL DIRECT.', '0600 MOF/CAGD: ASHANTIREGIONAL DIRECT.'),
+        ('0813 ASL: Admin Of Stool Lands, TAccra Metropolitan Assemblyle',
+         '0813 ASL: Admin Of Stool Lands, TAccra Metropolitan Assemblyle'),
+        ('0400 MOF/CAGD WESTERN REGIONAL DIRECT', '0400 MOF/CAGD WESTERN REGIONAL DIRECT'),
+        ('0313', '0313'),
+        ('0800/LGS: NORTHERN REGIONAL COORDINATING COST CENTRE',
+         '0800/LGS: NORTHERN REGIONAL COORDINATING COST CENTRE'),
+        ('Administrator of Stool Lands -Western North Region', 'Administrator of Stool Lands -Western North Region'),
+        ('0400 LGS WESTERN REGIONAL COORDINATING COUNCIL', '0400 LGS WESTERN REGIONAL COORDINATING COUNCIL'),
+        ('0400MOF/CAGD:WESTERN REGIONAL DIRECT COST CENTRE', '0400MOF/CAGD:WESTERN REGIONAL DIRECT COST CENTRE'),
+        ('MOF/CAGD: WESTERN REGIONAL DIRECTORATE', 'MOF/CAGD: WESTERN REGIONAL DIRECTORATE'),
+        ('Office of of the Administrator of Stool Lands - Western North Region',
+         'Office of of the Administrator of Stool Lands - Western North Region'),
+        ('OASL WESTERN NORTH', 'OASL WESTERN NORTH'),
+        ('OASL.WESTERN NORTH REGION', 'OASL.WESTERN NORTH REGION'),
+        ('Office of the Administrator of Stool Lands -Western North Region',
+         'Office of the Administrator of Stool Lands -Western North Region'),
         ('0313 Administrator of Stool Lands', '0313 Administrator of Stool Lands'),
-        ('0400 LGS Western Regional Coordinating Council', '0400 LGS Western Regional Coordinating Council'),
-        ('0400 MOF/CAGD: Western Regional Directorate', '0400 MOF/CAGD: Western Regional Directorate'),
-        ('0408 ASL: Admin Of Stool Lands, Sekondi', '0408 ASL: Admin Of Stool Lands, Sekondi'),
-        ('0408 LGS Sekondi Takoradi Metropolitan Assembly', '0408 LGS Sekondi Takoradi Metropolitan Assembly'),
-        ('0600 MOF/CAGD: Ashanti Regional Directorate', '0600 MOF/CAGD: Ashanti Regional Directorate'),
-        ('0600 Regional Administration: Ashanti Regional', '0600 Regional Administration: Ashanti Regional'),
-        ('0613 ASL: Admin Of Stool Lands, Kumasi', '0613 ASL: Admin Of Stool Lands, Kumasi'),
-        ('0712 ASL: Admin Of Stool Lands, Sunyani', '0712 ASL: Admin Of Stool Lands, Sunyani'),
-        ('0800 LGS: Northern Regional Coordinating Cost Centre',
-         '0800 LGS: Northern Regional Coordinating Cost Centre'),
-        ('0813 ASL: Admin Of Stool Lands, Accra Metropolitan Assembly',
-         '0813 ASL: Admin Of Stool Lands, Accra Metropolitan Assembly'),
-        ('1300 CAGD: Ahafo Regional Directorate', '1300 CAGD: Ahafo Regional Directorate'),
-        ('310 MOF/CAGD: Central Regional Directorate', '310 MOF/CAGD: Central Regional Directorate'),
-        ('310 MOF/CAGD: Upper Denkyira East Municipal', '310 MOF/CAGD: Upper Denkyira East Municipal'),
-        ('Administrator of Stool Lands - Western North Region', 'Administrator of Stool Lands - Western North Region'),
-        ('Office of the Administrator of Stool Lands - Western North Region',
-         'Office of the Administrator of Stool Lands - Western North Region'),
-        ('OASL Western North Region', 'OASL Western North Region'),
+        ('Adm. of Stool Lands, Kumasi Cost Centre', 'Adm. of Stool Lands, Kumasi Cost Centre'),
+        ('310 MOF/CAGD UPPER DENKYIRA EAST MUNCIPAL', '310 MOF/CAGD UPPER DENKYIRA EAST MUNCIPAL'),
+        ('1300 CAGD Ahafo regional Directorate COST CENTRE', '1300 CAGD Ahafo regional Directorate COST CENTRE'),
         ('OASL District Officers Conference - Ejisu', 'OASL District Officers Conference - Ejisu'),
+        ('0101 MLF (OASL)', '0101 MLF (OASL)'),
+        ('0313 ASL: Admin of stool lands, Cape coast center', '0313 ASL: Admin of stool lands, Cape coast center'),
+        ('0101 PG: Parks And Gardens HQ', '0101 PG: Parks And Gardens HQ'),
+    ]
+    ACCOMMODATION_STATUS_CHOICES = [
+        ('PERSONAL', 'PERSONAL'),
+        ('RENTED', 'RENTED'),
+        ('OFFICIAL RESIDENCE - OASL', 'OFFICIAL RESIDENCE - OASL'),
+        ('OFFICIAL RESIDENCE - OASL', 'OFFICIAL RESIDENCE - OASL'),
+        ('OFFICIAL RESIDENCE - GoG', 'OFFICIAL RESIDENCE - GoG'),
+        ('OFFICIAL RESIDENCE - GoG', 'OFFICIAL RESIDENCE - GoG'),
     ]
 
     username = None  # Remove username
-    user_id = models.CharField(max_length=20, unique=True)
-    title = models.CharField(max_length=20, unique=False, choices=TITLE_CHOICES)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    user_id = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    title = models.CharField(max_length=20, choices=TITLE_CHOICES, null=True, blank=True)
+    first_name = models.CharField(max_length=20, null=True, blank=True)
+    last_name = models.CharField(max_length=20, null=True, blank=True)
     middle_name = models.CharField(max_length=20, null=True, blank=True)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
-    maiden_name = models.CharField(max_length=20)
-    gender = models.CharField(max_length=20, choices=GENDER_CHOICES)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True)
+    maiden_name = models.CharField(max_length=20, null=True, blank=True)
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     age = models.IntegerField(null=True, blank=True)
-    marital_status = models.CharField(max_length=20, unique=False, choices=MARITAL_STATUS_CHOICES)
-    category = models.CharField(max_length=100, unique=False, choices=CLASS_CHOICES) # same as class
-    directorate = models.CharField(max_length=100, unique=False, choices=DEPARTMENT_CHOICES)
-    current_grade = models.CharField(max_length=100, unique=False, choices=POSITION_CHOICES)
-    next_grade = models.CharField(max_length=100, unique=False, choices=POSITION_CHOICES)
-    current_salary_level = models.CharField(max_length=20)
-    current_salary_point = models.CharField(max_length=20)
-    next_salary_level = models.CharField(max_length=20)
-    date_of_first_appointment = models.DateField()
-    date_of_assumption_of_duty = models.DateField()
-    date_of_last_promotion = models.DateField()
-    change_of_grade = models.CharField(max_length=100, unique=False, choices=CHANGE_OF_GRADE_CHOICES)
-    substantive_date = models.DateField()
-    national_effective_date = models.DateField()
-    years_on_current_grade = models.IntegerField()
-    number_of_years_in_service = models.IntegerField()
-    fulltime_contract_staff= models.CharField(max_length=20, unique=False, choices=CONTRACT_FULLTIME)
-    academic_qualification = models.CharField(max_length=20)
-    professional_qualification = models.CharField(max_length=20)
-    staff_category = models.CharField(max_length=20, choices=STAFF_CHOICES)
-    region = models.CharField(max_length=20, choices=REGION_CHOICES)
-    district = models.CharField(max_length=100,choices=DISTRICT_CHOICES,verbose_name="District")
-    single_spine_monthly_salary = models.DecimalField(decimal_places=2, max_digits=10)
-    monthly_gross_pay = models.DecimalField(decimal_places=2, max_digits=10)
-    annual_salary = models.DecimalField(decimal_places=2, max_digits=10)
-    date_of_retirement = models.DateField()
-    number_of_focus_areas = models.IntegerField()
-    number_of_targets = models.IntegerField()
-    number_of_targets_met = models.IntegerField()
-    number_of_targets_not_met = models.IntegerField()
-    overall_assessment_score = models.DecimalField(decimal_places=2, max_digits=5)
-    self_assessment_description = models.TextField()
-    phone_number = models.CharField(max_length=20, unique=True)
-    ghana_card_number = models.CharField(max_length=20, unique=True)
-    social_security_number = models.CharField(max_length=20, unique=True)
-    national_health_insurance_number = models.CharField(max_length=20, unique=True)
-    bank_name = models.CharField(max_length=50)
-    bank_account_number = models.CharField(max_length=50, unique=True)
-    bank_account_branch = models.CharField(max_length=50)
-    management_unit_cost_centre = models.CharField(max_length=100, unique=False, choices=MANAGEMENT_UNIT_CHOICES)
-    payroll_status = models.CharField(max_length=50, choices=(
-        ('Active', 'Active'),
-        ('Inactive', 'Inactive'),
-        ('Suspended', 'Suspended'),
-    ))
-    at_post_on_leave = models.CharField(max_length=20, choices=(
-        ('At Post', 'At Post'),
-        ('On Leave', 'On Leave'),
-    ))
-    on_leave_type = models.CharField(max_length=50, blank=True, null=True)
-    accommodation_status = models.CharField(max_length=50, choices=(
-        ('Company Accommodation', 'Company Accommodation'),
-        ('Personal Residence', 'Personal Residence'),
-        ('Rented Residence', 'Rented Residence'),
-    ))
-    supervisor_name = models.CharField(max_length=100)
+    marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
+    category = models.CharField(max_length=100, choices=CLASS_CHOICES, verbose_name="class", null=True, blank=True)
+    directorate = models.CharField(max_length=100, choices=DEPARTMENT_CHOICES, null=True, blank=True)
+    current_grade = models.CharField(max_length=100, choices=POSITION_CHOICES, null=True, blank=True)
+    next_grade = models.CharField(max_length=100, choices=POSITION_CHOICES, null=True, blank=True)
+    current_salary_level = models.CharField(max_length=20, null=True, blank=True)
+    current_salary_point = models.CharField(max_length=20, null=True, blank=True)
+    next_salary_level = models.CharField(max_length=20, null=True, blank=True)
+    date_of_first_appointment = models.DateField(null=True, blank=True)
+    date_of_assumption_of_duty = models.DateField(null=True, blank=True)
+    date_of_last_promotion = models.DateField(null=True, blank=True)
+    change_of_grade = models.CharField(max_length=100, choices=CHANGE_OF_GRADE_CHOICES, null=True, blank=True)
+    substantive_date = models.DateField(null=True, blank=True)
+    national_effective_date = models.DateField(null=True, blank=True)
+    years_on_current_grade = models.IntegerField(null=True, blank=True)
+    number_of_years_in_service = models.IntegerField(null=True, blank=True)
+    fulltime_contract_staff = models.CharField(max_length=20, choices=CONTRACT_FULLTIME, null=True, blank=True)
+    academic_qualification = models.CharField(max_length=20, null=True, blank=True)
+    professional_qualification = models.CharField(max_length=20, null=True, blank=True)
+    staff_category = models.CharField(max_length=20, choices=STAFF_CHOICES, null=True, blank=True)
+    region = models.CharField(max_length=20, choices=REGION_CHOICES, null=True, blank=True)
+    district = models.CharField(max_length=100, choices=DISTRICT_CHOICES, verbose_name="District", null=True,
+                                blank=True)
+    single_spine_monthly_salary = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+    monthly_gross_pay = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+    annual_salary = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+    date_of_retirement = models.DateField(null=True, blank=True)
+    number_of_focus_areas = models.IntegerField(null=True, blank=True)
+    number_of_targets = models.IntegerField(null=True, blank=True)
+    number_of_targets_met = models.IntegerField(null=True, blank=True)
+    number_of_targets_not_met = models.IntegerField(null=True, blank=True)
+    overall_assessment_score = models.DecimalField(decimal_places=2, max_digits=5, null=True, blank=True)
+    self_assessment_description = models.TextField(null=True, blank=True)
+    phone_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    ghana_card_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    social_security_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    national_health_insurance_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    bank_name = models.CharField(max_length=50, null=True, blank=True)
+    bank_account_number = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    bank_account_branch = models.CharField(max_length=100, null=True, blank=True)
+    management_unit_cost_centre = models.CharField(max_length=100, choices=MANAGEMENT_UNIT_CHOICES, null=True,
+                                                   blank=True)
+    payroll_status = models.CharField(max_length=50, choices=(('ACTIVE (PAID)', 'ACTIVE (PAID)'), ('Inactive', 'Inactive'),
+                                                              ('Suspended', 'Suspended')), null=True, blank=True)
+    at_post_on_leave = models.CharField(max_length=20, choices=(('AT POST', 'AT POST'), ('ON LEAVE', 'ON LEAVE')),
 
-    #last_name = models.CharField(max_length=100, null=True, blank=True)
+
+
+                                        null=True, blank=True)
+    on_leave_type = models.CharField(max_length=50, blank=True, null=True)
+    accommodation_status = models.CharField(max_length=50, choices=ACCOMMODATION_STATUS_CHOICES, null=True, blank=True)
+    supervisor_name = models.CharField(max_length=100, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
+
     USERNAME_FIELD = "user_id"
     REQUIRED_FIELDS = []  # No required fields
     objects = CustomUserManager()

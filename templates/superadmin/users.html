@@ -1,0 +1,81 @@
+{% extends 'base/admin_base.html' %}
+
+{% block content %}
+{% load static %}
+
+                <div class="container-fluid">
+                    <div class="layout-specing">
+                        <div class="d-md-flex justify-content-between">
+                            <h5 class="mb-0">Staff List</h5>
+
+                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
+                                <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
+                                    <li class="breadcrumb-item"><a href="{% url 'superadmin:dashboard' %}">Dashboard</a></li>
+
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 mt-4">
+                                <div class="table-responsive shadow-lg rounded-3">
+
+    <table class="table table-center bg-white mb-0">
+        <thead>
+            <tr class="bg-light">
+                <th class="border-bottom border-dark p-3 fw-bold" style="min-width: 50px;">Staff ID</th>
+                <th class="border-bottom border-dark p-3 fw-bold" style="min-width: 180px;">Full Name</th>
+                <th class="border-bottom border-dark p-3 fw-bold">Tell</th>
+                <th class="border-bottom border-dark p-3 fw-bold">Role</th>
+                <th class="border-bottom border-dark p-3 fw-bold">Region</th>
+                <th class="border-bottom border-dark p-3 fw-bold" style="min-width: 150px;">Class</th>
+                <th class="border-bottom border-dark p-3 fw-bold" style="min-width: 100px;">Action</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in posts %}
+            <tr class="border-bottom border-dark">
+                <th class="p-3 fw-semibold">{{user.user_id}}</th>
+                <td class="py-3">
+                    <a href="#" class="text-dark text-decoration-none">
+                        <div class="d-flex align-items-center">
+                            <img src="{% static '/assets/images/client/01.jpg' %}" class="avatar avatar-md-sm rounded-circle shadow" alt="">
+                            <span class="ms-2 fw-medium">{{user.full_name}}</span>
+                        </div>
+                    </a>
+                </td>
+                <td class="p-3 fw-medium">{{ user.phone_number }}</td>
+                <td class="p-3 fw-medium">{{user.role}}</td>
+                <td class="p-3 fw-medium">{{user.region}}</td>
+                <td class="p-3 fw-medium">{{user.category}}</td>
+                <td class="text-end p-3">
+                    <div class="btn-group" role="group">
+                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary mx-1" data-bs-toggle="modal" data-bs-target="#viewprofile"><i class="uil uil-eye"></i></a>
+                        <a href="#" class="btn btn-icon btn-pills btn-soft-success mx-1" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+                        <a href="#" class="btn btn-icon btn-pills btn-soft-danger mx-1"><i class="uil uil-trash"></i></a>
+                    </div>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>
+                            </div>
+                        </div><!--end row-->
+
+
+                        <div class="row text-center">
+                            <!-- PAGINATION START -->
+                            {% include "pagination.html" with page=posts %}
+                            <!--end col-->
+                            <!-- PAGINATION END -->
+                        </div><!--end row-->
+                    </div>
+                </div><!--end container-->
+
+   {% endblock %}

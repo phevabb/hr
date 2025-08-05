@@ -1,0 +1,46 @@
+<!-- PAGINATION START -->
+<!-- PAGINATION START -->
+<div class="col-12 mt-4" style="padding: 10px; border-top: 1px solid #ddd;">
+  <div class="d-md-flex align-items-center text-center justify-content-between" style="font-family: Arial, sans-serif;">
+    <span class="text-muted me-3" style="font-size: 14px; color: #6c757d;">
+      Showing {{ page.start_index }} - {{ page.end_index }} out of {{ page.paginator.count }}
+        <div style="padding-top: 1rem"></div>
+    </span>
+    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0" style="margin: 0; padding: 0; list-style: none; display: flex; gap: 5px;">
+      <li class="page-item{% if not page.has_previous %} disabled{% endif %}" style="display: inline-block;">
+        <a class="page-link" href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}javascript:void(0){% endif %}" aria-label="Previous"
+          style="padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; background: #f8f9fa; color: #007bff; text-decoration: none;">
+          Prev
+        </a>
+      </li>
+
+      {% for i in page.paginator.page_range %}
+        {% if page.number == i %}
+          <li class="page-item active" style="display: inline-block;">
+            <a class="page-link" href="javascript:void(0)" style="padding: 5px 10px; border: 1px solid #007bff; border-radius: 4px; background: #007bff; color: #fff; text-decoration: none;">
+              {{ i }}
+            </a>
+          </li>
+        {% elif i >= page.number|add:'-2' and i <= page.number|add:'2' or i == 1 or i == page.paginator.num_pages %}
+          <li class="page-item" style="display: inline-block;">
+            <a class="page-link" href="?page={{ i }}" style="padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; background: #f8f9fa; color: #007bff; text-decoration: none;">
+              {{ i }}
+            </a>
+          </li>
+        {% elif i == page.number|add:'3' or i == page.number|add:'-3' %}
+          <li class="page-item" style="display: inline-block;">
+            <span class="page-link" style="padding: 5px 10px; color: #6c757d;">...</span>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      <li class="page-item{% if not page.has_next %} disabled{% endif %}" style="display: inline-block;">
+        <a class="page-link" href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}javascript:void(0){% endif %}" aria-label="Next"
+          style="padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; background: #f8f9fa; color: #007bff; text-decoration: none;">
+          Next
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- PAGINATION END -->

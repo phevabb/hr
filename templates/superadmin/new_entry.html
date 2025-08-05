@@ -1,0 +1,529 @@
+{% extends 'base/admin_base.html' %}
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+                <div class="container-fluid">
+                    <div class="layout-specing">
+                        <div class="d-md-flex justify-content-between">
+                            <h5 class="mb-0">New Entry</h5>
+
+                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
+                                <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
+                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
+                                    <li class="breadcrumb-item"><a href="patients.html">Patients</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Add Patient</li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 mt-4">
+                                <div class="card border-0 p-4 rounded shadow">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-2 col-md-4">
+                                            <img src="{% static 'assets/images/client/01.jpg' %}" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
+                                        </div><!--end col-->
+
+                                        <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
+                                            <h5 class="">Upload your picture</h5>
+                                            <p class="text-muted mb-0">For best results, use an image at least 600px by 600px in either .jpg or .png format</p>
+                                        </div><!--end col-->
+
+                                        <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
+                                            <a href="#" class="btn btn-primary">Upload</a>
+                                            <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+
+
+
+
+
+<form method="post" class="mt-4" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- Personal Information Section -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Personal Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        {% render_field form.title class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">First Name*</label>
+                        {% render_field form.first_name class="form-control" required="required" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Middle Name</label>
+                        {% render_field form.middle_name class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Last Name*</label>
+                        {% render_field form.last_name class="form-control" required="required" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Maiden Name</label>
+                        {% render_field form.maiden_name class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label class="form-label">Gender</label>
+                        {% render_field form.gender class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label class="form-label">Date of Birth</label>
+                        {% render_field form.date_of_birth type="date" class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label class="form-label">Age</label>
+                        {% render_field form.age class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Marital Status</label>
+                        {% render_field form.marital_status class="form-select" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Identification Information -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Identification Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">User ID*</label>
+                        {% render_field form.user_id class="form-control" required="required" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Ghana Card Number</label>
+                        {% render_field form.ghana_card_number class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">SSNIT Number</label>
+                        {% render_field form.social_security_number class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">NHIS Number</label>
+                        {% render_field form.national_health_insurance_number class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Phone Number*</label>
+                        {% render_field form.phone_number class="form-control" required="required" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employment Information -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Employment Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Role*</label>
+                        {% render_field form.role class="form-select" required="required" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Class*</label>
+                        {% render_field form.category class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Staff Category</label>
+                        {% render_field form.staff_category class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Fulltime/Contract</label>
+                        {% render_field form.fulltime_contract_staff class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Directorate</label>
+                        {% render_field form.directorate class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Current Grade</label>
+                        {% render_field form.current_grade class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Next Grade</label>
+                        {% render_field form.next_grade class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Current Salary Level</label>
+                        {% render_field form.current_salary_level class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Current Salary Point</label>
+                        {% render_field form.current_salary_point class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Next Salary Level</label>
+                        {% render_field form.next_salary_level class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Change of Grade</label>
+                        {% render_field form.change_of_grade class="form-select" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dates Section -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Important Dates</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">First Appointment</label>
+                        {% render_field form.date_of_first_appointment type="date" class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Assumption of Duty</label>
+                        {% render_field form.date_of_assumption_of_duty type="date" class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Last Promotion</label>
+                        {% render_field form.date_of_last_promotion type="date" class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Substantive Date</label>
+                        {% render_field form.substantive_date type="date" class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">National Effective Date</label>
+                        {% render_field form.national_effective_date type="date" class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Retirement Date</label>
+                        {% render_field form.date_of_retirement type="date" class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Years in Current Grade</label>
+                        {% render_field form.years_on_current_grade class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Years in Service</label>
+                        {% render_field form.number_of_years_in_service class="form-control" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Location Information -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Location Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Region</label>
+                        {% render_field form.region class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">District</label>
+                        {% render_field form.district class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Management Unit</label>
+                        {% render_field form.management_unit_cost_centre class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">At Post/On Leave</label>
+                        {% render_field form.at_post_on_leave class="form-select" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Leave Type</label>
+                        {% render_field form.on_leave_type class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Accommodation Status</label>
+                        {% render_field form.accommodation_status class="form-select" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Financial Information -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Financial Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Single Spine Salary</label>
+                        {% render_field form.single_spine_monthly_salary class="form-control" step="0.01" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Monthly Gross Pay</label>
+                        {% render_field form.monthly_gross_pay class="form-control" step="0.01" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Annual Salary</label>
+                        {% render_field form.annual_salary class="form-control" step="0.01" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Bank Name</label>
+                        {% render_field form.bank_name class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Account Number</label>
+                        {% render_field form.bank_account_number class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Bank Branch</label>
+                        {% render_field form.bank_account_branch class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Payroll Status</label>
+                        {% render_field form.payroll_status class="form-select" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Qualifications -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Qualifications</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Academic Qualification</label>
+                        {% render_field form.academic_qualification class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Professional Qualification</label>
+                        {% render_field form.professional_qualification class="form-control" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Information -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Performance Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Focus Areas</label>
+                        {% render_field form.number_of_focus_areas class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Targets</label>
+                        {% render_field form.number_of_targets class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Targets Met</label>
+                        {% render_field form.number_of_targets_met class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Targets Not Met</label>
+                        {% render_field form.number_of_targets_not_met class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Assessment Score</label>
+                        {% render_field form.overall_assessment_score class="form-control" step="0.01" %}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Supervisor Name</label>
+                        {% render_field form.supervisor_name class="form-control" %}
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label">Self Assessment</label>
+                        {% render_field form.self_assessment_description class="form-control" rows="3" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary btn-lg">Save User</button>
+    </div>
+</form>
+
+
+                                </div>
+                            </div><!--end col-->
+
+
+                        </div><!--end row-->
+                    </div>
+                </div><!--end container-->
+
+
+
+  {% endblock %}

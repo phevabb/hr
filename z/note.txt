@@ -1,1 +1,17 @@
 class field is same as category
+
+
+Admin:
+1215976
+Securepassword123!
+
+
+Manager:
+1545966
+Securepassword123!
+
+
+
+
+
+1535268 for ref
