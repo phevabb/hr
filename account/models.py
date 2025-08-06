@@ -92,6 +92,29 @@ class CustomUserManager(BaseUserManager):
 
 # Custom User model
 class User(AbstractUser):
+    DEPARTMENT_CHOICES = [
+        ('Administration & Human Resource Directorate - ICT Unit',
+         'Administration & Human Resource Directorate - ICT Unit'),
+        ('Administration & Human Resource Directorate - Information Unit & Public Relations Unit',
+         'Administration & Human Resource Directorate - Information Unit & Public Relations Unit'),
+        ('Administration & Human Resource Directorate - Procurement Unit',
+         'Administration & Human Resource Directorate - Procurement Unit'),
+        ('Administration & Human Resource Directorate - Records',
+         'Administration & Human Resource Directorate - Records'),
+        ('Administration & Human Resource Directorate - Transport Unit',
+         'Administration & Human Resource Directorate - Transport Unit'),
+        ('Audit Unit', 'Audit Unit'),
+        ('Finance Directorate', 'Finance Directorate'),
+        ('General Administration & Human Resource Directorate', 'General Administration & Human Resource Directorate'),
+        ('Land Administration Directorate', 'Land Administration Directorate'),
+        ('Legal Unit', 'Legal Unit'),
+        ('Operations Directorate', 'Operations Directorate'),
+        ('Policy Planning Directorate', 'Policy Planning Directorate'),
+        ('Research Statistics & Information Management Directorate',
+         'Research Statistics & Information Management Directorate'),
+    ]
+    directorate = models.CharField(max_length=100, choices=DEPARTMENT_CHOICES, null=True, blank=True)
+
     TITLE_CHOICES = [
         ('Esq.', 'Esq.'),
         ('Mr.', 'Mr.'),
@@ -110,6 +133,7 @@ class User(AbstractUser):
         ('Male', "Male"),
         ('Female', "Female"),
     ]
+
     CLASS_CHOICES = [
         ('Accounts Class', 'Accounts Class'),
         ('Administrative Class', 'Administrative Class'),
@@ -139,54 +163,192 @@ class User(AbstractUser):
 
     DISTRICT_CHOICES = [
         ('Accra Metropolitan Assembly', 'Accra Metropolitan Assembly'),
-        ('Akim Oda', 'Akim Oda'),
-        ('Akim Ofoase', 'Akim Ofoase'),
-        ('Akyemansa', 'Akyemansa'),
-        ('Asamankese', 'Asamankese'),
-        ('Asene Manso Akroso', 'Asene Manso Akroso'),
         ('Asunafo North', 'Asunafo North'),
-        ('Asutifi North', 'Asutifi North'),
-        ('Axim', 'Axim'),
-        ('Begoro', 'Begoro'),
+        ('Sekondi-Takoradi Metropolitan Assembly', 'Sekondi-Takoradi Metropolitan Assembly'),
+        ('Sekondi', 'Sekondi'),
+        ('Sekondi', 'Sekondi'),  # Duplicate preserved
+        ('Techiman', 'Techiman'),
+        ('Mfantseman Municipal Assembly', 'Mfantseman Municipal Assembly'),
+        ('Head Office', 'Head Office'),
+        ('Sunyani Municipal', 'Sunyani Municipal'),
         ('Berekum', 'Berekum'),
-        ('Birim North District', 'Birim North District'),
-        ('Birim South District', 'Birim South District'),
-        ('Bolgatanga Municipal', 'Bolgatanga Municipal'),
-        ('Cape Coast', 'Cape Coast'),
-        ('Daboase', 'Daboase'),
-        ('Dormaa Municipal', 'Dormaa Municipal'),
-        ('Dormaa West', 'Dormaa West'),
-        ('Duayaw Nkwanta', 'Duayaw Nkwanta'),
-        ('Ejisu', 'Ejisu'),
-        ('Elubo', 'Elubo'),
-        ('Enchi', 'Enchi'),
-        ('Essikado', 'Essikado'),
+        ('Tano North Municipal', 'Tano North Municipal'),
+        ('Regional Office', 'Regional Office'),
+        ('Asuogyaman District Assembly', 'Asuogyaman District Assembly'),
         ('Kade District', 'Kade District'),
-        ('Koforidua', 'Koforidua'),
-        ('Kumasi Metropolitan Assembly', 'Kumasi Metropolitan Assembly'),
-        ('Kumasi Metropolitan District', 'Kumasi Metropolitan District'),
-        ('Kwahu Afram Plains South', 'Kwahu Afram Plains South'),
+        ('Nkoranza North & South', 'Nkoranza North & South'),
+        ('Aowin', 'Aowin'),
+        ('Abuakwa North Municipal', 'Abuakwa North Municipal'),
         ('Kwahu West', 'Kwahu West'),
+        ('Kwahu West', 'Kwahu West'),  # Duplicate preserved
+        ('Kwahu', 'Kwahu'),
+        ('Yeji Pru East', 'Yeji Pru East'),
+        ('Aowin Municipal', 'Aowin Municipal'),
+        ('Birim North District', 'Birim North District'),
+        ('Tano North Municipal', 'Tano North Municipal'),  # Duplicate preserved
+        ('Kwahu Afram Plains South', 'Kwahu Afram Plains South'),
+        ('Asuogyaman', 'Asuogyaman'),
+        ('Akim Oda', 'Akim Oda'),
+        ('Regional Office', 'Regional Office'),  # Duplicate preserved
+        ('Accra Metropolitan Assembly', 'Accra Metropolitan Assembly'),  # Duplicate preserved
+        ('Asamankese', 'Asamankese'),
+        ('New Juaben South', 'New Juaben South'),
+        ('Kwaebibirem Municipality', 'Kwaebibirem Municipality'),
+        ('Birim South District', 'Birim South District'),
+        ('Atiwa East', 'Atiwa East'),
+        ('West Akim Municipal', 'West Akim Municipal'),
+        ('New Abirem', 'New Abirem'),
+        ('New Tafo-Akyem (Abuakwa North Municipal Assembly)', 'New Tafo-Akyem (Abuakwa North Municipal Assembly)'),
+        ('Sunyani Municipal Assembly', 'Sunyani Municipal Assembly'),
+        ('Asene Manso Akroso', 'Asene Manso Akroso'),
+        ('Fanteakwa North District Assembly', 'Fanteakwa North District Assembly'),
+        ('Asunafo North', 'Asunafo North'),  # Duplicate preserved
+        ('New Juaben North', 'New Juaben North'),
+        ('Aowin', 'Aowin'),  # Duplicate preserved
+        ('Sunyani', 'Sunyani'),
+        ('Sunyani Municipal Assembly', 'Sunyani Municipal Assembly'),  # Duplicate preserved
+        ('Sunyani Municipality', 'Sunyani Municipality'),
+        ('Jaman South Municipal', 'Jaman South Municipal'),
+        ('Bia West', 'Bia West'),
+        ('Sunyani Municipal', 'Sunyani Municipal'),  # Duplicate preserved
+        ('Wenchi', 'Wenchi'),
+        ('Dormaa West', 'Dormaa West'),
+        ('Begoro', 'Begoro'),
+        ('Banda District', 'Banda District'),
         ('Kyebi', 'Kyebi'),
         ('La Dadekotopone', 'La Dadekotopone'),
-        ('Mfantseman Municipal Assembly', 'Mfantseman Municipal Assembly'),
-        ('New Juaben South Municipal', 'New Juaben South Municipal'),
-        ('New Tafo-Akyem (Abuakwa North Municipal Assembly)', 'New Tafo-Akyem (Abuakwa North Municipal Assembly)'),
-        ('Nkawkaw', 'Nkawkaw'),
-        ('Nkoranza North & South', 'Nkoranza North & South'),
-        ('Osu', 'Osu'),
-        ('Sefwi Wiawso Municipal', 'Sefwi Wiawso Municipal'),
-        ('Sekondi', 'Sekondi'),
-        ('Sekondi-Takoradi Metropolitan Assembly', 'Sekondi-Takoradi Metropolitan Assembly'),
-        ('Sunyani Municipal', 'Sunyani Municipal'),
-        ('Sunyani Municipal Assembly', 'Sunyani Municipal Assembly'),
-        ('Tano North Municipal', 'Tano North Municipal'),
-        ('Tarkwa Nsuaem', 'Tarkwa Nsuaem'),
-        ('Techiman', 'Techiman'),
+        ('Dambai', 'Dambai'),
+        ('Assin Foso', 'Assin Foso'),
         ('Techiman North', 'Techiman North'),
+        ('Sefwi Wiawso Municipal', 'Sefwi Wiawso Municipal'),
+        ('La Dade Kotopong', 'La Dade Kotopong'),
+        ('Asutifi North', 'Asutifi North'),
+        ('Akim Oda', 'Akim Oda'),  # Duplicate preserved
+        ('Kumasi Metropolitan Assembly', 'Kumasi Metropolitan Assembly'),
+        ('Bolgatanga Municipal', 'Bolgatanga Municipal'),
+        ('Asutifi North', 'Asutifi North'),  # Duplicate preserved
         ('Weija Gbawe', 'Weija Gbawe'),
-        ('Wenchi', 'Wenchi'),
-        ('Yeji Pru East', 'Yeji Pru East'),
+        ('Jaman North', 'Jaman North'),
+        ('Elubo', 'Elubo'),
+        ('Kwabiberium Municipal Assembly', 'Kwabiberium Municipal Assembly'),
+        ('Dormaa Municipal', 'Dormaa Municipal'),
+        ('Tarkwa Nsuaem', 'Tarkwa Nsuaem'),
+        ('Akyemansa', 'Akyemansa'),
+        ('Kumasi', 'Kumasi'),
+        ('Cape Coast', 'Cape Coast'),
+        ('Asankragwa', 'Asankragwa'),
+        ('Sefwi Bodi', 'Sefwi Bodi'),
+        ('Daboase', 'Daboase'),
+        ('Tarkwa Nsuaem', 'Tarkwa Nsuaem'),  # Duplicate preserved
+        ('Sefwi Wiawso', 'Sefwi Wiawso'),
+        ('Cape Coast', 'Cape Coast'),  # Duplicate preserved
+        ('Kumasi Metropolitan District', 'Kumasi Metropolitan District'),
+        ('Axim', 'Axim'),
+        ('New Juaben South Municipal', 'New Juaben South Municipal'),
+        ('New Juaben South Municipal', 'New Juaben South Municipal'),  # Duplicate preserved
+        ('New Juaben North', 'New Juaben North'),
+        ('Tamale Metropolitan Assembly', 'Tamale Metropolitan Assembly'),
+        ('Dambai District', 'Dambai District'),
+        ('Sekondi-Takoradi Metropolitan Assembly', 'Sekondi-Takoradi Metropolitan Assembly'),  # Duplicate preserved
+        ('Nkwanta - South', 'Nkwanta - South'),
+        ('New Juaben South', 'New Juaben South'),  # Duplicate preserved
+        ('Shai Osu-Doku District', 'Shai Osu-Doku District'),
+        ('Bosomtwe District', 'Bosomtwe District'),
+        ('Antwima Mponua', 'Antwima Mponua'),
+        ('Wassa East', 'Wassa East'),
+        ('Kasoa', 'Kasoa'),
+        ('Ga Central Municipality', 'Ga Central Municipality'),
+        ('Bole', 'Bole'),
+        ('Twifo Atti-Morkwa', 'Twifo Atti-Morkwa'),
+        ('Obuasi', 'Obuasi'),
+        ('Madina Municipal Branch Office', 'Madina Municipal Branch Office'),
+        # Note: Extra space in original preserved as provided
+        ('Builsa North Municipal', 'Builsa North Municipal'),
+        ('Amansie West', 'Amansie West'),
+        ('Madina Municipal', 'Madina Municipal'),
+        ('Offinso', 'Offinso'),
+        ('Sekondi-Takoradi', 'Sekondi-Takoradi'),
+        ('Twifo Praso', 'Twifo Praso'),
+        ('Bia East', 'Bia East'),
+        ('Bibiani Anhwiaso Bekwai', 'Bibiani Anhwiaso Bekwai'),
+        ('Ledzekuku-Krowor', 'Ledzekuku-Krowor'),
+        ('Bolgatanga Municipal', 'Bolgatanga Municipal'),  # Duplicate preserved
+        ('West Mamprusi', 'West Mamprusi'),
+        ('Teshie-Nungua', 'Teshie-Nungua'),
+        ('Bolgatanga Municipal Assembly', 'Bolgatanga Municipal Assembly'),
+        ('Salaga', 'Salaga'),
+        ('Teshie-Nungua', 'Teshie-Nungua'),  # Duplicate preserved
+        ('Atwima Mponua', 'Atwima Mponua'),
+        ('Bawku Municipal', 'Bawku Municipal'),
+        ('Juaboso', 'Juaboso'),
+        ('Bibiani', 'Bibiani'),
+        ('Atwima Nwabiagya North', 'Atwima Nwabiagya North'),
+        ('Bibiani, Awheaso, Bekwai', 'Bibiani, Awheaso, Bekwai'),
+        ('Sekondi-Takoradi', 'Sekondi-Takoradi'),  # Duplicate preserved
+        ('Kassena Nankana West', 'Kassena Nankana West'),
+        ('Techiman Municipal', 'Techiman Municipal'),
+        ('Kassena Nankana West', 'Kassena Nankana West'),  # Duplicate preserved
+        ('Konongo', 'Konongo'),
+        ('Afigya Kwabre South District', 'Afigya Kwabre South District'),
+        ('Kasoa Sub-Region', 'Kasoa Sub-Region'),
+        ('Secondi Takoradi', 'Secondi Takoradi'),
+        ('Jomoro', 'Jomoro'),
+        ('Kumasi Metropolitan', 'Kumasi Metropolitan'),
+        ('Prestea-Huni Valley', 'Prestea-Huni Valley'),
+        ('Adansi South District', 'Adansi South District'),
+        ('Madina District', 'Madina District'),
+        ('Wassa Akropong', 'Wassa Akropong'),
+        ('Kwabre East Municipal', 'Kwabre East Municipal'),
+        ('Osu Klottey', 'Osu Klottey'),
+        ('Tano South', 'Tano South'),
+        ('Kumasi', 'Kumasi'),  # Duplicate preserved
+        ('Asante Mampong Municipality', 'Asante Mampong Municipality'),
+        ('Sekyere South', 'Sekyere South'),
+        ('Atwima Kwanwoma District', 'Atwima Kwanwoma District'),
+        ('Suaman', 'Suaman'),
+        ('Kumasi Metro', 'Kumasi Metro'),
+        ('Ahafo Ano North', 'Ahafo Ano North'),
+        ('Agona Swedru', 'Agona Swedru'),
+        ('Asunafo North Municipal Assembly', 'Asunafo North Municipal Assembly'),
+        ('Awutu Senya West', 'Awutu Senya West'),
+        ('Nkawie', 'Nkawie'),
+        ('Asunafo South', 'Asunafo South'),
+        ('Accra Metropolitan', 'Accra Metropolitan'),
+        ('Kumasi Metropolitan Assembly', 'Kumasi Metropolitan Assembly'),  # Duplicate preserved
+        ('Adansi South', 'Adansi South'),
+        ('Tano South', 'Tano South'),  # Duplicate preserved
+        ('Sekyere-East District', 'Sekyere-East District'),
+        ('Asunafo North Municipal', 'Asunafo North Municipal'),
+        ('Nzema East Municipal', 'Nzema East Municipal'),
+        ('Accra Metropolitan', 'Accra Metropolitan'),  # Duplicate preserved
+        ('Asutifi South', 'Asutifi South'),
+        ('Asikuma Odoben Brakwa', 'Asikuma Odoben Brakwa'),
+        ('Awutu Senya East Municipal Assembly', 'Awutu Senya East Municipal Assembly'),
+        ('Sefwi Wiawso', 'Sefwi Wiawso'),  # Duplicate preserved
+        ('Asokore Mampong', 'Asokore Mampong'),
+        ('Ejisu Municipal', 'Ejisu Municipal'),
+        ('Suame', 'Suame'),
+        ('Ejura-Sekyedumase', 'Ejura-Sekyedumase'),
+        ('Accra', 'Accra'),
+        ('Prampram', 'Prampram'),
+        ('Kumasi Metropolitan', 'Kumasi Metropolitan'),  # Duplicate preserved
+        ('Offinso North District', 'Offinso North District'),
+        ('Madina', 'Madina'),
+        ('Ahafo Ano South', 'Ahafo Ano South'),
+        ('Bosomtwe', 'Bosomtwe'),
+        ('Sekyere Kumawu', 'Sekyere Kumawu'),
+        ('Sefwi Wiawso Municipal Assembly', 'Sefwi Wiawso Municipal Assembly'),
+        ('Game North', 'Game North'),
+        ('La Dadekotopon', 'La Dadekotopon'),
+        ('Dunkwa-On-Offin', 'Dunkwa-On-Offin'),
+        ('La-Dadekotopo', 'La-Dadekotopo'),
+        ('Sunyani East Municipality', 'Sunyani East Municipality'),
+        ('Sunyani', 'Sunyani'),  # Duplicate preserved
+        ('Dormaa Central', 'Dormaa Central'),
+        ('Madina  Municipal Branch Office', 'Madina  Municipal Branch Office'),
+        ('Kintampo South', 'Kintampo South'),
+        ('Atebubu Accra Metropolitan Assemblyntin', 'Atebubu Accra Metropolitan Assemblyntin'),  # Typo preserved
+        ('Kintampo North', 'Kintampo North')
     ]
 
     REGION_CHOICES = (
@@ -268,27 +430,7 @@ class User(AbstractUser):
         ('Yard Foreman', 'Yard Foreman'),
     ]
 
-    DEPARTMENT_CHOICES = [
-        ('Administration & Human Resource Directorate - ICT Unit',
-         'Administration & Human Resource Directorate - ICT Unit'),
-        ('Administration & Human Resource Directorate - Information Unit & Public Relations Unit',
-         'Administration & Human Resource Directorate - Information Unit & Public Relations Unit'),
-        ('Administration & Human Resource Directorate - Procurement Unit',
-         'Administration & Human Resource Directorate - Procurement Unit'),
-        ('Administration & Human Resource Directorate - Records',
-         'Administration & Human Resource Directorate - Records'),
-        ('Administration & Human Resource Directorate - Transport Unit',
-         'Administration & Human Resource Directorate - Transport Unit'),
-        ('Audit Unit', 'Audit Unit'),
-        ('Finance Directorate', 'Finance Directorate'),
-        ('General Administration & Human Resource Directorate', 'General Administration & Human Resource Directorate'),
-        ('Land Administration Directorate', 'Land Administration Directorate'),
-        ('Legal Unit', 'Legal Unit'),
-        ('Operations Directorate', 'Operations Directorate'),
-        ('Policy Planning Directorate', 'Policy Planning Directorate'),
-        ('Research Statistics & Information Management Directorate',
-         'Research Statistics & Information Management Directorate'),
-    ]
+
     MARITAL_STATUS_CHOICES = [
         ('Single', 'Single'),
         ('Married', 'Married'),
@@ -319,6 +461,8 @@ class User(AbstractUser):
         ('0101 CAGD/MT Stool Lands', '0101 CAGD/MT Stool Lands'),
         ('0101 ASL: Admin Of Stool Lands, Accra', '0101 ASL: Admin Of Stool Lands, Accra'),
         ('310 MOF/CAGD CENTRAL REGIONAL DIRECT', '310 MOF/CAGD CENTRAL REGIONAL DIRECT'),
+        ('0712 ASL:ADMIN OF STOOL LANDS SUNYANI', '0712 ASL:ADMIN OF STOOL LANDS SUNYANI'),
+        ('0313: Administrator of Stool Lands - Cape Coast', '0313: Administrator of Stool Lands - Cape Coast'),
         ('0200MOF/CAGD-Eastern Regional Directorate', '0200MOF/CAGD-Eastern Regional Directorate'),
         ('0600 MOF/CAGD: ASHANTIREGIONAL DIRECT.', '0600 MOF/CAGD: ASHANTIREGIONAL DIRECT.'),
         ('0813 ASL: Admin Of Stool Lands, TAccra Metropolitan Assemblyle',
@@ -333,18 +477,22 @@ class User(AbstractUser):
         ('MOF/CAGD: WESTERN REGIONAL DIRECTORATE', 'MOF/CAGD: WESTERN REGIONAL DIRECTORATE'),
         ('Office of of the Administrator of Stool Lands - Western North Region',
          'Office of of the Administrator of Stool Lands - Western North Region'),
-        ('OASL WESTERN NORTH', 'OASL WESTERN NORTH'),
-        ('OASL.WESTERN NORTH REGION', 'OASL.WESTERN NORTH REGION'),
+        ('0313 Administrator of Stool Lands', '0313 Administrator of Stool Lands'),
         ('Office of the Administrator of Stool Lands -Western North Region',
          'Office of the Administrator of Stool Lands -Western North Region'),
         ('0313 Administrator of Stool Lands', '0313 Administrator of Stool Lands'),
+        ('OASL WESTERN NORTH', 'OASL WESTERN NORTH'),
+        ('OASL.WESTERN NORTH REGION', 'OASL.WESTERN NORTH REGION'),
+        ('0600 REGIONAL ADMINI: ASHANTI REGIONAL', '0600 REGIONAL ADMINI: ASHANTI REGIONAL'),
+        ('0313 ASL: Admin of Stool Lands, Cape C COST CENTRE', '0313 ASL: Admin of Stool Lands, Cape C COST CENTRE'),
         ('Adm. of Stool Lands, Kumasi Cost Centre', 'Adm. of Stool Lands, Kumasi Cost Centre'),
         ('310 MOF/CAGD UPPER DENKYIRA EAST MUNCIPAL', '310 MOF/CAGD UPPER DENKYIRA EAST MUNCIPAL'),
         ('1300 CAGD Ahafo regional Directorate COST CENTRE', '1300 CAGD Ahafo regional Directorate COST CENTRE'),
+        ('0313 ASL: Admin of Stool Lands, Cape C COST CENTRE', '0313 ASL: Admin of Stool Lands, Cape C COST CENTRE'),
         ('OASL District Officers Conference - Ejisu', 'OASL District Officers Conference - Ejisu'),
         ('0101 MLF (OASL)', '0101 MLF (OASL)'),
         ('0313 ASL: Admin of stool lands, Cape coast center', '0313 ASL: Admin of stool lands, Cape coast center'),
-        ('0101 PG: Parks And Gardens HQ', '0101 PG: Parks And Gardens HQ'),
+        ('0101 PG: Parks And Gardens HQ', '0101 PG: Parks And Gardens HQ')
     ]
     ACCOMMODATION_STATUS_CHOICES = [
         ('PERSONAL', 'PERSONAL'),
@@ -368,7 +516,7 @@ class User(AbstractUser):
     age = models.IntegerField(null=True, blank=True)
     marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
     category = models.CharField(max_length=100, choices=CLASS_CHOICES, verbose_name="class", null=True, blank=True)
-    directorate = models.CharField(max_length=100, choices=DEPARTMENT_CHOICES, null=True, blank=True)
+
     current_grade = models.CharField(max_length=100, choices=POSITION_CHOICES, null=True, blank=True)
     next_grade = models.CharField(max_length=100, choices=POSITION_CHOICES, null=True, blank=True)
     current_salary_level = models.CharField(max_length=20, null=True, blank=True)

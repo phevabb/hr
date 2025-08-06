@@ -1,5 +1,7 @@
 class field is same as category
-
+add messages
+see password
+shift password box to left
 
 Admin:
 1215976
@@ -15,3 +17,9 @@ Securepassword123!
 
 
 1535268 for ref
+
+<div class="mb-3">
+                        <label class="form-label">Annual Salary</label>
+                        <input type="text" class="form-control" value="{{ form.annual_salary.value|floatformat:2|intcomma }}" readonly>
+
+                    </div>

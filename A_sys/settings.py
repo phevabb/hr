@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
     # third party
     'widget_tweaks',
+    'django.contrib.humanize',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

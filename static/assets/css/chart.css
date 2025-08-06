@@ -1,0 +1,21 @@
+
+.btn-gradient {
+    background: linear-gradient(135deg, #4e73df, #224abe);
+    color: white;
+    border: none;
+}
+.btn-gradient:hover {
+    opacity: 0.9;
+}
+.premium-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+}
+.highcharts-tooltip {
+    background: rgba(0, 0, 0, 0.7) !important;
+    color: white !important;
+    border-radius: 6px;
+    padding: 8px;
+}
+
