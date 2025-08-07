@@ -155,3 +155,15 @@ class UserUpdateView(View):
 
         # If form is invalid, re-render the form with errors
         return render(request, self.template_name, {'form': form, 'user': user})
+
+
+class UserDetailView(View):
+    template_name = 'superadmin/user_detail.html'  # Your template path
+
+    def get(self, request, pk, *args, **kwargs):
+        user = User.objects.get(pk=pk)  # Get the user instance
+        full_name = user.full_name
+        title = user.title
+        form = UserForm(instance=user)  # Pre-populate form with user data
+        return render(request, self.template_name, {'title':title,'full_name':full_name,'form': form, 'user': user, 'edit': "Edit User"})
+

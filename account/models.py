@@ -108,6 +108,7 @@ class User(AbstractUser):
         ('General Administration & Human Resource Directorate', 'General Administration & Human Resource Directorate'),
         ('Land Administration Directorate', 'Land Administration Directorate'),
         ('Legal Unit', 'Legal Unit'),
+        ('Admin Directorate', 'Admin Directorate'),
         ('Operations Directorate', 'Operations Directorate'),
         ('Policy Planning Directorate', 'Policy Planning Directorate'),
         ('Research Statistics & Information Management Directorate',
@@ -138,6 +139,7 @@ class User(AbstractUser):
         ('Accounts Class', 'Accounts Class'),
         ('Administrative Class', 'Administrative Class'),
         ('Audit Class', 'Audit Class'),
+        ('General', 'General'),
         ('Drivers Class', 'Drivers Class'),
         ('Executive Class', 'Executive Class'),
         ('Information Class', 'Information Class'),
@@ -362,6 +364,7 @@ class User(AbstractUser):
         ('NORTHERN', 'NORTHERN'),
         ('UPPER EAST', 'UPPER EAST'),
         ('WESTERN', 'WESTERN'),
+        ('Greater Accra', 'Greater Accra'),
         ('WESTERN NORTH', 'WESTERN NORTH'),
     )
     POSITION_CHOICES = [

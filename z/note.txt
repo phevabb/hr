@@ -18,6 +18,9 @@ Securepassword123!
 
 1535268 for ref
 
+{% load humanize %}
+
+
 <div class="mb-3">
                         <label class="form-label">Annual Salary</label>
                         <input type="text" class="form-control" value="{{ form.annual_salary.value|floatformat:2|intcomma }}" readonly>
