@@ -123,6 +123,13 @@ class User(AbstractUser):
         ('Ms.', 'Ms.'),
     ]
 
+    ON_LEAVE_TYPE_CHOICES = [
+        ( 'NO','NO'),
+        ('STUDY LEAVE WITH PAY','STUDY LEAVE WITH PAY'),
+        ('STUDY LEAVE WITHOUT PAY','STUDY LEAVE WITHOUT PAY')
+
+    ]
+
 
     ROLE_CHOICES = [
         ('Admin', "Admin"),
@@ -264,7 +271,6 @@ class User(AbstractUser):
         ('Twifo Atti-Morkwa', 'Twifo Atti-Morkwa'),
         ('Obuasi', 'Obuasi'),
         ('Madina Municipal Branch Office', 'Madina Municipal Branch Office'),
-        # Note: Extra space in original preserved as provided
         ('Builsa North Municipal', 'Builsa North Municipal'),
         ('Amansie West', 'Amansie West'),
         ('Madina Municipal', 'Madina Municipal'),
@@ -561,12 +567,8 @@ class User(AbstractUser):
                                                    blank=True)
     payroll_status = models.CharField(max_length=50, choices=(('ACTIVE (PAID)', 'ACTIVE (PAID)'), ('Inactive', 'Inactive'),
                                                               ('Suspended', 'Suspended')), null=True, blank=True)
-    at_post_on_leave = models.CharField(max_length=20, choices=(('AT POST', 'AT POST'), ('ON LEAVE', 'ON LEAVE')),
-
-
-
-                                        null=True, blank=True)
-    on_leave_type = models.CharField(max_length=50, blank=True, null=True)
+    at_post_on_leave = models.CharField(max_length=20, choices=(('AT POST', 'AT POST'), ('ON LEAVE', 'ON LEAVE')),null=True, blank=True)
+    on_leave_type = models.CharField(max_length=50, blank=True, null=True, choices=ON_LEAVE_TYPE_CHOICES)
     accommodation_status = models.CharField(max_length=50, choices=ACCOMMODATION_STATUS_CHOICES, null=True, blank=True)
     supervisor_name = models.CharField(max_length=100, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)

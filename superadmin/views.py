@@ -7,93 +7,6 @@ import json
 from django.shortcuts import render
 from account.models import User
 
-def index(request):
-    users = User.objects.all()
-
-
-    # FOR DIRECTORATE
-    # Initialize department counts with all possible choices set to 0
-    department_counts = {choice[0]: 0 for choice in User.DEPARTMENT_CHOICES}
-
-    # Count users by directorate
-    for user in users:
-        if user.directorate:
-            department_counts[user.directorate] += 1
-
-    # Prepare data for both chart and table
-    departments_list = list(department_counts.keys())
-    counts_list = list(department_counts.values())
-    num_of_departments = len(departments_list)
-
-    # ✅ Combined data for table display
-    department_data = list(zip(departments_list, counts_list))
-
-
-    # FOR CLASS / CATEGORY
-    class_count = {choice[0]: 0 for choice in User.CLASS_CHOICES}
-    for user in users:
-        if user.category:
-            class_count[user.category] += 1
-
-    class_keys = list(class_count.keys())
-    class_values = list(class_count.values())
-    num_of_class = len(class_values)
-
-    class_data = list(zip(class_keys, class_values))
-
-
-    # FOR REGION
-    region_count = {choice[0]: 0 for choice in User.REGION_CHOICES}
-    for user in users:
-        if user.region:
-            region_count[user.region] += 1
-
-    region_keys = list(region_count.keys())
-    region_values = list(region_count.values())
-    num_of_region = len(region_values)
-    region_data = list(zip(region_keys, region_values))
-
-    # FOR MANAGEMENT
-    management_count = {choice[0]:0 for choice in User.MANAGEMENT_UNIT_CHOICES}
-    for user in users:
-        if user.management_unit_cost_centre:
-            management_count[user.management_unit_cost_centre] += 1
-
-    m_keys = list(management_count.keys())
-    m_values = list(management_count.values())
-    num_of_management = len(m_values)
-    management_data = list(zip(m_keys, m_values))
-
-    context = {
-        'all_users': users.count(),
-        'females': User.objects.filter(gender="Female").count(),
-        'males': User.objects.filter(gender="Male").count(),
-        'staff': User.objects.filter(role="Staff").count(),
-        'admins': User.objects.filter(role="Admin").count(),
-        'managers': User.objects.filter(role="Manager").count(),
-
-        # FOR DIRECTORATE
-        'num_of_departments':num_of_departments,
-        'department_data': department_data,
-
-        # FOR MANAGEMENT
-        'num_of_management':num_of_management,
-        'management_data': management_data,
-
-        # FOR DISTRICT
-        'num_of_region':num_of_region,
-        'region_data': region_data,
-
-
-
-        # FOR CLASS
-        'num_of_class': num_of_class,
-        'class_data': class_data,
-
-
-        'total_users': users.count(),
-    }
-    return render(request, 'superadmin/dashboard.html', context)
 
 
 
@@ -167,3 +80,270 @@ class UserDetailView(View):
         form = UserForm(instance=user)  # Pre-populate form with user data
         return render(request, self.template_name, {'title':title,'full_name':full_name,'form': form, 'user': user, 'edit': "Edit User"})
 
+# Analysis of Staff Distribution
+def index(request):
+    users = User.objects.all()
+    #  a) Updated List indicating total staff strength
+
+    # FOR DIRECTORATE
+    # Initialize department counts with all possible choices set to 0
+    department_counts = {choice[0]: 0 for choice in User.DEPARTMENT_CHOICES}
+
+    # Count users by directorate
+    for user in users:
+        if user.directorate:
+            department_counts[user.directorate] += 1
+
+    # Prepare data for both chart and table
+    departments_list = list(department_counts.keys())
+    counts_list = list(department_counts.values())
+    num_of_departments = len(departments_list)
+
+    # ✅ Combined data for table display
+    department_data = list(zip(departments_list, counts_list))
+
+    #  b) Occupational groups (indicate total number of staff in each class)
+    # FOR CLASS / CATEGORY
+    class_count = {choice[0]: 0 for choice in User.CLASS_CHOICES}
+    for user in users:
+        if user.category:
+            class_count[user.category] += 1
+
+    class_keys = list(class_count.keys())
+    class_values = list(class_count.values())
+    num_of_class = len(class_values)
+
+    class_data = list(zip(class_keys, class_values))
+
+    # c) Total number of Senior & Junior Staff
+    senior_junior_staff = {choice[0]: 0 for choice in User.STAFF_CHOICES}
+    for user in users:
+        if user.staff_category:
+            try:
+                senior_junior_staff[user.staff_category] += 1
+            except Exception as e:
+                print(f"Error processing user: {user} with staff_category: {user.staff_category}")
+                print(f"Exception: {e}")
+
+    senior_junior_staff_keys = list(senior_junior_staff.keys())
+    senior_junior_staff_values = list(senior_junior_staff.values())
+    num_of_senior_junior_staff = len(senior_junior_staff_values)
+
+    senior_junior_staff_data = list(zip(senior_junior_staff_keys, senior_junior_staff_values))
+
+
+
+    # FOR REGION
+    region_count = {choice[0]: 0 for choice in User.REGION_CHOICES}
+    for user in users:
+        if user.region:
+            region_count[user.region] += 1
+
+    region_keys = list(region_count.keys())
+    region_values = list(region_count.values())
+    num_of_region = len(region_values)
+    region_data = list(zip(region_keys, region_values))
+
+
+    # contract
+    contract_count = {choice[0]: 0 for choice in User.CONTRACT_FULLTIME}
+    for user in users:
+        if user.fulltime_contract_staff:
+            contract_count[user.fulltime_contract_staff] += 1
+
+    contract_keys = list(contract_count.keys())
+    contract_values = list(contract_count.values())
+    num_of_contract = len(contract_values)
+    contract_data = list(zip(contract_keys, contract_values))
+
+
+    # FOR LEAVE TYPE
+    on_leave_count = {choice[0]: 0 for choice in User.ON_LEAVE_TYPE_CHOICES}
+    for user in users:
+
+        try:
+            if user.on_leave_type:
+                on_leave_count[user.on_leave_type] += 1
+
+        except ValueError:
+            print(f"Invalid salary level: {user.on_leave_type} {user}")
+
+
+
+
+    on_leave_keys = list(on_leave_count.keys())
+    on_leave_values = list(on_leave_count.values())
+    num_of_on_leave = len(on_leave_values)
+    on_leave_data = list(zip(on_leave_keys, on_leave_values))
+
+
+
+    # FOR MANAGEMENT
+    management_count = {choice[0]:0 for choice in User.MANAGEMENT_UNIT_CHOICES}
+    for user in users:
+        if user.management_unit_cost_centre:
+            management_count[user.management_unit_cost_centre] += 1
+
+    m_keys = list(management_count.keys())
+    m_values = list(management_count.values())
+    num_of_management = len(m_values)
+    management_data = list(zip(m_keys, m_values))
+
+    # FOR GENDER
+    gender_count = {choice[0]: 0 for choice in User.GENDER_CHOICES}
+    for user in users:
+        if user.gender:
+            gender_count[user.gender] += 1
+
+    gender_keys = list(gender_count.keys())
+    gender_values = list(gender_count.values())
+    num_of_gender = len(gender_values)
+    gender_data = list(zip(gender_keys, gender_values))
+
+
+    # for professionals
+    pros = 0
+    sub_pros = 0
+
+    for user in users:
+        if user.professional_qualification:
+            pros = pros + 1
+
+        else:
+            sub_pros = sub_pros + 1
+
+
+
+    # FOR AGE RANGE
+    age_ranges = {
+        '0 - 20': 0,
+        '21 - 40': 0,
+        '41 - 60': 0,
+        '60+': 0
+    }
+
+    for user in users:
+        if user.age is not None:
+            if 0 <= user.age <= 20:
+                age_ranges['0 - 20'] += 1
+            elif 21 <= user.age <= 40:
+                age_ranges['21 - 40'] += 1
+            elif 41 <= user.age <= 60:
+                age_ranges['41 - 60'] += 1
+            elif user.age > 60:
+                age_ranges['60+'] += 1
+
+    age_keys = list(age_ranges.keys())
+    age_values = list(age_ranges.values())
+    num_of_age_ranges = len(age_values)
+    age_data = list(zip(age_keys, age_values))
+
+    # FOR SALARY LEVEL RANGE
+    salary_range_counts = {
+        'SS.1 - SS.10': 0,
+        'SS.11 - SS.15': 0,
+        'SS.16 - SS.20': 0,
+        'SS.21+': 0
+    }
+
+    for user in users:
+        if user.current_salary_level:
+            try:
+                # Extract the numeric level from strings like 'SS.16'
+                level = int(user.current_salary_level.replace('SS.', '').strip())
+
+                if 1 <= level <= 10:
+                    salary_range_counts['SS.1 - SS.10'] += 1
+                elif 11 <= level <= 15:
+                    salary_range_counts['SS.11 - SS.15'] += 1
+                elif 16 <= level <= 20:
+                    salary_range_counts['SS.16 - SS.20'] += 1
+                elif level >= 21:
+                    salary_range_counts['SS.21+'] += 1
+
+            except ValueError:
+                print(f"Invalid salary level: {user.current_salary_level}")
+
+
+
+    salary_range_keys = list(salary_range_counts.keys())
+    salary_range_values = list(salary_range_counts.values())
+    num_of_salary_ranges = len(salary_range_values)
+    salary_range_data = list(zip(salary_range_keys, salary_range_values))
+
+    context = {
+        'all_users': users.count(),
+        'females': User.objects.filter(gender="Female").count(),
+        'males': User.objects.filter(gender="Male").count(),
+        'staff': User.objects.filter(role="Staff").count(),
+        'admins': User.objects.filter(role="Admin").count(),
+        'managers': User.objects.filter(role="Manager").count(),
+
+        # salary level
+        'num_of_salary_ranges':num_of_salary_ranges,
+        'salary_range_data':salary_range_data,
+
+        # FOR CONTRACT
+        'contract_data':contract_data,
+        'num_of_contract':num_of_contract,
+
+        # for pros
+        'pros':pros,
+        'sub_pros':sub_pros,
+
+        # FOR AGE
+        'num_of_age':num_of_age_ranges,
+        'age_data':age_data,
+
+        # FOR GENDER
+        'num_of_gender':num_of_gender,
+        'gender_data':gender_data,
+
+        # for on leave
+        'num_of_on_leave':num_of_on_leave,
+        'on_leave_data': on_leave_data,
+
+
+
+        # FOR DIRECTORATE
+        'num_of_departments':num_of_departments,
+        'department_data': department_data,
+
+        # FOR MANAGEMENT
+        'num_of_management':num_of_management,
+        'management_data': management_data,
+
+        # FOR DISTRICT
+        'num_of_region':num_of_region,
+        'region_data': region_data,
+
+
+
+        # FOR CLASS
+        'num_of_class': num_of_class,
+        'class_data': class_data,
+
+        # For senior junior staff
+        'senior_junior_staff_data':senior_junior_staff_data,
+        'num_of_senior_junior_staff':num_of_senior_junior_staff,
+
+
+
+        'total_users': users.count(),
+    }
+    return render(request, 'superadmin/dashboard.html', context)
+
+
+def distribution(request):
+    users = User.objects.all()
+    #
+
+    return None
+
+
+def movement():
+    return None
+
+
+def training():
+    return None

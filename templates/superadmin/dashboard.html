@@ -43,7 +43,7 @@
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">{{ all_users }}</h5>
-                                            <p class="text-muted mb-0">Users</p>
+                                            <p class="text-muted mb-0">Total Staff</p>
                                         </div>
                                     </div>
                                 </div>
@@ -133,8 +133,8 @@
     <!-- Combined Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="mb-1">User Distribution Dashboard</h2>
-            <p class="text-muted mb-0">Comprehensive overview of user distribution across different categories</p>
+            <h2 class="mb-1">Analysis of Staff Distribution</h2>
+            <p class="text-muted mb-0">Comprehensive overview of staff distribution across different categories</p>
         </div>
         <div>
             <button class="btn btn-outline-primary" onclick="exportAllTables()">
@@ -145,29 +145,92 @@
 
     <!-- Tab Navigation -->
     <ul class="nav nav-tabs mb-4" id="distributionTabs" role="tablist">
+
+
+        <!-- Directorates -->
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="directorate-tab" data-bs-toggle="tab" data-bs-target="#directorate" type="button" role="tab">
                 <i class="fas fa-building me-2"></i>Directorates
             </button>
         </li>
+
+        <!-- Classes -->
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="class-tab" data-bs-toggle="tab" data-bs-target="#class" type="button" role="tab">
                 <i class="fas fa-users me-2"></i>Classes
             </button>
         </li>
+
+        <!-- Regions -->
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="region-tab" data-bs-toggle="tab" data-bs-target="#region" type="button" role="tab">
                 <i class="fas fa-map-marked-alt me-2"></i>Regions
             </button>
         </li>
+
+        <!-- Management Units -->
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="management-tab" data-bs-toggle="tab" data-bs-target="#management" type="button" role="tab">
                 <i class="fas fa-calculator me-2"></i>Management Units
             </button>
         </li>
+
+
+        <!-- # For senior junior staff -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="senior-tab" data-bs-toggle="tab" data-bs-target="#senior" type="button" role="tab">
+                <i class="fas fa-calculator me-2"></i>Senior / Junior Staff
+            </button>
+        </li>
+
+
+        <!-- # For Gender -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="gender-tab" data-bs-toggle="tab" data-bs-target="#gender" type="button" role="tab">
+                <i class="fas fa-calculator me-2"></i>Gender
+            </button>
+        </li>
+
+         <!-- # For AGE -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="age-tab" data-bs-toggle="tab" data-bs-target="#age" type="button" role="tab">
+                <i class="fas fa-calculator me-2"></i>Age
+            </button>
+        </li>
+
+                 <!-- # For salary level -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="salary_level-tab" data-bs-toggle="tab" data-bs-target="#salary_level" type="button" role="tab">
+                <i class="fas fa-calculator me-2"></i>Grade levels
+            </button>
+        </li>
+
+
+                <!-- # For On leave -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="on_leave-tab" data-bs-toggle="tab" data-bs-target="#on_leave" type="button" role="tab">
+                <i class="fas fa-calculator me-2"></i>On Leave Type
+            </button>
+        </li>
+
+
+                <!-- # For contract -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contract-tab" data-bs-toggle="tab" data-bs-target="#contract" type="button" role="tab">
+                <i class="fas fa-calculator me-2"></i>Fulltime / Contract
+            </button>
+        </li>
+
+                  <!-- # For pros -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pros-tab" data-bs-toggle="tab" data-bs-target="#pros" type="button" role="tab">
+                <i class="fas fa-calculator me-2"></i>Professional / Sub Professional
+            </button>
+        </li>
+
     </ul>
 
-    <!-- Tab Content -->
+    <!-- Table Content -->
     <div class="tab-content" id="distributionTabContent">
         <!-- Directorate Tab -->
         <div class="tab-pane fade show active" id="directorate" role="tabpanel">
@@ -182,7 +245,7 @@
                                    letter-spacing: 0.5px;
                                    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
                             <i class="fas fa-building me-2" style="color: #ffc107;"></i>
-                            Directorate User Distribution
+                            Directorate Staff Distribution
                         </h5>
                         <div class="badge bg-white text-primary rounded-pill"
                              style="padding: 8px 15px;
@@ -201,7 +264,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Directorate</th>
-                                    <th scope="col">Number of Users</th>
+                                    <th scope="col">Number of Staff</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -238,7 +301,7 @@
                                    letter-spacing: 0.5px;
                                    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
                             <i class="fas fa-users me-2" style="color: #ffc107;"></i>
-                            Class User Distribution
+                            Class Staff Distribution
                         </h5>
                         <div class="badge bg-white text-primary rounded-pill"
                              style="padding: 8px 15px;
@@ -257,7 +320,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Class</th>
-                                    <th scope="col">Number of Users</th>
+                                    <th scope="col">Number of Staff</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -294,7 +357,7 @@
                                    letter-spacing: 0.5px;
                                    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
                             <i class="fas fa-map-marked-alt me-2" style="color: #ffc107;"></i>
-                            Region User Distribution
+                            Region Staff Distribution
                         </h5>
                         <div class="badge bg-white text-primary rounded-pill"
                              style="padding: 8px 15px;
@@ -313,7 +376,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Region</th>
-                                    <th scope="col">Number of Users</th>
+                                    <th scope="col">Number of Staff</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -369,7 +432,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Management Unit/Cost Centre</th>
-                                    <th scope="col">Number of Users</th>
+                                    <th scope="col">Number of Staff</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -392,21 +455,438 @@
                 </div>
             </div>
         </div>
+
+
+
+        <!--Senior / Junior Centre Tab -->
+        <div class="tab-pane fade" id="senior" role="tabpanel">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white py-3"
+                     style="background: linear-gradient(90deg, #0056b3, #007bff);
+                            border-bottom: 3px solid #004085;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"
+                            style="font-weight: 600;
+                                   letter-spacing: 0.5px;
+                                   text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                            <i class="fas fa-calculator me-2" style="color: #ffc107;"></i>
+                            Senior / Junior Staff Distribution
+                        </h5>
+                        <div class="badge bg-white text-primary rounded-pill"
+                             style="padding: 8px 15px;
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                    border: 1px solid #dee2e6;">
+                            {{ num_of_senior_junior_staff }} Staff
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="seniorTable" class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Senior / Junior Staff</th>
+                                    <th scope="col">Number of Staff</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dept, count in senior_junior_staff_data %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+                                    <td class="fw-bold">{{ count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light py-3 d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Last updated: {% now "DATETIME_FORMAT" %}</small>
+                    <button class="btn btn-sm btn-outline-primary" onclick="exportTableToExcel('seniorTable', 'senior_junior_distribution')">
+                        <i class="fas fa-file-export me-1"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!--FOR GENDER  num_of_gender    gender_data -->
+         <div class="tab-pane fade" id="gender" role="tabpanel">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white py-3"
+                     style="background: linear-gradient(90deg, #0056b3, #007bff);
+                            border-bottom: 3px solid #004085;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"
+                            style="font-weight: 600;
+                                   letter-spacing: 0.5px;
+                                   text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                            <i class="fas fa-calculator me-2" style="color: #ffc107;"></i>
+                            Gender Distribution
+                        </h5>
+                        <div class="badge bg-white text-primary rounded-pill"
+                             style="padding: 8px 15px;
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                    border: 1px solid #dee2e6;">
+                            {{ num_of_gender }} Genders
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="genderTable" class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col">Number of Staff</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dept, count in gender_data %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+                                    <td class="fw-bold">{{ count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light py-3 d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Last updated: {% now "DATETIME_FORMAT" %}</small>
+                    <button class="btn btn-sm btn-outline-primary" onclick="exportTableToExcel('genderTable', 'gender_distribution')">
+                        <i class="fas fa-file-export me-1"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- FOR AGE RANGE -->
+        <div class="tab-pane fade" id="age" role="tabpanel">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white py-3"
+                     style="background: linear-gradient(90deg, #0056b3, #007bff);
+                            border-bottom: 3px solid #004085;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"
+                            style="font-weight: 600;
+                                   letter-spacing: 0.5px;
+                                   text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                            <i class="fas fa-calculator me-2" style="color: #ffc107;"></i>
+                            Age Distribution
+                        </h5>
+                        <div class="badge bg-white text-primary rounded-pill"
+                             style="padding: 8px 15px;
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                    border: 1px solid #dee2e6;">
+                            {{ num_of_age }} Age Ranges
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="ageTable" class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Age Range</th>
+                                    <th scope="col">Number of Staff</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dept, count in age_data %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+                                    <td class="fw-bold">{{ count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light py-3 d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Last updated: {% now "DATETIME_FORMAT" %}</small>
+                    <button class="btn btn-sm btn-outline-primary" onclick="exportTableToExcel('ageTable', 'age_distribution')">
+                        <i class="fas fa-file-export me-1"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+                <!-- FOR salary_level RANGE -->
+        <div class="tab-pane fade" id="salary_level" role="tabpanel">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white py-3"
+                     style="background: linear-gradient(90deg, #0056b3, #007bff);
+                            border-bottom: 3px solid #004085;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"
+                            style="font-weight: 600;
+                                   letter-spacing: 0.5px;
+                                   text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                            <i class="fas fa-calculator me-2" style="color: #ffc107;"></i>
+                            Grade Level Distribution
+                        </h5>
+                        <div class="badge bg-white text-primary rounded-pill"
+                             style="padding: 8px 15px;
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                    border: 1px solid #dee2e6;">
+                            {{ num_of_salary_ranges }} Grade levels
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="salary_levelTable" class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Grade level Range</th>
+                                    <th scope="col">Number of Staff</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dept, count in salary_range_data %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+                                    <td class="fw-bold">{{ count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light py-3 d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Last updated: {% now "DATETIME_FORMAT" %}</small>
+                    <button class="btn btn-sm btn-outline-primary" onclick="exportTableToExcel('salary_levelTable', 'salary_leveldistribution')">
+                        <i class="fas fa-file-export me-1"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+         <!-- FOR on leave on_leave_data   -->
+               <div class="tab-pane fade" id="on_leave" role="tabpanel">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white py-3"
+                     style="background: linear-gradient(90deg, #0056b3, #007bff);
+                            border-bottom: 3px solid #004085;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"
+                            style="font-weight: 600;
+                                   letter-spacing: 0.5px;
+                                   text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                            <i class="fas fa-calculator me-2" style="color: #ffc107;"></i>
+                            On Leave Distribution
+                        </h5>
+                        <div class="badge bg-white text-primary rounded-pill"
+                             style="padding: 8px 15px;
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                    border: 1px solid #dee2e6;">
+                            {{ num_of_on_leave }} On Leave
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="on_leaveTable" class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">On Leave</th>
+                                    <th scope="col">Number of Staff</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dept, count in on_leave_data %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+                                    <td class="fw-bold">{{ count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light py-3 d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Last updated: {% now "DATETIME_FORMAT" %}</small>
+                    <button class="btn btn-sm btn-outline-primary" onclick="exportTableToExcel('on_leaveTable', 'on_leavedistribution')">
+                        <i class="fas fa-file-export me-1"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+         <!-- FOR CONTRACT  contract_data  num_of_contract  -->
+               <div class="tab-pane fade" id="contract" role="tabpanel">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white py-3"
+                     style="background: linear-gradient(90deg, #0056b3, #007bff);
+                            border-bottom: 3px solid #004085;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"
+                            style="font-weight: 600;
+                                   letter-spacing: 0.5px;
+                                   text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                            <i class="fas fa-calculator me-2" style="color: #ffc107;"></i>
+                            Contract Distribution
+                        </h5>
+                        <div class="badge bg-white text-primary rounded-pill"
+                             style="padding: 8px 15px;
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                    border: 1px solid #dee2e6;">
+                            {{ num_of_contract }} Fulltime / Contract
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="contractTable" class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Fulltime / Contract</th>
+                                    <th scope="col">Number of Staff</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dept, count in contract_data %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+                                    <td class="fw-bold">{{ count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light py-3 d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Last updated: {% now "DATETIME_FORMAT" %}</small>
+                    <button class="btn btn-sm btn-outline-primary" onclick="exportTableToExcel('contractTable', 'contractdistribution')">
+                        <i class="fas fa-file-export me-1"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- FOR pros  -->
+               <div class="tab-pane fade" id="pros" role="tabpanel">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white py-3"
+                     style="background: linear-gradient(90deg, #0056b3, #007bff);
+                            border-bottom: 3px solid #004085;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"
+                            style="font-weight: 600;
+                                   letter-spacing: 0.5px;
+                                   text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                            <i class="fas fa-calculator me-2" style="color: #ffc107;"></i>
+                            Professional / sub Professional Distribution
+                        </h5>
+                        <div class="badge bg-white text-primary rounded-pill"
+                             style="padding: 8px 15px;
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                    border: 1px solid #dee2e6;">
+                            2 Pro / sub pro
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="prosTable" class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">pro / sub pro</th>
+                                    <th scope="col">Number of Staff</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td><i class="fas fa-cash-register text-primary me-2"></i>Professionals</td>
+                                    <td class="fw-bold">{{ pros }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>2</td>
+                                    <td><i class="fas fa-cash-register text-primary me-2"></i>Sub Professionals</td>
+                                    <td class="fw-bold">{{ sub_pros }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light py-3 d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Last updated: {% now "DATETIME_FORMAT" %}</small>
+                    <button class="btn btn-sm btn-outline-primary" onclick="exportTableToExcel('prosTable', 'prosdistribution')">
+                        <i class="fas fa-file-export me-1"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
     </div>
 </div>
 
 <!-- Export Scripts -->
 <script>
     // Export single table
-    function exportTableToExcel(tableID, filename) {
-        let table = document.getElementById(tableID).outerHTML;
-        let data = new Blob([table], {type: 'application/vnd.ms-excel'});
-        let url = URL.createObjectURL(data);
-        let a = document.createElement('a');
-        a.href = url;
-        a.download = filename + '.xls';
-        a.click();
+    function exportTableToExcel(tableID, filename = '') {
+        let table = document.getElementById(tableID);
+        let wb = XLSX.utils.table_to_book(table, {sheet: "Sheet1"});
+        XLSX.writeFile(wb, filename + '.xlsx');
     }
+
 
     // Export all tables as a zip
     function exportAllTables() {
@@ -422,13 +902,36 @@
         setTimeout(() => {
             exportTableToExcel('managementTable', 'management_distribution');
         }, 1500);
+        setTimeout(() => {
+            exportTableToExcel('seniorTable', 'senior_junior_distribution');
+        }, 1500);
+        setTimeout(() => {
+            exportTableToExcel('genderTable', 'gender_distribution');
+        }, 1500);
+        setTimeout(() => {
+            exportTableToExcel('ageTable', 'age_distribution');
+        }, 1500);
+        setTimeout(() => {
+            exportTableToExcel('salary_levelTable', 'salary_leveldistribution');
+        }, 1500);
+        setTimeout(() => {
+            exportTableToExcel('on_leaveTable', 'on_leavedistribution');
+        }, 1500);
+        setTimeout(() => {
+            exportTableToExcel('contractTable', 'contractdistribution');
+        }, 1500);
+        setTimeout(() => {
+            exportTableToExcel('prosTable', 'prosdistribution');
+        }, 1500);
     }
 </script>
 
 <!-- Bootstrap JS for tabs -->
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-                        <script src="https://kit.fontawesome.com/e07324694d.js" crossorigin="anonymous"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/e07324694d.js" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 
 <!-- ALL TABLES END -->
