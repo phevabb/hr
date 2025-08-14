@@ -1,6 +1,49 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import User, Department, Classes, CurrentGrade, ManagementUnit, Region, Districts, ChangeOfGrade
+
+
+@admin.register(ChangeOfGrade)
+class ChangeOfGradeAdmin(admin.ModelAdmin):
+    list_display = ('grade',)
+    search_fields = ('grade',)
+
+
+@admin.register(Districts)
+class DistrictsAdmin(admin.ModelAdmin):
+    list_display = ('district',)
+    search_fields = ('district',)
+
+
+@admin.register(Region)
+class RegionAdmin(admin.ModelAdmin):
+    list_display = ('region',)
+    search_fields = ('region',)
+
+@admin.register(ManagementUnit)
+class ManagementUnitAdmin(admin.ModelAdmin):
+    list_display = ('management_unit_name',)
+    search_fields = ('management_unit_name',)
+
+@admin.register(CurrentGrade)
+class CurrentGradeAdmin(admin.ModelAdmin):
+    model = CurrentGrade
+    list_display = ['current_grade']
+    list_filter = ['current_grade']
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    model = Department
+    list_display = ('department_name',)
+    list_filter = ('department_name',)
+
+
+@admin.register(Classes)
+class ClassesAdmin(admin.ModelAdmin):
+    model = Classes
+    list_display = ('classes_name',)
+    list_filter = ('classes_name',)
+
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):

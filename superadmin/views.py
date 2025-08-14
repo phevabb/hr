@@ -5,9 +5,7 @@ from django.views.generic import View
 from account.forms import UserForm  # Import your form
 import json
 from django.shortcuts import render
-from account.models import User
-
-
+from account.models import User, Department, Classes, Region, ManagementUnit
 
 
 # Create your views here.
@@ -83,37 +81,52 @@ class UserDetailView(View):
 # Analysis of Staff Distribution
 def index(request):
     users = User.objects.all()
-    #  a) Updated List indicating total staff strength
-
-    # FOR DIRECTORATE
-    # Initialize department counts with all possible choices set to 0
-    department_counts = {choice[0]: 0 for choice in User.DEPARTMENT_CHOICES}
-
+    # FOR DEPARTMENT / DIRECTORATE
+    # Get all users with directorate data pre-fetched (optimized query)
+    user_queryset = User.objects.all().select_related('directorate')
+    # Initialize department counts with all possible departments set to 0
+    all_departments = Department.objects.all()
+    department_counts = {dept.department_name: 0 for dept in all_departments}
     # Count users by directorate
-    for user in users:
+    for user in user_queryset:
         if user.directorate:
-            department_counts[user.directorate] += 1
-
-    # Prepare data for both chart and table
+            department_name = user.directorate.department_name
+            department_counts[department_name] += 1
+    # Prepare data for both chart and table (same as before)
     departments_list = list(department_counts.keys())
     counts_list = list(department_counts.values())
     num_of_departments = len(departments_list)
-
-    # ✅ Combined data for table display
+    # Combined data for table display (same as before)
     department_data = list(zip(departments_list, counts_list))
 
-    #  b) Occupational groups (indicate total number of staff in each class)
+
+
+
+
     # FOR CLASS / CATEGORY
-    class_count = {choice[0]: 0 for choice in User.CLASS_CHOICES}
-    for user in users:
+    # Fetch all users with their related category to avoid extra queries
+    user_queryset = User.objects.all().select_related('category')
+    # Initialize counts for all possible classes
+    all_classes = Classes.objects.all()
+    classes_count = {cls.classes_name: 0 for cls in all_classes}
+
+    # Count users in each class
+    for user in user_queryset:
         if user.category:
-            class_count[user.category] += 1
+            classes_name = user.category.classes_name
+            classes_count[classes_name] += 1
 
-    class_keys = list(class_count.keys())
-    class_values = list(class_count.values())
-    num_of_class = len(class_values)
+    # Prepare data for charts and tables
+    class_keys = list(classes_count.keys())
+    class_values = list(classes_count.values())
+    num_of_class = len(class_keys)  # number of unique classes
 
+    # Combined data for table display
     class_data = list(zip(class_keys, class_values))
+
+
+
+
 
     # c) Total number of Senior & Junior Staff
     senior_junior_staff = {choice[0]: 0 for choice in User.STAFF_CHOICES}
@@ -131,25 +144,44 @@ def index(request):
 
     senior_junior_staff_data = list(zip(senior_junior_staff_keys, senior_junior_staff_values))
 
-
-
     # FOR REGION
-    region_count = {choice[0]: 0 for choice in User.REGION_CHOICES}
-    for user in users:
-        if user.region:
-            region_count[user.region] += 1
+    # Fetch all users with related region to avoid extra queries
+    user_queryset = User.objects.all().select_related('region')
 
+    # Initialize counts for all possible regions
+    all_regions = Region.objects.all()
+    region_count = {reg.region: 0 for reg in all_regions}
+
+    # Count users in each region
+    for user in user_queryset:
+        if user.region:
+            region_name = user.region.region
+            region_count[region_name] += 1
+
+    # Prepare data for charts and tables
     region_keys = list(region_count.keys())
     region_values = list(region_count.values())
-    num_of_region = len(region_values)
+    num_of_region = len(region_keys)  # number of unique regions
+
+    # Combined data for table display
     region_data = list(zip(region_keys, region_values))
+
+
+
 
 
     # contract
     contract_count = {choice[0]: 0 for choice in User.CONTRACT_FULLTIME}
     for user in users:
-        if user.fulltime_contract_staff:
-            contract_count[user.fulltime_contract_staff] += 1
+        try:
+            if user.fulltime_contract_staff:
+                contract_count[user.fulltime_contract_staff] += 1
+
+
+        except Exception as e:
+            print(f"the full time problem: {e} {user}")
+
+
 
     contract_keys = list(contract_count.keys())
     contract_values = list(contract_count.values())
@@ -176,18 +208,31 @@ def index(request):
     num_of_on_leave = len(on_leave_values)
     on_leave_data = list(zip(on_leave_keys, on_leave_values))
 
+    # FOR MANAGEMENT UNIT / COST CENTRE
+    # Fetch all users with related management unit
+    user_queryset = User.objects.all().select_related('management_unit_cost_centre')
 
+    # Initialize counts for all management units
+    all_management_units = ManagementUnit.objects.all()
+    management_count = {mu.management_unit_name: 0 for mu in all_management_units}
 
-    # FOR MANAGEMENT
-    management_count = {choice[0]:0 for choice in User.MANAGEMENT_UNIT_CHOICES}
-    for user in users:
+    # Count users in each management unit
+    for user in user_queryset:
         if user.management_unit_cost_centre:
-            management_count[user.management_unit_cost_centre] += 1
+            unit_name = user.management_unit_cost_centre.management_unit_name
+            management_count[unit_name] += 1
 
+    # Prepare data for charts and tables
     m_keys = list(management_count.keys())
     m_values = list(management_count.values())
-    num_of_management = len(m_values)
+    num_of_management = len(m_keys)
+
+    # Combined data for table display
     management_data = list(zip(m_keys, m_values))
+
+
+
+
 
     # FOR GENDER
     gender_count = {choice[0]: 0 for choice in User.GENDER_CHOICES}

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
-
+from django.db.models import ForeignKey
 
 
 # Custom User Manager
@@ -27,94 +27,69 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_active', True)
 
         # Default values for required fields
-        defaults = {
-            'title': 'Mr',
-            'first_name': 'Admin',
-            'last_name': 'User',
-            'middle_name': 'Super',
-            'role': 'Admin',
-            'maiden_name': 'Admin',
-            'gender': 'Male',
-            'date_of_birth': '1990-01-01',
-            'age': 30,
-            'marital_status': 'Single',
-            'category': 'General',
-            'directorate': 'Admin Directorate',
-            'current_grade': 'Grade A',
-            'next_grade': 'Grade A+',
-            'current_salary_level': '1',
-            'current_salary_point': '1',
-            'next_salary_level': '2',
-            'date_of_first_appointment': '1990-01-01',
-            'date_of_assumption_of_duty': '1990-01-01',
-            'date_of_last_promotion': '1990-01-01',
-            'change_of_grade': 'None',
-            'substantive_date': '1990-01-01',
-            'national_effective_date': '1990-01-01',
-            'years_on_current_grade': 1,
-            'number_of_years_in_service': 1,
-            'fulltime_contract_staff': 'Fulltime',
-            'academic_qualification': 'Degree',
-            'professional_qualification': 'Certified',
-            'staff_category': 'Teaching',
-            'region': 'Greater Accra',
-            'district': 'Accra Metropolitan',
-            'single_spine_monthly_salary': 1000.00,
-            'monthly_gross_pay': 1200.00,
-            'annual_salary': 14400.00,
-            'date_of_retirement': '2050-01-01',
-            'number_of_focus_areas': 1,
-            'number_of_targets': 1,
-            'number_of_targets_met': 1,
-            'number_of_targets_not_met': 0,
-            'overall_assessment_score': 100.00,
-            'self_assessment_description': 'Default self-assessment for superuser.',
-            'phone_number': '0000000010', #change
-            'ghana_card_number': 'GHA-0000000100', # change
-            'social_security_number': 'SSN-000000100', # change
-            'national_health_insurance_number': 'NHIS-0100000000', #change
-            'bank_name': 'Default Bank',
-            'bank_account_number': '0', # change
-            'bank_account_branch': 'Head Office',
-            'management_unit_cost_centre': '0101 ASL: Office Of The Admin Of Stool Lands',
-            'payroll_status': 'Active',
-            'at_post_on_leave': 'At Post',
-            'on_leave_type': 'None',
-            'accommodation_status': 'Company Accommodation',
-            'supervisor_name': 'System Admin'
-        }
 
-        for field, value in defaults.items():
-            extra_fields.setdefault(field, value)
 
         return self.create_user(user_id, password, **extra_fields)
 
+class Region(models.Model):
+    region = models.CharField(max_length=120)
+    class Meta:
+        verbose_name_plural = 'Regions'
+        verbose_name = 'Region'
+    def __str__(self):
+        return self.region
+
+class Districts(models.Model):
+    district = models.CharField(max_length=120)
+    class Meta:
+        verbose_name_plural = 'Districts'
+        verbose_name = 'District'
+    def __str__(self):
+        return self.district
+
+class Department(models.Model):
+    department_name = models.CharField(max_length=100)
+    class Meta:
+        verbose_name_plural = 'Departments'
+        verbose_name = 'Department'
+    def __str__(self):
+        return self.department_name
+
+class Classes(models.Model):
+    classes_name = models.CharField(max_length=100)
+    class Meta:
+        verbose_name_plural = 'Classes'
+        verbose_name = 'Class'
+    def __str__(self):
+        return self.classes_name
+
+class ManagementUnit(models.Model):
+    management_unit_name = models.CharField(max_length=100)
+    class Meta:
+        verbose_name_plural = 'Management Units'
+        verbose_name = 'Management Unit'
+    def __str__(self):
+        return self.management_unit_name
+
+class CurrentGrade(models.Model):
+    current_grade = models.CharField(max_length=100)
+    class Meta:
+        verbose_name_plural = 'Current Grades'
+        verbose_name = 'Current Grade'
+    def __str__(self):
+        return self.current_grade
+
+class ChangeOfGrade(models.Model):
+    grade = models.CharField(max_length=100)
+    class Meta:
+        verbose_name_plural = 'Change of Grades'
+        verbose_name = 'Change of Grade'
+    def __str__(self):
+        return self.grade
 
 # Custom User model
 class User(AbstractUser):
-    DEPARTMENT_CHOICES = [
-        ('Administration & Human Resource Directorate - ICT Unit',
-         'Administration & Human Resource Directorate - ICT Unit'),
-        ('Administration & Human Resource Directorate - Information Unit & Public Relations Unit',
-         'Administration & Human Resource Directorate - Information Unit & Public Relations Unit'),
-        ('Administration & Human Resource Directorate - Procurement Unit',
-         'Administration & Human Resource Directorate - Procurement Unit'),
-        ('Administration & Human Resource Directorate - Records',
-         'Administration & Human Resource Directorate - Records'),
-        ('Administration & Human Resource Directorate - Transport Unit',
-         'Administration & Human Resource Directorate - Transport Unit'),
-        ('Audit Unit', 'Audit Unit'),
-        ('Finance Directorate', 'Finance Directorate'),
-        ('General Administration & Human Resource Directorate', 'General Administration & Human Resource Directorate'),
-        ('Land Administration Directorate', 'Land Administration Directorate'),
-        ('Legal Unit', 'Legal Unit'),
-        ('Admin Directorate', 'Admin Directorate'),
-        ('Operations Directorate', 'Operations Directorate'),
-        ('Policy Planning Directorate', 'Policy Planning Directorate'),
-        ('Research Statistics & Information Management Directorate',
-         'Research Statistics & Information Management Directorate'),
-    ]
-    directorate = models.CharField(max_length=100, choices=DEPARTMENT_CHOICES, null=True, blank=True)
+
 
     TITLE_CHOICES = [
         ('Esq.', 'Esq.'),
@@ -513,6 +488,16 @@ class User(AbstractUser):
     ]
 
     username = None  # Remove username
+    directorate = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Directorate',related_name = 'directorates'    )
+    category = models.ForeignKey( Classes, on_delete=models.SET_NULL, verbose_name="class", null=True, blank=True, related_name = 'categories')
+    district = models.ForeignKey( Districts,  on_delete=models.SET_NULL, verbose_name="District", null=True, blank=True, related_name = 'districts')
+    region = models.ForeignKey( Region, on_delete=models.SET_NULL, verbose_name='Region',  null=True, blank=True, related_name = 'regions')
+    current_grade = models.ForeignKey( CurrentGrade,on_delete=models.SET_NULL, null=True, verbose_name='current grade', blank=True, related_name = 'current_gradee')
+    next_grade = models.ForeignKey( CurrentGrade, on_delete=models.SET_NULL, null=True, verbose_name='next grade', blank=True, related_name = 'next_gradee')
+    change_of_grade = models.ForeignKey( ChangeOfGrade, on_delete=models.SET_NULL, null=True, blank=True, related_name = 'change_of_gradee')
+    management_unit_cost_centre = models.ForeignKey( ManagementUnit, on_delete=models.SET_NULL, blank=True, null=True,  related_name = 'management_unitt')
+
+
     user_id = models.CharField(max_length=20, unique=True, null=True, blank=True)
     title = models.CharField(max_length=20, choices=TITLE_CHOICES, null=True, blank=True)
     first_name = models.CharField(max_length=20, null=True, blank=True)
@@ -524,17 +509,13 @@ class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
     age = models.IntegerField(null=True, blank=True)
     marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
-    category = models.CharField(max_length=100, choices=CLASS_CHOICES, verbose_name="class", null=True, blank=True)
 
-    current_grade = models.CharField(max_length=100, choices=POSITION_CHOICES, null=True, blank=True)
-    next_grade = models.CharField(max_length=100, choices=POSITION_CHOICES, null=True, blank=True)
     current_salary_level = models.CharField(max_length=20, null=True, blank=True)
     current_salary_point = models.CharField(max_length=20, null=True, blank=True)
     next_salary_level = models.CharField(max_length=20, null=True, blank=True)
     date_of_first_appointment = models.DateField(null=True, blank=True)
     date_of_assumption_of_duty = models.DateField(null=True, blank=True)
     date_of_last_promotion = models.DateField(null=True, blank=True)
-    change_of_grade = models.CharField(max_length=100, choices=CHANGE_OF_GRADE_CHOICES, null=True, blank=True)
     substantive_date = models.DateField(null=True, blank=True)
     national_effective_date = models.DateField(null=True, blank=True)
     years_on_current_grade = models.IntegerField(null=True, blank=True)
@@ -543,9 +524,7 @@ class User(AbstractUser):
     academic_qualification = models.CharField(max_length=20, null=True, blank=True)
     professional_qualification = models.CharField(max_length=20, null=True, blank=True)
     staff_category = models.CharField(max_length=20, choices=STAFF_CHOICES, null=True, blank=True)
-    region = models.CharField(max_length=20, choices=REGION_CHOICES, null=True, blank=True)
-    district = models.CharField(max_length=100, choices=DISTRICT_CHOICES, verbose_name="District", null=True,
-                                blank=True)
+
     single_spine_monthly_salary = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
     monthly_gross_pay = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
     annual_salary = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
@@ -563,8 +542,6 @@ class User(AbstractUser):
     bank_name = models.CharField(max_length=50, null=True, blank=True)
     bank_account_number = models.CharField(max_length=50, unique=True, null=True, blank=True)
     bank_account_branch = models.CharField(max_length=100, null=True, blank=True)
-    management_unit_cost_centre = models.CharField(max_length=100, choices=MANAGEMENT_UNIT_CHOICES, null=True,
-                                                   blank=True)
     payroll_status = models.CharField(max_length=50, choices=(('ACTIVE (PAID)', 'ACTIVE (PAID)'), ('Inactive', 'Inactive'),
                                                               ('Suspended', 'Suspended')), null=True, blank=True)
     at_post_on_leave = models.CharField(max_length=20, choices=(('AT POST', 'AT POST'), ('ON LEAVE', 'ON LEAVE')),null=True, blank=True)
