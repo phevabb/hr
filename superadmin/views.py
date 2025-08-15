@@ -250,33 +250,38 @@ def index(request):
     pros = 0
     sub_pros = 0
 
+    users = User.objects.all()
     for user in users:
-        if user.professional_qualification:
+        if user.professional == 'PROFESSIONAL':
             pros = pros + 1
 
-        else:
+        elif user.professional == 'SUB PROFESSIONAL':
             sub_pros = sub_pros + 1
+
 
 
 
     # FOR AGE RANGE
     age_ranges = {
-        '0 - 20': 0,
-        '21 - 40': 0,
-        '41 - 60': 0,
-        '60+': 0
+        '20 - 30': 0,
+        '31 - 40': 0,
+        '41 - 50': 0,
+        '51 - 60': 0,
+        '61+': 0
     }
 
     for user in users:
         if user.age is not None:
-            if 0 <= user.age <= 20:
-                age_ranges['0 - 20'] += 1
-            elif 21 <= user.age <= 40:
-                age_ranges['21 - 40'] += 1
-            elif 41 <= user.age <= 60:
-                age_ranges['41 - 60'] += 1
-            elif user.age > 60:
-                age_ranges['60+'] += 1
+            if 20 <= user.age <= 30:
+                age_ranges['20 - 30'] += 1
+            elif 31 <= user.age <= 40:
+                age_ranges['31 - 40'] += 1
+            elif 41 <= user.age <= 50:
+                age_ranges['41 - 50'] += 1
+            elif 51 <= user.age <= 60:
+                age_ranges['51 - 60'] += 1
+            elif user.age > 61:
+                age_ranges['61+'] += 1
 
     age_keys = list(age_ranges.keys())
     age_values = list(age_ranges.values())

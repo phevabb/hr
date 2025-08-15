@@ -3,22 +3,22 @@ from django.contrib.auth.admin import UserAdmin
 from .models import User, Department, Classes, CurrentGrade, ManagementUnit, Region, Districts, ChangeOfGrade
 
 
-@admin.register(ChangeOfGrade)
-class ChangeOfGradeAdmin(admin.ModelAdmin):
-    list_display = ('grade',)
-    search_fields = ('grade',)
+#@admin.register(ChangeOfGrade)
+#class ChangeOfGradeAdmin(admin.ModelAdmin):
+#    list_display = ('grade',)
+#    search_fields = ('grade',)
 
 
-@admin.register(Districts)
-class DistrictsAdmin(admin.ModelAdmin):
-    list_display = ('district',)
-    search_fields = ('district',)
+#@admin.register(Districts)
+#class DistrictsAdmin(admin.ModelAdmin):
+#    list_display = ('district',)
+#    search_fields = ('district',)
 
 
-@admin.register(Region)
-class RegionAdmin(admin.ModelAdmin):
-    list_display = ('region',)
-    search_fields = ('region',)
+#@admin.register(Region)
+##class RegionAdmin(admin.ModelAdmin):
+ #   list_display = ('region',)
+ #   search_fields = ('region',)
 
 @admin.register(ManagementUnit)
 class ManagementUnitAdmin(admin.ModelAdmin):
@@ -78,7 +78,7 @@ class CustomUserAdmin(UserAdmin):
                 'role', 'category', 'directorate', 'staff_category', 'region', 'district',
                 'current_grade', 'next_grade', 'date_of_first_appointment',
                 'date_of_assumption_of_duty', 'date_of_last_promotion', 'date_of_retirement',
-                'years_on_current_grade', 'number_of_years_in_service',
+                'years_on_current_grade', 'number_of_years_in_service', 'professional',
                 'fulltime_contract_staff', 'academic_qualification', 'professional_qualification'
             )
         }),

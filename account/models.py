@@ -111,6 +111,11 @@ class User(AbstractUser):
         ('Manager', "Manager"),
         ("Staff", "Staff"),
     ]
+    PROFESSIONAL_CHOICES = [
+        ('PROFESSIONAL', "PROFESSIONAL"),
+        ('SUB PROFESSIONAL', "SUB PROFESSIONAL"),
+
+    ]
 
     GENDER_CHOICES = [
         ('Male', "Male"),
@@ -509,7 +514,7 @@ class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
     age = models.IntegerField(null=True, blank=True)
     marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
-
+    professional = models.CharField(max_length=50, choices=PROFESSIONAL_CHOICES, null=True, blank=True)
     current_salary_level = models.CharField(max_length=20, null=True, blank=True)
     current_salary_point = models.CharField(max_length=20, null=True, blank=True)
     next_salary_level = models.CharField(max_length=20, null=True, blank=True)
