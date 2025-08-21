@@ -42,7 +42,11 @@
                     <a href="#" class="text-dark text-decoration-none">
                         <div class="d-flex align-items-center">
                             <img src="{% static '/assets/images/client/01.jpg' %}" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                            <span class="ms-2 fw-medium">{{user.full_name}}</span>
+
+
+                            <a href="{% url 'superadmin:user_detail' user.id %}"> <span class="ms-2 fw-medium">{{user.full_name}}</span>  </a>
+
+
                         </div>
                     </a>
                 </td>
@@ -53,8 +57,7 @@
                 <td class="text-end p-3">
                     <div class="btn-group" role="group">
 
-                        <a href="{% url 'superadmin:user_detail' user.id %}" class="btn btn-icon btn-pills btn-soft-primary mx-1">  <i class="uil uil-eye"></i>
-</a>
+                        <a href="{% url 'superadmin:user_detail' user.id %}" class="btn btn-icon btn-pills btn-soft-primary mx-1">  <i class="uil uil-eye"></i></a>
 
 
                         <a href="{% url 'superadmin:user_edit' user.id %}" class="btn btn-icon btn-pills btn-soft-success mx-1" ><i class="uil uil-pen"></i></a>

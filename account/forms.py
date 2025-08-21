@@ -83,6 +83,7 @@ class UserForm(forms.ModelForm):
             'bank_account_number': forms.TextInput(attrs={'class': 'form-control'}),
             'bank_account_branch': forms.TextInput(attrs={'class': 'form-control'}),
             'management_unit_cost_centre': forms.Select(attrs={'class': 'form-select'}),
+            'professional':forms.Select(attrs={'class': 'form-select'}),
             'payroll_status': forms.Select(attrs={'class': 'form-select'}),
             'at_post_on_leave': forms.Select(attrs={'class': 'form-select'}),
             'on_leave_type': forms.TextInput(attrs={'class': 'form-control'}),

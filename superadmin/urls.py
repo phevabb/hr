@@ -10,6 +10,8 @@ app_name = 'superadmin'
 urlpatterns = [
 
     path('new_entry/', UserCreateView.as_view(), name='new_entry'),
+    path("users/by-department/", views.users_by_department, name="users_by_department"),
+
 
     path('users/<int:pk>/edit/', UserUpdateView.as_view(), name='user_edit'),
     path('users/<int:pk>/detail/', UserDetailView.as_view(), name='user_detail'),

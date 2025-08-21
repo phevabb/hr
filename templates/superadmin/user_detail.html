@@ -33,6 +33,10 @@
                                         </div><!--end col-->
 
                                         <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
+                                            <a href="{% url 'superadmin:user_edit' user.id %}" class="btn btn-primary">Edit</a>
+
+
+
                                             <a href="#" class="btn btn-primary">Track History / Records</a>
 
                                         </div><!--end col-->
@@ -159,6 +163,18 @@
                         <input type="text" class="form-control" value="{{ form.phone_number.value }}" readonly>
                     </div>
                 </div>
+
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Professional / Sub-prof.*</label>
+                        <input type="text" class="form-control" value="{{ form.professional.value }}" readonly>
+                    </div>
+                </div>
+
+
+
+
             </div>
         </div>
     </div>

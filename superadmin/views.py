@@ -397,3 +397,114 @@ def movement():
 
 def training():
     return None
+
+######________________ DETAILS _____________########
+######________________DIRECTORATE DETAILS _____________########
+
+from django.shortcuts import render
+
+from django.http import HttpResponse
+
+from django.contrib.auth import get_user_model
+from django.shortcuts import render
+from account.models import Department, Classes, ManagementUnit
+
+
+
+def users_by_department(request):
+    dept = request.GET.get("dept", "")
+    print(dept)
+
+    # get list of all department names
+    total_dpts = Department.objects.values_list("department_name", flat=True)
+    total_cls = Classes.objects.values_list("classes_name", flat=True)
+    total_rgn = Region.objects.values_list("region", flat=True)
+    total_mng_unit = ManagementUnit.objects.values_list("management_unit_name", flat=True)
+
+    total_staff = [choice[0] for choice in User.STAFF_CHOICES]
+
+    # For directorate
+    if dept in total_dpts:
+        users = (
+            User.objects.filter(directorate__department_name=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k":"department"},
+        )
+
+    # FOR CLASS
+    elif dept in total_cls:
+        users = (
+            User.objects.filter(category__classes_name=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k":"class"},
+        )
+
+    # For Region
+    if dept in total_rgn:
+        users = (
+            User.objects.filter(region__region=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k":"region"},
+        )
+
+    # For Management Unit
+    if dept in total_mng_unit:
+        users = (
+            User.objects.filter(management_unit_cost_centre__management_unit_name=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k":"unit"},
+        )
+
+
+
+    # For Senior / junior staff
+    if dept in total_mng_unit:
+        users = (
+            User.objects.filter(management_unit_cost_centre__management_unit_name=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k":"unit"},
+        )
+
+       # For staff category (Senior/Junior Staff)
+    elif dept in total_staff:
+        users = (
+            User.objects.filter(staff_category=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k": " staff category"},
+        )
+
+
+    else:
+        # optional: handle invalid department gracefully
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": []},
+        )
+
+
+
