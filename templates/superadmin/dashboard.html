@@ -614,7 +614,16 @@
                                 {% for dept, count in gender_data %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+
+                                    <td class="dept-cell" data-dept="{{ dept }}"
+                                        style="cursor:pointer;transition:color .2s;"
+                                        onmouseover="this.style.color='#0d6efd'"
+                                        onmouseout="this.style.color=''">
+                                      <i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}
+                                    </td>
+
+
+
                                     <td class="fw-bold">{{ count }}</td>
                                 </tr>
                                 {% endfor %}
@@ -673,7 +682,14 @@
                                 {% for dept, count in age_data %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+
+                                    <td class="dept-cell" data-dept="{{ dept }}"
+                                        style="cursor:pointer;transition:color .2s;"
+                                        onmouseover="this.style.color='#0d6efd'"
+                                        onmouseout="this.style.color=''">
+                                      <i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}
+                                    </td>
+
                                     <td class="fw-bold">{{ count }}</td>
                                 </tr>
                                 {% endfor %}
@@ -731,7 +747,16 @@
                                 {% for dept, count in salary_range_data %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+
+                                    <td class="dept-cell" data-dept="{{ dept }}"
+                                        style="cursor:pointer;transition:color .2s;"
+                                        onmouseover="this.style.color='#0d6efd'"
+                                        onmouseout="this.style.color=''">
+                                      <i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}
+                                    </td>
+
+
+
                                     <td class="fw-bold">{{ count }}</td>
                                 </tr>
                                 {% endfor %}
@@ -789,7 +814,16 @@
                                 {% for dept, count in on_leave_data %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+
+                                    <td class="dept-cell" data-dept="{{ dept }}"
+                                        style="cursor:pointer;transition:color .2s;"
+                                        onmouseover="this.style.color='#0d6efd'"
+                                        onmouseout="this.style.color=''">
+                                      <i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}
+                                    </td>
+
+
+
                                     <td class="fw-bold">{{ count }}</td>
                                 </tr>
                                 {% endfor %}
@@ -847,7 +881,16 @@
                                 {% for dept, count in contract_data %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                    <td><i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}</td>
+
+
+                                    <td class="dept-cell" data-dept="{{ dept }}"
+                                        style="cursor:pointer;transition:color .2s;"
+                                        onmouseover="this.style.color='#0d6efd'"
+                                        onmouseout="this.style.color=''">
+                                      <i class="fas fa-cash-register text-primary me-2"></i>{{ dept }}
+                                    </td>
+
+
                                     <td class="fw-bold">{{ count }}</td>
                                 </tr>
                                 {% endfor %}
@@ -902,17 +945,28 @@
                             </thead>
                             <tbody>
 
+                               <tr>
                                 <tr>
-                                    <td>1</td>
-                                    <td><i class="fas fa-cash-register text-primary me-2"></i>Professionals</td>
-                                    <td class="fw-bold">{{ pros }}</td>
+                                  <td>1</td>
+                                  <td class="dept-cell" data-dept="PROFESSIONAL"
+                                      style="cursor:pointer;transition:color .2s;"
+                                      onmouseover="this.style.color='#0d6efd'"
+                                      onmouseout="this.style.color=''">
+                                    <i class="fas fa-cash-register text-primary me-2"></i>Professionals
+                                  </td>
+                                  <td class="fw-bold">{{ pros }}</td>
+                                </tr>
+                                <tr>
+                                  <td>2</td>
+                                  <td class="dept-cell" data-dept="SUB PROFESSIONAL"
+                                      style="cursor:pointer;transition:color .2s;"
+                                      onmouseover="this.style.color='#0d6efd'"
+                                      onmouseout="this.style.color=''">
+                                    <i class="fas fa-cash-register text-primary me-2"></i>Sub Professionals
+                                  </td>
+                                  <td class="fw-bold">{{ sub_pros }}</td>
                                 </tr>
 
-                                <tr>
-                                    <td>2</td>
-                                    <td><i class="fas fa-cash-register text-primary me-2"></i>Sub Professionals</td>
-                                    <td class="fw-bold">{{ sub_pros }}</td>
-                                </tr>
 
                             </tbody>
                         </table>

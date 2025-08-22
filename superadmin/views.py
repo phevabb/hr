@@ -422,6 +422,25 @@ def users_by_department(request):
     total_mng_unit = ManagementUnit.objects.values_list("management_unit_name", flat=True)
 
     total_staff = [choice[0] for choice in User.STAFF_CHOICES]
+    total_gen = [choice[0] for choice in User.GENDER_CHOICES]
+    total_leave = [choice[0] for choice in User.ON_LEAVE_TYPE_CHOICES]
+    total_full = [choice[0] for choice in User.CONTRACT_FULLTIME]
+
+    age_ranges = {
+        "20 - 30": (20, 30),
+        "31 - 40": (31, 40),
+        "41 - 50": (41, 50),
+        "51 - 60": (51, 60),
+        "61+": (61, None),
+    }
+
+    # Salary ranges
+    salary_ranges = {
+        "SS.1 - SS.10": (1, 10),
+        "SS.11 - SS.15": (11, 15),
+        "SS.16 - SS.20": (16, 20),
+        "SS.21+": (21, None),
+    }
 
     # For directorate
     if dept in total_dpts:
@@ -472,9 +491,8 @@ def users_by_department(request):
         )
 
 
-
     # For Senior / junior staff
-    if dept in total_mng_unit:
+    elif dept in total_mng_unit:
         users = (
             User.objects.filter(management_unit_cost_centre__management_unit_name=dept)
             .order_by("first_name", "last_name")
@@ -496,6 +514,105 @@ def users_by_department(request):
             "superadmin/dash_details/users_by_department.html",
             {"dept": dept, "users": users, "k": " staff category"},
         )
+        # For gender
+
+
+    # FOR GENDER
+    elif dept in total_gen:
+        users = (
+            User.objects.filter(age=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k": " gender category"},
+        )
+
+    # FOR AGE
+    elif dept in age_ranges:
+        min_age, max_age = age_ranges[dept]
+
+        if max_age is not None:
+            users = User.objects.filter(age__gte=min_age, age__lte=max_age).order_by("first_name", "last_name")
+        else:
+            users = User.objects.filter(age__gte=min_age).order_by("first_name", "last_name")
+
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k": "age range"},
+        )
+
+        # For salary range
+    elif dept in salary_ranges:
+        min_level, max_level = salary_ranges[dept]
+
+        all_users = User.objects.exclude(current_salary_level__isnull=True)
+        filtered_users = []
+
+        for user in all_users:
+            try:
+                level = int(user.current_salary_level.replace("SS.", "").strip())
+
+                if max_level is None:  # SS.21+
+                    if level >= min_level:
+                        filtered_users.append(user)
+                else:
+                    if min_level <= level <= max_level:
+                        filtered_users.append(user)
+
+            except (ValueError, AttributeError):
+                # skip invalid salary values like "N/A"
+                continue
+
+        users = sorted(filtered_users, key=lambda u: (u.first_name, u.last_name))
+
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k": "salary_range"},
+        )
+
+        # For LEAVE
+
+    elif dept in total_leave:
+        users = (
+            User.objects.filter(on_leave_type=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k": " leave type"},
+        )
+
+
+        # For fulltime / contract
+
+    elif dept in total_full:
+        users = (
+            User.objects.filter(fulltime_contract_staff=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k": " agreement type"},
+        )
+
+    # sub / prof
+    elif dept in ["PROFESSIONAL", "SUB PROFESSIONAL"]:
+        users = (
+            User.objects.filter(professional=dept)
+            .order_by("first_name", "last_name")
+        )
+        return render(
+            request,
+            "superadmin/dash_details/users_by_department.html",
+            {"dept": dept, "users": users, "k": " professional type"},
+        )
+
 
 
     else:
