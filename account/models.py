@@ -525,9 +525,9 @@ class User(AbstractUser):
     national_effective_date = models.DateField(null=True, blank=True)
     years_on_current_grade = models.IntegerField(null=True, blank=True)
     number_of_years_in_service = models.IntegerField(null=True, blank=True)
-    fulltime_contract_staff = models.CharField(max_length=20, choices=CONTRACT_FULLTIME, null=True, blank=True)
-    academic_qualification = models.CharField(max_length=20, null=True, blank=True)
-    professional_qualification = models.CharField(max_length=20, null=True, blank=True)
+    fulltime_contract_staff = models.CharField(max_length=100, choices=CONTRACT_FULLTIME, null=True, blank=True)
+    academic_qualification = models.CharField(max_length=100, null=True, blank=True)
+    professional_qualification = models.CharField(max_length=100, null=True, blank=True)
     staff_category = models.CharField(max_length=20, choices=STAFF_CHOICES, null=True, blank=True)
 
     single_spine_monthly_salary = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
@@ -561,8 +561,11 @@ class User(AbstractUser):
 
     @property
     def full_name(self):
-        return f"{self.first_name} {self.last_name}".strip()
-
+        names = [self.first_name]
+        if self.middle_name and self.middle_name.lower() != "none":
+            names.append(self.middle_name)
+        names.append(self.last_name)
+        return " ".join(names).strip()
 
     class Meta:
         verbose_name = "User"
