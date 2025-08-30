@@ -2,7 +2,7 @@ from django.urls import path
 from . import  views
 from .views import UserCreateView, UserUpdateView, UserDetailView
 app_name = 'superadmin'
-
+from superadmin.api import views as api_views
 
 
 
@@ -21,5 +21,12 @@ urlpatterns = [
     path('ana_training/', views.training,name='ana_training' ),
     path('all_users/', views.all_users,name='all_users' ),
 
+
+    # API endpoint
+    # for department stats
+    path('api/v1/directorate-stats', api_views.department_stats, name='department_stats_api'),
+    
+    # for class stats
+    path('api/v1/class-stats', api_views.class_stats, name='class_stats_api'),
 
 ]

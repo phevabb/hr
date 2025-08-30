@@ -28,7 +28,7 @@ urlpatterns = [
     path('manager/', include('manager.urls' , namespace='manager')),
     path('staff/', include('staff.urls' , namespace='staff')),
 
-    #APIS
+    #APIS (registration, login, logout, password change, password reset)
     path('api/v1/auth/login', UserLoginView.as_view(), name='login_user'),
     path('api/v1/auth/logout', UserLogoutView.as_view(), name='logout_user'),
     path('api/v1/auth/change-password', ChangePasswordView.as_view(), name='change-password'),
