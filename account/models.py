@@ -419,7 +419,6 @@ class User(AbstractUser):
         ('Yard Foreman', 'Yard Foreman'),
     ]
 
-
     MARITAL_STATUS_CHOICES = [
         ('Single', 'Single'),
         ('Married', 'Married'),

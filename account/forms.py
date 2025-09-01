@@ -1,4 +1,9 @@
 from django import forms
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import User
+
+
 
 departments_choice = (
     ('Admin', "Admin"),  ('Manager',"Manager"), ("Staff", "Staff"),
@@ -9,12 +14,6 @@ class Login_form(forms.Form):
     staff_department = forms.ChoiceField(required=False, choices=departments_choice)
     user_ID = forms.CharField(required=True)
     password = forms.CharField(required=True)
-
-
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from .models import User
-
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(
