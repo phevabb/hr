@@ -51,4 +51,6 @@ urlpatterns = [
     # FOR FIELDS IN USER MODEL
     path('api/v1/user-fields', api_views.UserFieldsAPIView.as_view(), name='user-fields'),
 
+    path("api/v1/users/<int:pk>/", api_views.UserDetailAPIView.as_view(), name="user-detail"),
+
 ]

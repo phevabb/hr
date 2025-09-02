@@ -83,14 +83,29 @@ class ChangeOfGradeSerializer(serializers.ModelSerializer):
 
 
 # all fields under the User Model
-
-# serializers.py
-from rest_framework import serializers
-
-
 class UserFieldsSerializer(serializers.Serializer):
     field_name = serializers.CharField()
     field_type = serializers.CharField()
     choices = serializers.ListField(child=serializers.ListField(), required=False)
 
+from rest_framework import serializers
+
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+    full_name = serializers.CharField(read_only=True)
+    directorate = serializers.StringRelatedField()
+    category = serializers.StringRelatedField()
+    district = serializers.StringRelatedField()
+    region = serializers.StringRelatedField()
+    class Meta:
+        model = User
+        exclude = ['password', 
+                   'groups', 
+                   'user_permissions', 
+                   'last_login', 
+                   'is_superuser',
+                    "is_staff",
+    "is_active"]  # exclude sensitive fields
 

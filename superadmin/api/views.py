@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response    
 from django.contrib.auth import get_user_model
@@ -8,8 +9,11 @@ from rest_framework.permissions import IsAuthenticated
 from .ses import UserCreateSerializer
 from rest_framework import generics
 from account.models import Region, Districts, Department, Classes, ManagementUnit, CurrentGrade, ChangeOfGrade
-from .ses import RegionSerializer, DistrictSerializer, DepartmentSerializer, ClassesSerializer, ManagementUnitSerializer, CurrentGradeSerializer, ChangeOfGradeSerializer
-
+from superadmin.api import ses as api_ses
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from account.models import User, Department, Classes, Districts, Region, CurrentGrade, ChangeOfGrade, ManagementUnit
 
 
 
@@ -449,6 +453,7 @@ def all_users(request):
             "full_name": user.get_full_name(),
             "phone": user.phone_number,
             "staff_category": user.staff_category,
+            'id':user.id
         }
         for user in result_page
     ]
@@ -458,52 +463,44 @@ def all_users(request):
 # new entry (creating a new user)
 class UserCreateAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserCreateSerializer
+    serializer_class = api_ses.UserCreateSerializer
     # remove this if you want open access
     permission_classes = [IsAuthenticated]
-
 
 # views.py
 # for dynamic api options
 
 class RegionList(generics.ListAPIView):
     queryset = Region.objects.all()
-    serializer_class = RegionSerializer
+    serializer_class = api_ses.RegionSerializer
 
 class DistrictList(generics.ListAPIView):
     queryset = Districts.objects.all()
-    serializer_class = DistrictSerializer
+    serializer_class = api_ses.DistrictSerializer
 
 class DepartmentList(generics.ListAPIView):
     queryset = Department.objects.all()
-    serializer_class = DepartmentSerializer
+    serializer_class = api_ses.DepartmentSerializer
 
 class ClassesList(generics.ListAPIView):
     queryset = Classes.objects.all()
-    serializer_class = ClassesSerializer
+    serializer_class = api_ses.ClassesSerializer
 
 class ManagementUnitList(generics.ListAPIView):
     queryset = ManagementUnit.objects.all()
-    serializer_class = ManagementUnitSerializer
+    serializer_class = api_ses.ManagementUnitSerializer
 
 class CurrentGradeList(generics.ListAPIView):
     queryset = CurrentGrade.objects.all()
-    serializer_class = CurrentGradeSerializer
+    serializer_class = api_ses.CurrentGradeSerializer
 
 class ChangeOfGradeList(generics.ListAPIView):
     queryset = ChangeOfGrade.objects.all()
-    serializer_class = ChangeOfGradeSerializer
+    serializer_class = api_ses.ChangeOfGradeSerializer
 
 
 
 # FOR THE USER MODEL FIELDS:
-# views.py
-
-# views.py
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from account.models import User, Department, Classes, Districts, Region, CurrentGrade, ChangeOfGrade, ManagementUnit
-
 # fields to ignore
 IGNORED_FIELDS = {
     "id", "password", "last_login", "is_superuser", "is_staff",
@@ -540,3 +537,17 @@ class UserFieldsAPIView(APIView):
             fields.append(field_info)
 
         return Response(fields)
+    
+# user details per id for api
+class UserDetailAPIView(APIView):
+    def get(self, request, pk, *args, **kwargs):
+        user = get_object_or_404(User, pk=pk)
+        serializer = api_ses.UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+
+
+
