@@ -590,7 +590,7 @@ from urllib.parse import unquote  # For decoding URL-encoded strings
 
 
 @api_view(["GET"])
-def users_by_department(request):
+def users_per_department(request):
     # Decode the dept parameter to handle URL-encoded characters
     dept = unquote(request.GET.get("dept", "")).strip()
 
@@ -724,7 +724,7 @@ def users_by_department(request):
         )
 
     except Exception as e:
-        print(f"Error: {str(e)}")
+  
         return Response(
             {
                 "dept": dept,

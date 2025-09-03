@@ -56,6 +56,6 @@ urlpatterns = [
     path('api/v1/user-update/<int:pk>', api_views.UserUpdateAPIView.as_view(), name='user-update'),
     path('api/v1/all-users-to-excel', api_views.all_users_to_excel, name='all_users_to_excel'),
 
-    path("api/v1/users-by-department/", api_views.users_by_department, name="users-by-department"),
+    path("api/v1/users-per-department/", api_views.users_per_department, name="users-per-department"),
 
 ]
