@@ -735,4 +735,3 @@ def users_by_department(request):
             },
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
-    
