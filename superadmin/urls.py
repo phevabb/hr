@@ -50,7 +50,12 @@ urlpatterns = [
 
     # FOR FIELDS IN USER MODEL
     path('api/v1/user-fields', api_views.UserFieldsAPIView.as_view(), name='user-fields'),
+    # fetch user details
+    path("api/v1/users/<int:pk>", api_views.UserDetailAPIView.as_view(), name="user-detail"),
+    # update user
+    path('api/v1/user-update/<int:pk>', api_views.UserUpdateAPIView.as_view(), name='user-update'),
+    path('api/v1/all-users-to-excel', api_views.all_users_to_excel, name='all_users_to_excel'),
 
-    path("api/v1/users/<int:pk>/", api_views.UserDetailAPIView.as_view(), name="user-detail"),
+    path("api/v1/users-by-department/", api_views.users_by_department, name="users-by-department"),
 
 ]

@@ -441,25 +441,26 @@ class CustomPagination(PageNumberPagination):
             'results': data,
         })
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+@api_view(['GET'])
+def all_users_to_excel(request):
+    users = User.objects.all()  # get all users
+    serializer = api_ses.UserSerializer(users, many=True)
+    return Response(serializer.data)
+
 @api_view(['GET'])
 def all_users(request):
-    
+    users = User.objects.all()  # your queryset
     paginator = CustomPagination()
     result_page = paginator.paginate_queryset(users, request)
 
-    user_data = [
-        {
-            "staff_id": user.user_id,
-            "full_name": user.get_full_name(),
-            "phone": user.phone_number,
-            "staff_category": user.staff_category,
-            'id':user.id
-        }
-        for user in result_page
-    ]
+    # Serialize the paginated users
+    serializer = api_ses.UserSerializer(result_page, many=True)
 
-    return paginator.get_paginated_response(user_data)
-
+    return paginator.get_paginated_response(serializer.data)
 # new entry (creating a new user)
 class UserCreateAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -545,9 +546,193 @@ class UserDetailAPIView(APIView):
         serializer = api_ses.UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class UserUpdateAPIView(APIView):
+    def get(self, request, pk, *args, **kwargs):
+        user = get_object_or_404(User, pk=pk)
+        serializer = api_ses.UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, pk, *args, **kwargs):
+        user = get_object_or_404(User, pk=pk)
+        print(f'here is put data from frontend{request.data}')
+        serializer = api_ses.UserSerializer(user, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk, *args, **kwargs):
+        user = get_object_or_404(User, pk=pk)
+        print(f'here is patch data from frontend{request.data}')
+        serializer = api_ses.UserSerializer(user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+#number of users by department / unit
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 
 
 
+from rest_framework import status
+from urllib.parse import unquote  # For decoding URL-encoded strings
 
 
+
+
+@api_view(["GET"])
+def users_by_department(request):
+    # Decode the dept parameter to handle URL-encoded characters
+    dept = unquote(request.GET.get("dept", "")).strip()
+
+    # Debugging: Print the decoded dept value
+    print(f"Received dept: '{dept}'")
+
+    # Get reference lists
+    total_dpts = Department.objects.values_list("department_name", flat=True)
+    for i in total_dpts:
+        print(f"Department in DB: '{i}'")
+    total_cls = Classes.objects.values_list("classes_name", flat=True)
+    total_rgn = Region.objects.values_list("region", flat=True)
+    total_mng_unit = ManagementUnit.objects.values_list("management_unit_name", flat=True)
+
+    total_staff = [choice[0] for choice in User.STAFF_CHOICES]
+    total_gen = [choice[0] for choice in User.GENDER_CHOICES]
+    total_leave = [choice[0] for choice in User.ON_LEAVE_TYPE_CHOICES]
+    total_full = [choice[0] for choice in User.CONTRACT_FULLTIME]
+
+    age_ranges = {
+        "20 - 30": (20, 30),
+        "31 - 40": (31, 40),
+        "41 - 50": (41, 50),
+        "51 - 60": (51, 60),
+        "61+": (61, None),
+    }
+
+    salary_ranges = {
+        "SS.1 - SS.10": (1, 10),
+        "SS.11 - SS.15": (11, 15),
+        "SS.16 - SS.20": (16, 20),
+        "SS.21+": (21, None),
+    }
+
+    users = User.objects.none()
+    filter_key = None
+
+    try:
+        # Department
+        if dept in total_dpts:
+            users = User.objects.filter(directorate__department_name__iexact=dept)
+            filter_key = "department"
+
+        # Class
+        elif dept in total_cls:
+            users = User.objects.filter(category__classes_name__iexact=dept)
+            filter_key = "class"
+
+        # Region
+        elif dept in total_rgn:
+            users = User.objects.filter(region__region__iexact=dept)
+            filter_key = "region"
+
+        # Management Unit
+        elif dept in total_mng_unit:
+            users = User.objects.filter(management_unit_cost_centre__management_unit_name__iexact=dept)
+            filter_key = "unit"
+
+        # Staff Category
+        elif dept in total_staff:
+            users = User.objects.filter(staff_category=dept)
+            filter_key = "staff category"
+
+        # Gender
+        elif dept in total_gen:
+            users = User.objects.filter(gender=dept)
+            filter_key = "gender category"
+
+        # Age Range
+        elif dept in age_ranges:
+            min_age, max_age = age_ranges[dept]
+            if max_age:
+                users = User.objects.filter(age__gte=min_age, age__lte=max_age)
+            else:
+                users = User.objects.filter(age__gte=min_age)
+            filter_key = "age range"
+
+        # Salary Range
+        elif dept in salary_ranges:
+            min_level, max_level = salary_ranges[dept]
+            all_users = User.objects.exclude(current_salary_level__isnull=True)
+            filtered_users = []
+            for user in all_users:
+                try:
+                    level = int(user.current_salary_level.replace("SS.", "").strip())
+                    if max_level is None and level >= min_level:
+                        filtered_users.append(user)
+                    elif min_level <= level <= max_level:
+                        filtered_users.append(user)
+                except (ValueError, AttributeError):
+                    continue
+            users = filtered_users
+            filter_key = "salary range"
+
+        # Leave Type
+        elif dept in total_leave:
+            users = User.objects.filter(on_leave_type=dept)
+            filter_key = "leave type"
+
+        # Fulltime/Contract
+        elif dept in total_full:
+            users = User.objects.filter(fulltime_contract_staff=dept)
+            filter_key = "agreement type"
+
+        # Professional / Sub Professional
+        elif dept in ["PROFESSIONAL", "SUB PROFESSIONAL"]:
+            users = User.objects.filter(professional=dept)
+            filter_key = "professional type"
+
+        # Serialize results
+        serializer = api_ses.UserSerializer(users, many=True)
+
+        # Filter out unwanted fields (staff_category, districts) in the response
+        filtered_users = [
+            {
+                key: user[key]
+                for key in user
+                if key not in ["staff_category", "districts"]
+            }
+            for user in serializer.data
+        ]
+
+        return Response(
+            {
+                "dept": dept,
+                "filter_type": filter_key,
+                "count": len(filtered_users),
+                "users": filtered_users,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return Response(
+            {
+                "dept": dept,
+                "filter_type": None,
+                "count": 0,
+                "users": [],
+                "error": str(e),
+            },
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+    

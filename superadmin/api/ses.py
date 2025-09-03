@@ -4,6 +4,7 @@ from account.models import Region, Districts, Department, Classes, ManagementUni
 
 User = get_user_model()
 
+
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False, style={"input_type": "password"})
     confirm_password = serializers.CharField(write_only=True, required=False, style={"input_type": "password"})
@@ -94,18 +95,55 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
-    full_name = serializers.CharField(read_only=True)
-    directorate = serializers.StringRelatedField()
-    category = serializers.StringRelatedField()
-    district = serializers.StringRelatedField()
-    region = serializers.StringRelatedField()
+    full_name = serializers.SerializerMethodField()
+
+    # These fields are for WRITING (accepting IDs)
+    management_unit_cost_centre = serializers.PrimaryKeyRelatedField(
+        queryset=ManagementUnit.objects.all(), required=False
+    )
+
+    directorate = serializers.PrimaryKeyRelatedField(
+        queryset=Department.objects.all(), required=False
+    )
+    category = serializers.PrimaryKeyRelatedField(
+        queryset=Classes.objects.all(), required=False
+    )
+    district = serializers.PrimaryKeyRelatedField(
+        queryset=Districts.objects.all(), required=False
+    )
+    region = serializers.PrimaryKeyRelatedField(
+        queryset=Region.objects.all(), required=False
+    )
+    
     class Meta:
         model = User
-        exclude = ['password', 
-                   'groups', 
-                   'user_permissions', 
-                   'last_login', 
-                   'is_superuser',
-                    "is_staff",
-    "is_active"]  # exclude sensitive fields
+        exclude =[
+            'password',
+            'user_permissions',
+            'groups',
+            'last_login',
+            'is_superuser',
+            'is_staff',
+            'is_active',
+            'date_joined',
+        ]
+    def get_full_name(self, obj):
+        return obj.get_full_name()
 
+    # This method is for READING (displaying the names)
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        
+        # Replace the IDs with the names for the output
+        if instance.directorate:
+            representation['directorate'] = instance.directorate.department_name
+        if instance.category:
+            representation['category'] = instance.category.classes_name
+        if instance.district:
+            representation['district'] = instance.district.district
+        if instance.region:
+            representation['region'] = instance.region.region
+        if instance.management_unit_cost_centre:
+            representation['management_unit_cost_centre'] = instance.management_unit_cost_centre.management_unit_name
+            
+        return representation
