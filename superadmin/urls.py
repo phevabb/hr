@@ -8,9 +8,9 @@ from superadmin.api import views as api_views
 
 
 urlpatterns = [
-
+    path("api/v1/users-per-department/", api_views.users_per_department, name="users-per-department"),
     path('new_entry/', UserCreateView.as_view(), name='new_entry'),
-    path("users/by-department/", views.users_by_department, name="users_by_department"),
+    
 
 
     path('users/<int:pk>/edit/', UserUpdateView.as_view(), name='user_edit'),
@@ -53,9 +53,11 @@ urlpatterns = [
     # fetch user details
     path("api/v1/users/<int:pk>", api_views.UserDetailAPIView.as_view(), name="user-detail"),
     # update user
-    path('api/v1/user-update/<int:pk>', api_views.UserUpdateAPIView.as_view(), name='user-update'),
+    path('api/v1/user-update/<int:pk>/', api_views.UserUpdateAPIView.as_view(), name='user-update'),
+
+    
     path('api/v1/all-users-to-excel', api_views.all_users_to_excel, name='all_users_to_excel'),
 
-    path("api/v1/users-per-department/", api_views.users_per_department, name="users-per-department"),
+    
 
 ]

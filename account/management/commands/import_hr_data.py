@@ -125,8 +125,9 @@ class Command(BaseCommand):
                     maiden_name=safe_str(row.get('MAIDEN_NAME')),
                     gender=safe_str(row.get('GENDER')),
                     role='Staff',
+                    professional=safe_str(row.get('Professional/Subprofessional')),
                     date_of_birth=convert_date(row.get('DATE OF BIRTH (MM/DD/YYYY)')),
-                    age=convert_int(row.get('AGE')),
+                    
                     marital_status=safe_str(row.get('MARITAL STATUS')) or 'Single',
                     category=category,
                     directorate=directorate,

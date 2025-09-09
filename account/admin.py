@@ -49,9 +49,9 @@ class ClassesAdmin(admin.ModelAdmin):
 class CustomUserAdmin(UserAdmin):
     model = User
     list_display = (
-        'user_id', 'first_name', 'last_name', 'middle_name', 'role', 'gender',
+        'id','user_id', 'first_name', 'last_name', 'middle_name', 'role', 'gender',
         'phone_number', 'email', 'region', 'district', 'payroll_status',
-        'date_of_birth', 'age', 'date_of_retirement', 'is_active', 'is_staff', 'is_superuser'
+        'date_of_birth', 'is_active', 'is_staff', 'is_superuser'
     )
     list_filter = (
         'role', 'gender', 'marital_status', 'region', 'district',
@@ -67,8 +67,8 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         ('Personal Information', {
             'fields': (
-                'user_id', 'email', 'title', 'first_name', 'last_name', 'middle_name',
-                'maiden_name', 'gender', 'date_of_birth', 'age', 'marital_status',
+                'user_id', 'profile_picture', 'email', 'title', 'first_name', 'last_name', 'middle_name',
+                'maiden_name', 'gender', 'date_of_birth', 'marital_status',
                 'phone_number', 'ghana_card_number', 'social_security_number',
                 'national_health_insurance_number'
             )
@@ -77,7 +77,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': (
                 'role', 'category', 'directorate', 'staff_category', 'region', 'district',
                 'current_grade', 'next_grade', 'date_of_first_appointment',
-                'date_of_assumption_of_duty', 'date_of_last_promotion', 'date_of_retirement',
+                'date_of_assumption_of_duty', 'date_of_last_promotion', 
                 'years_on_current_grade', 'number_of_years_in_service', 'professional',
                 'fulltime_contract_staff', 'academic_qualification', 'professional_qualification'
             )

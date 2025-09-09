@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.db.models import ForeignKey
-
+from dateutil.relativedelta import relativedelta
+from datetime import date
 
 # Custom User Manager
 class CustomUserManager(BaseUserManager):
@@ -56,7 +57,7 @@ class Department(models.Model):
         return self.department_name
 
 class Classes(models.Model):
-    classes_name = models.CharField(max_length=100)
+    classes_name = models.CharField(max_length=100, unique=True)
     class Meta:
         verbose_name_plural = 'Classes'
         verbose_name = 'Class'
@@ -72,7 +73,7 @@ class ManagementUnit(models.Model):
         return self.management_unit_name
 
 class CurrentGrade(models.Model):
-    current_grade = models.CharField(max_length=100)
+    current_grade = models.CharField(max_length=100, unique=True)
     class Meta:
         verbose_name_plural = 'Current Grades'
         verbose_name = 'Current Grade'
@@ -112,8 +113,8 @@ class User(AbstractUser):
         ("Staff", "Staff"),
     ]
     PROFESSIONAL_CHOICES = [
-        ('PROFESSIONAL', "PROFESSIONAL"),
-        ('SUB PROFESSIONAL', "SUB PROFESSIONAL"),
+        ('Professional', "Professional"),
+        ('Subprofessional', "Subprofessional"),
 
     ]
 
@@ -510,8 +511,8 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True)
     maiden_name = models.CharField(max_length=20, null=True, blank=True)
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, null=True, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True)
-    age = models.IntegerField(null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True, db_index=True)
+    
     marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
     professional = models.CharField(max_length=50, choices=PROFESSIONAL_CHOICES, null=True, blank=True)
     current_salary_level = models.CharField(max_length=20, null=True, blank=True)
@@ -532,7 +533,7 @@ class User(AbstractUser):
     single_spine_monthly_salary = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
     monthly_gross_pay = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
     annual_salary = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
-    date_of_retirement = models.DateField(null=True, blank=True)
+
     number_of_focus_areas = models.IntegerField(null=True, blank=True)
     number_of_targets = models.IntegerField(null=True, blank=True)
     number_of_targets_met = models.IntegerField(null=True, blank=True)
@@ -553,18 +554,45 @@ class User(AbstractUser):
     accommodation_status = models.CharField(max_length=50, choices=ACCOMMODATION_STATUS_CHOICES, null=True, blank=True)
     supervisor_name = models.CharField(max_length=100, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
-
+    profile_picture = models.ImageField(
+        upload_to="profile_pics/",  # Folder inside MEDIA_ROOT
+        blank=True,
+        null=True
+    )
+    standard_retirement_age = 60
     USERNAME_FIELD = "user_id"
     REQUIRED_FIELDS = []  # No required fields
     objects = CustomUserManager()
 
     @property
+    def date_of_retirement(self):
+        """Retirement date is 60 years after date_of_birth"""
+        if self.date_of_birth:
+            return self.date_of_birth + relativedelta(years=self.standard_retirement_age)
+        return None
+    
+
+    @property
+    def age(self):
+        """Calculate current age from date_of_birth"""
+        if self.date_of_birth:
+            today = date.today()
+            return today.year - self.date_of_birth.year - (
+                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
+            )
+        return None
+
+    @property
     def full_name(self):
-        names = [self.first_name]
+        names = []
+        if self.first_name:
+            names.append(self.first_name)
         if self.middle_name and self.middle_name.lower() != "none":
             names.append(self.middle_name)
-        names.append(self.last_name)
+        if self.last_name:
+            names.append(self.last_name)
         return " ".join(names).strip()
+
 
     class Meta:
         verbose_name = "User"

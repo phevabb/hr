@@ -95,13 +95,10 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
-    full_name = serializers.SerializerMethodField()
-
-    # These fields are for WRITING (accepting IDs)
+    profile_picture = serializers.ImageField(required=False, allow_null=True)
     management_unit_cost_centre = serializers.PrimaryKeyRelatedField(
         queryset=ManagementUnit.objects.all(), required=False
     )
-
     directorate = serializers.PrimaryKeyRelatedField(
         queryset=Department.objects.all(), required=False
     )
@@ -114,27 +111,37 @@ class UserSerializer(serializers.ModelSerializer):
     region = serializers.PrimaryKeyRelatedField(
         queryset=Region.objects.all(), required=False
     )
-    
+
+    def validate_profile_picture(self, value):
+        print(f'Profile picture received: {value}, Type: {type(value)}')  # Log received value and type
+        if value and not hasattr(value, 'file'):
+            print(f'Invalid profile_picture data: {value}')  # Log invalid data
+            return None  # Treat invalid data as null to avoid validation error
+        if value:
+            print(f'File name: {value.name}, File size: {value.size}, Content type: {value.content_type}')  # Log file details
+        return value
+
+    def update(self, instance, validated_data):
+        print(f'Validated data: {validated_data}')  # Log validated data
+        instance = super().update(instance, validated_data)
+        print(f'Updated profile_picture: {instance.profile_picture}')  # Log final field value
+        return instance
+
     class Meta:
         model = User
-        exclude =[
-            'password',
-            'user_permissions',
-            'groups',
-            'last_login',
-            'is_superuser',
-            'is_staff',
-            'is_active',
-            'date_joined',
+        exclude = [
+            'password', 'user_permissions', 'groups', 'last_login',
+            'is_superuser', 'is_staff', 'is_active', 'date_joined'
         ]
-    def get_full_name(self, obj):
-        return obj.get_full_name()
 
-    # This method is for READING (displaying the names)
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        
-        # Replace the IDs with the names for the output
+        if instance.change_of_grade:
+            representation['change_of_grade'] = instance.change_of_grade.grade
+        if instance.current_grade:
+            representation['current_grade'] = instance.current_grade.current_grade
+        if instance.next_grade:
+            representation['next_grade'] = instance.next_grade.current_grade
         if instance.directorate:
             representation['directorate'] = instance.directorate.department_name
         if instance.category:
@@ -145,5 +152,10 @@ class UserSerializer(serializers.ModelSerializer):
             representation['region'] = instance.region.region
         if instance.management_unit_cost_centre:
             representation['management_unit_cost_centre'] = instance.management_unit_cost_centre.management_unit_name
-            
+        representation["age"] = instance.age
+        representation["full_name"] = instance.full_name
+        representation["date_of_retirement"] = instance.date_of_retirement
         return representation
+
+
+    
