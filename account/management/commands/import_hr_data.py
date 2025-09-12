@@ -1,7 +1,7 @@
 import os
 import django
 from django.core.management.base import BaseCommand
-from account.models import User, Department, Classes, CurrentGrade, ChangeOfGrade, Region, Districts, ManagementUnit
+from account.models import AcademicQualification, User, Department, Classes, NextGrade, CurrentGrade, ChangeOfGrade, Region, Districts, ManagementUnit
 import pandas as pd
 from datetime import datetime
 
@@ -105,7 +105,7 @@ class Command(BaseCommand):
                 directorate = get_fk_instance(Department, safe_str(row.get('DIRECTORATE/DEPARTMENT/UNIT')), index, 'directorate', 'department_name')
                 category = get_fk_instance(Classes, safe_str(row.get('CLASS')), index, 'category', 'classes_name')
                 current_grade = get_fk_instance(CurrentGrade, safe_str(row.get('CURRENT GRADE')), index, 'current_grade', 'current_grade')
-                next_grade = get_fk_instance(CurrentGrade, safe_str(row.get('NEXT GRADE')), index, 'next_grade', 'current_grade')
+                next_grade = get_fk_instance(NextGrade, safe_str(row.get('NEXT GRADE')), index, 'next_grade', 'next_grade')
                 change_of_grade = get_fk_instance(ChangeOfGrade, safe_str(row.get('CHANGE OF GRADE')), index, 'change_of_grade', 'grade')
                 region = get_fk_instance(Region, safe_str(row.get('REGION')), index, 'region', 'region')
                 district = get_fk_instance(Districts, safe_str(row.get('DISTRICT')), index, 'district', 'district')
@@ -145,10 +145,12 @@ class Command(BaseCommand):
                     date_of_last_promotion=convert_date(row.get('DATE OF LAST PROMOTION')),
                     substantive_date=convert_date(row.get('SUBSTANTIVE DATE')),
                     national_effective_date=national_effective_date,
-                    years_on_current_grade=convert_int(row.get('YEARS ON CURRENT GRADE')),
-                    number_of_years_in_service=convert_int(row.get('NUMBER OF YEARS IN THE SERVICE')),
+                    
+                    
                     fulltime_contract_staff=safe_str(row.get('FULLTIME/CONTRACT STAFF')) or 'FULLTIME',
-                    academic_qualification=safe_str(row.get('ACADEMIC QUALIFICATION')),
+                    
+                    
+
                     professional_qualification=safe_str(row.get('PROFESSIONAL QUALIFICATION')),
                     staff_category=safe_str(row.get('STAFF CATEGORY')),
                     single_spine_monthly_salary=convert_currency(row.get('SINGLE SPINE MONTHLY SALARY')),
@@ -172,6 +174,16 @@ class Command(BaseCommand):
                 user.set_password('Securepassword123!')
                 user.save()
                 created_count += 1
+
+                # Now handle ManyToMany Academic Qualifications
+                academic_qualification_name = safe_str(row.get('ACADEMIC QUALIFICATION'))
+                if academic_qualification_name:
+                    qualification_names = [q.strip() for q in academic_qualification_name.split(',') if q.strip()]
+                    qualifications = []
+                    for name in qualification_names:
+                        aq, _ = AcademicQualification.objects.get_or_create(name=name)
+                        qualifications.append(aq)
+                    user.academic_qualifications.set(qualifications)
 
             except Exception as e:
                 error_count += 1

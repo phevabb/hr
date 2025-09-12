@@ -3,7 +3,7 @@ from datetime import date
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
-
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
@@ -308,8 +308,8 @@ def all_users(request):
 class UserCreateAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = api_ses.UserCreateSerializer
-    # remove this if you want open access
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]  # remove if you want open access
+
 
 # views.py
 # for dynamic api options
@@ -350,6 +350,48 @@ IGNORED_FIELDS = {
     "id", "password", "last_login", "is_superuser", "is_staff",
     "is_active", "date_joined", "groups", "user_permissions"
 }
+class UserFieldsAPIView(APIView):
+    def get(self, request):
+        fields = []
+        for field in User._meta.get_fields():
+            # skip reverse relations
+            if field.auto_created and not field.concrete:
+                continue
+
+            # skip ignored fields
+            if field.name in IGNORED_FIELDS:
+                continue
+
+            field_info = {
+                "field_name": field.name,
+                "field_type": field.get_internal_type(),
+            }
+
+            # include choices if available
+            if getattr(field, "choices", None):
+                field_info["choices"] = list(field.choices)
+
+            # include items for ForeignKey
+            if field.get_internal_type() == "ForeignKey":
+                related_model = field.related_model
+                queryset = related_model.objects.all()
+                field_info["items"] = [
+                    {"id": obj.id, "name": str(obj)} for obj in queryset
+                ]
+                field_info["multiple"] = False  # single select
+
+            # include items for ManyToManyField
+            if field.get_internal_type() == "ManyToManyField":
+                related_model = field.related_model
+                queryset = related_model.objects.all()
+                field_info["items"] = [
+                    {"id": obj.id, "name": str(obj)} for obj in queryset
+                ]
+                field_info["multiple"] = True  # multi-select
+
+            fields.append(field_info)
+
+        return Response(fields)
 
 class UserFieldsAPIView(APIView):
     def get(self, request):
@@ -378,33 +420,55 @@ class UserFieldsAPIView(APIView):
                 queryset = related_model.objects.all()
                 field_info["items"] = [{"id": obj.id, "name": str(obj)} for obj in queryset]
 
+            # include items for ManyToManyField
+            if field.get_internal_type() == "ManyToManyField":
+                related_model = field.related_model
+                queryset = related_model.objects.all()
+                field_info["items"] = [{"id": obj.id, "name": str(obj)} for obj in queryset]
+
             fields.append(field_info)
 
         return Response(fields)
-    
+
 # user details per id for api
+
 class UserDetailAPIView(APIView):
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(User, pk=pk)
         serializer = api_ses.UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
 
-from rest_framework import generics
+
+
+
+
+
+from django.shortcuts import get_object_or_404
+import logging
+
+logger = logging.getLogger(__name__)
+
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.shortcuts import get_object_or_404
+import logging
 
+logger = logging.getLogger(__name__)
+# api_ses/views.py
+from rest_framework import generics
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 
 class UserUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
-    serializer_class = api_ses.UserSerializer
-    lookup_field = "pk"   # matches your /user-update/<pk>/ URL
-    parser_classes = [MultiPartParser, FormParser, JSONParser]  # ✅ enable file + JSON uploads
-
-
-#number of users by department / unit
+    serializer_class = api_ses.UserUpdateSerializer
+    lookup_field = "pk"
+    parser_classes = [MultiPartParser, FormParser, JSONParser]  # handles JSON + FormData
 
 today = date.today()
+
+
 
 
 from rest_framework import status

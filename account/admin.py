@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Department, Classes, CurrentGrade, ManagementUnit, Region, Districts, ChangeOfGrade
+from .models import User, Department, Classes, CurrentGrade, ManagementUnit, Region, Districts, ChangeOfGrade, AcademicQualification
 
 
 #@admin.register(ChangeOfGrade)
@@ -20,6 +20,12 @@ from .models import User, Department, Classes, CurrentGrade, ManagementUnit, Reg
  #   list_display = ('region',)
  #   search_fields = ('region',)
 
+
+@admin.register(AcademicQualification)
+class AcademicQualificationAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
 @admin.register(ManagementUnit)
 class ManagementUnitAdmin(admin.ModelAdmin):
     list_display = ('management_unit_name',)
@@ -27,7 +33,6 @@ class ManagementUnitAdmin(admin.ModelAdmin):
 
 @admin.register(CurrentGrade)
 class CurrentGradeAdmin(admin.ModelAdmin):
-    model = CurrentGrade
     list_display = ['current_grade']
     list_filter = ['current_grade']
 
@@ -78,8 +83,8 @@ class CustomUserAdmin(UserAdmin):
                 'role', 'category', 'directorate', 'staff_category', 'region', 'district',
                 'current_grade', 'next_grade', 'date_of_first_appointment',
                 'date_of_assumption_of_duty', 'date_of_last_promotion', 
-                'years_on_current_grade', 'number_of_years_in_service', 'professional',
-                'fulltime_contract_staff', 'academic_qualification', 'professional_qualification'
+              'professional',
+                'fulltime_contract_staff', 'academic_qualifications', 'professional_qualification'
             )
         }),
         ('Salary & Payroll', {

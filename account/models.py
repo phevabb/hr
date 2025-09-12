@@ -79,6 +79,14 @@ class CurrentGrade(models.Model):
         verbose_name = 'Current Grade'
     def __str__(self):
         return self.current_grade
+    
+class NextGrade(models.Model):
+    next_grade = models.CharField(max_length=100, unique=True)
+    class Meta:
+        verbose_name_plural = 'Next Grades'
+        verbose_name = 'Next Grade'
+    def __str__(self):
+        return self.next_grade
 
 class ChangeOfGrade(models.Model):
     grade = models.CharField(max_length=100)
@@ -87,6 +95,12 @@ class ChangeOfGrade(models.Model):
         verbose_name = 'Change of Grade'
     def __str__(self):
         return self.grade
+
+class AcademicQualification(models.Model):
+        name = models.CharField(max_length=100, unique=True)
+        def __str__(self):
+            return self.name
+    
 
 # Custom User model
 class User(AbstractUser):
@@ -97,6 +111,7 @@ class User(AbstractUser):
         ('Mr.', 'Mr.'),
         ('Mrs.', 'Mrs.'),
         ('Ms.', 'Ms.'),
+        ('Dr..', 'Dr.'),
     ]
 
     ON_LEAVE_TYPE_CHOICES = [
@@ -122,6 +137,8 @@ class User(AbstractUser):
         ('Male', "Male"),
         ('Female', "Female"),
     ]
+
+
 
     CLASS_CHOICES = [
         ('Accounts Class', 'Accounts Class'),
@@ -420,10 +437,63 @@ class User(AbstractUser):
         ('Yard Foreman', 'Yard Foreman'),
     ]
 
+
     MARITAL_STATUS_CHOICES = [
         ('Single', 'Single'),
         ('Married', 'Married'),
     ]
+
+
+    POINT_CHOICES = [
+        ('POINT 1', 'POINT 1'),
+        ('POINT 2', 'POINT 2'),
+        ('POINT 3', 'POINT 3'),
+        ('POINT 4', 'POINT 4'),
+        ('POINT 5', 'POINT 5'),
+        ('POINT 6', 'POINT 6'),
+        ('POINT 7', 'POINT 7'),
+        ('POINT 8', 'POINT 8'),
+        ('POINT 9', 'POINT 9'),
+        ('POINT 10', 'POINT 10'),
+        ('POINT 11', 'POINT 11'),
+        ('POINT 12', 'POINT 12'),
+        ('POINT 13', 'POINT 13'),
+        ('POINT 14', 'POINT 14'),
+        ('POINT 15', 'POINT 15'),
+
+    ]
+
+
+
+
+
+
+    SALARY_LEVEL_RANGE = [
+        ('SS.5', 'SS.5'),
+        ('SS.6', 'SS.6'),
+        ('SS.7', 'SS.7'),
+        ('SS.8', 'SS.8'),
+        ('SS.9', 'SS.9'),
+        ('SS.10', 'SS.10'),
+        ('SS.11', 'SS.11'),
+        ('SS.12', 'SS.12'),
+        ('SS.13', 'SS.13'),
+        ('SS.14', 'SS.14'),
+        ('SS.15', 'SS.15'),
+        ('SS.16', 'SS.16'),        
+        ('SS.17', 'SS.17'),
+        ('SS.18', 'SS.18'),
+        ('SS.19', 'SS.19'),
+        ('SS.20', 'SS.20'),
+        ('SS.21', 'SS.21'),
+        ('SS.22', 'SS.22'),
+        ('SS.23', 'SS.23'),
+        ('SS.24', 'SS.24'),
+        ('SS.25', 'SS.25'),
+
+    ]
+
+
     CHANGE_OF_GRADE_CHOICES = [
         ('First Appointment', 'First Appointment'),
         ('High Academic Qualification', 'High Academic Qualification'),
@@ -432,6 +502,8 @@ class User(AbstractUser):
         ('Promotion', 'Promotion'),
         ('Regrading (Conversion/Upgrading)', 'Regrading (Conversion/Upgrading)'),
     ]
+
+
     CONTRACT_FULLTIME = [
         ('FULLTIME', 'FULLTIME'),
         ('CONTRACT', 'CONTRACT'),
@@ -498,7 +570,7 @@ class User(AbstractUser):
     district = models.ForeignKey( Districts,  on_delete=models.SET_NULL, verbose_name="District", null=True, blank=True, related_name = 'districts')
     region = models.ForeignKey( Region, on_delete=models.SET_NULL, verbose_name='Region',  null=True, blank=True, related_name = 'regions')
     current_grade = models.ForeignKey( CurrentGrade,on_delete=models.SET_NULL, null=True, verbose_name='current grade', blank=True, related_name = 'current_gradee')
-    next_grade = models.ForeignKey( CurrentGrade, on_delete=models.SET_NULL, null=True, verbose_name='next grade', blank=True, related_name = 'next_gradee')
+    next_grade = models.ForeignKey( NextGrade, on_delete=models.SET_NULL, null=True, verbose_name='next grade', blank=True, related_name = 'next_gradeea')
     change_of_grade = models.ForeignKey( ChangeOfGrade, on_delete=models.SET_NULL, null=True, blank=True, related_name = 'change_of_gradee')
     management_unit_cost_centre = models.ForeignKey( ManagementUnit, on_delete=models.SET_NULL, blank=True, null=True,  related_name = 'management_unitt')
 
@@ -515,18 +587,25 @@ class User(AbstractUser):
     
     marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
     professional = models.CharField(max_length=50, choices=PROFESSIONAL_CHOICES, null=True, blank=True)
-    current_salary_level = models.CharField(max_length=20, null=True, blank=True)
-    current_salary_point = models.CharField(max_length=20, null=True, blank=True)
-    next_salary_level = models.CharField(max_length=20, null=True, blank=True)
-    date_of_first_appointment = models.DateField(null=True, blank=True)
+    current_salary_level = models.CharField(max_length=20, null=True, blank=True, choices=SALARY_LEVEL_RANGE)
+    current_salary_point = models.CharField(max_length=20, null=True, blank=True, choices=POINT_CHOICES)
+    next_salary_level = models.CharField(max_length=20, null=True, blank=True, choices=SALARY_LEVEL_RANGE)
+    
     date_of_assumption_of_duty = models.DateField(null=True, blank=True)
-    date_of_last_promotion = models.DateField(null=True, blank=True)
+    
     substantive_date = models.DateField(null=True, blank=True)
     national_effective_date = models.DateField(null=True, blank=True)
+
     years_on_current_grade = models.IntegerField(null=True, blank=True)
-    number_of_years_in_service = models.IntegerField(null=True, blank=True)
+    date_of_last_promotion = models.DateField(null=True, blank=True)
+    
+    ####
+   # number_of_years_in_service = models.IntegerField(null=True, blank=True)
+    date_of_first_appointment = models.DateField(null=True, blank=True)
+    
     fulltime_contract_staff = models.CharField(max_length=100, choices=CONTRACT_FULLTIME, null=True, blank=True)
-    academic_qualification = models.CharField(max_length=100, null=True, blank=True)
+    academic_qualifications = models.ManyToManyField(AcademicQualification, blank=True)
+
     professional_qualification = models.CharField(max_length=100, null=True, blank=True)
     staff_category = models.CharField(max_length=20, choices=STAFF_CHOICES, null=True, blank=True)
 
@@ -593,6 +672,27 @@ class User(AbstractUser):
             names.append(self.last_name)
         return " ".join(names).strip()
 
+
+    @property
+    def years_on_current_grade(self):
+        if self.date_of_last_promotion:
+            today = date.today()
+            return (
+                today.year - self.date_of_last_promotion.year
+                - ((today.month, today.day) < (self.date_of_last_promotion.month, self.date_of_last_promotion.day))
+            )
+        return None
+
+    @property
+    def number_of_years_in_service(self):
+        if self.date_of_first_appointment:
+            today = date.today()
+            return (
+                today.year - self.date_of_first_appointment.year
+                - ((today.month, today.day) < (self.date_of_first_appointment.month, self.date_of_first_appointment.day))
+            )
+        return None
+    
 
     class Meta:
         verbose_name = "User"
