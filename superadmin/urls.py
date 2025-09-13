@@ -10,6 +10,9 @@ from superadmin.api import views as api_views
 urlpatterns = [
     path("api/v1/users-per-department/", api_views.users_per_department, name="users-per-department"),
     path('new_entry/', UserCreateView.as_view(), name='new_entry'),
+    path("api/v1/users-per-department-no-pages/", api_views.users_per_department_no_pages, name="users_per_department_no_pages"),
+
+    
     
 
 

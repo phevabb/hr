@@ -291,7 +291,7 @@ def admin_dashboard_summary(request):
 @api_view(['GET'])
 def all_users_to_excel(request):
     users = User.objects.all()  # get all users
-    serializer = api_ses.UserSerializer(users, many=True)
+    serializer = api_ses.UserSerializerToExcel(users, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -580,6 +580,103 @@ def users_per_department(request):
             "count": users.count(),
             "users": filtered_users,
         })
+
+    except Exception as e:
+        return Response({
+            "dept": dept,
+            "filter_type": None,
+            "count": 0,
+            "users": [],
+            "error": str(e),
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+@api_view(["GET"])
+def users_per_department_no_pages(request):
+    dept = unquote(request.GET.get("dept", "")).strip()
+
+    # Reference lists
+    total_dpts = Department.objects.values_list("department_name", flat=True)
+    total_cls = Classes.objects.values_list("classes_name", flat=True)
+    total_rgn = Region.objects.values_list("region", flat=True)
+    total_mng_unit = ManagementUnit.objects.values_list("management_unit_name", flat=True)
+
+    total_staff = [choice[0] for choice in User.STAFF_CHOICES]
+    total_gen = [choice[0] for choice in User.GENDER_CHOICES]
+    total_leave = [choice[0] for choice in User.ON_LEAVE_TYPE_CHOICES]
+    total_full = [choice[0] for choice in User.CONTRACT_FULLTIME]
+
+    age_ranges = {
+        "20 - 30": (20, 30),
+        "31 - 40": (31, 40),
+        "41 - 50": (41, 50),
+        "51 - 60": (51, 60),
+        "61+": (61, 100),
+    }
+
+    salary_ranges = {f"SS.{i}": f"SS.{i}" for i in range(5, 26)}
+
+    users = User.objects.none()
+    filter_key = None
+
+    try:
+        if dept in total_dpts:
+            users = User.objects.filter(directorate__department_name__iexact=dept)
+            filter_key = "department"
+        elif dept in total_cls:
+            users = User.objects.filter(category__classes_name__iexact=dept)
+            filter_key = "class"
+        elif dept in total_rgn:
+            users = User.objects.filter(region__region__iexact=dept)
+            filter_key = "region"
+        elif dept in total_mng_unit:
+            users = User.objects.filter(management_unit_cost_centre__management_unit_name__iexact=dept)
+            filter_key = "unit"
+        elif dept in total_staff:
+            users = User.objects.filter(staff_category=dept)
+            filter_key = "staff category"
+        elif dept in total_gen:
+            users = User.objects.filter(gender=dept)
+            filter_key = "gender category"
+        elif dept in age_ranges:
+            min_age, max_age = age_ranges[dept]
+            min_date, max_date = get_birth_date_range(min_age, max_age)
+            users = User.objects.filter(
+                date_of_birth__gte=min_date,
+                date_of_birth__lte=max_date,
+                date_of_birth__isnull=False
+            )
+            filter_key = "age range"
+        elif dept in salary_ranges:
+            users = User.objects.filter(current_salary_level=dept)
+            filter_key = "salary range"
+        elif dept in total_leave:
+            users = User.objects.filter(on_leave_type=dept)
+            filter_key = "leave type"
+        elif dept in total_full:
+            users = User.objects.filter(fulltime_contract_staff=dept)
+            filter_key = "agreement type"
+        elif dept in ["Professional", "Subprofessional"]:
+            users = User.objects.filter(professional=dept)
+            filter_key = "professional type"
+
+        # No pagination – just serialize all results
+        serializer = api_ses.UserSerializer(users, many=True)
+
+        # Filter out unwanted fields
+        filtered_users = [
+            {key: user[key] for key in user if key not in ["staff_category", "districts"]}
+            for user in serializer.data
+        ]
+
+        return Response({
+            "dept": dept,
+            "filter_type": filter_key,
+            "count": users.count(),
+            "users": filtered_users,
+        }, status=status.HTTP_200_OK)
 
     except Exception as e:
         return Response({

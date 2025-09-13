@@ -176,6 +176,8 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         ]
         return rep
 
+
+
 class AcademicQualificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = AcademicQualification
@@ -288,6 +290,119 @@ class UserSerializer(serializers.ModelSerializer):
         if academic_qualifications:
             user.academic_qualifications.set(academic_qualifications)
         return user
+
+
+class UserSerializerToExcel(serializers.ModelSerializer):
+    # Replace raw IDs with human-readable names
+    management_unit_cost_centre = serializers.CharField(
+        source="management_unit_cost_centre.management_unit_name", read_only=True
+    )
+    directorate = serializers.CharField(source="directorate.department_name", read_only=True)
+    category = serializers.CharField(source="category.classes_name", read_only=True)
+    district = serializers.CharField(source="district.district", read_only=True)
+    region = serializers.CharField(source="region.region", read_only=True)
+
+    change_of_grade = serializers.CharField(source="change_of_grade.grade", read_only=True)
+    next_grade = serializers.CharField(source="next_grade.next_grade", read_only=True)
+    current_grade = serializers.CharField(source="current_grade.current_grade", read_only=True)
+
+    # ✅ Accept IDs for input, but return full objects in response
+    academic_qualifications = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=AcademicQualification.objects.all(), required=False
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            'email',
+            "current_grade",
+            "next_grade",
+            "change_of_grade",
+            "date_of_assumption_of_duty",
+            "date_of_retirement",
+            "profile_picture",
+            "management_unit_cost_centre",
+            "directorate",
+            "category",
+            "district",
+            "region",
+            "academic_qualifications",
+            "full_name",
+            "title",
+            "user_id",
+            "gender",
+            "date_of_birth",
+            "age",
+            "marital_status",
+            "current_salary_level",
+            "current_salary_point",
+            "date_of_first_appointment",
+            "date_of_last_promotion",
+            "number_of_years_in_service",
+            "professional_qualification",
+            "monthly_gross_pay",
+            "annual_salary",
+            "phone_number",
+            "ghana_card_number",
+            "social_security_number",
+            "national_health_insurance_number",
+            "bank_name",
+            "bank_account_branch",
+            "bank_account_number",
+            'next_salary_level',
+            "payroll_status",
+            "accommodation_status",
+            "supervisor_name",
+            "at_post_on_leave",
+            "fulltime_contract_staff",
+            "national_effective_date",
+            "substantive_date",
+            "staff_category",
+            "single_spine_monthly_salary",
+            "self_assessment_description",
+            "overall_assessment_score",
+            "number_of_targets",
+            "number_of_targets_met",
+            "number_of_targets_not_met",
+            "number_of_focus_areas",
+            "years_on_current_grade",
+            "role",
+            "professional",
+            'first_name',
+            'last_name',
+        ]
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+
+        # Flatten academic_qualifications into a string for export
+        rep["academic_qualifications"] = ", ".join(
+            [aq.name for aq in instance.academic_qualifications.all()]
+        )
+
+        return rep
+
+
+    def update(self, instance, validated_data):
+        # ✅ Safely handle academic_qualifications
+        academic_qualifications = validated_data.pop("academic_qualifications", None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if academic_qualifications is not None:
+            instance.academic_qualifications.set(academic_qualifications)
+
+        return instance
+
+    def create(self, validated_data):
+        academic_qualifications = validated_data.pop("academic_qualifications", [])
+        user = User.objects.create(**validated_data)
+        if academic_qualifications:
+            user.academic_qualifications.set(academic_qualifications)
+        return user
+
 
 
 
