@@ -57,7 +57,7 @@ urlpatterns = [
     path("api/v1/users/<int:pk>", api_views.UserDetailAPIView.as_view(), name="user-detail"),
     # update user
     path('api/v1/user-update/<int:pk>/', api_views.UserUpdateAPIView.as_view(), name='user-update'),
-
+    path("api/v1/remove-user", api_views.remove_user, name="remove_user"),
     
     path('api/v1/all-users-to-excel', api_views.all_users_to_excel, name='all_users_to_excel'),
 

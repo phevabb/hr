@@ -702,3 +702,12 @@ class User(AbstractUser):
         return f"{self.first_name} {self.last_name} - {self.user_id}"
 
 
+
+class UserRemovalLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="removal_logs")
+    reason = models.CharField(max_length=255)
+    removed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.reason} on {self.removed_at}"
+

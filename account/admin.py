@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Department, Classes, CurrentGrade, ManagementUnit, Region, Districts, ChangeOfGrade, AcademicQualification
+from .models import UserRemovalLog, User, Department, Classes, CurrentGrade, ManagementUnit, Region, Districts, ChangeOfGrade, AcademicQualification
 
 
 #@admin.register(ChangeOfGrade)
@@ -25,6 +25,14 @@ from .models import User, Department, Classes, CurrentGrade, ManagementUnit, Reg
 class AcademicQualificationAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
+
+@admin.register(UserRemovalLog)
+class UserRemovalLogAdmin(admin.ModelAdmin):
+    list_display = ('user', 'reason', 'removed_at')
+    search_fields = ('user__username', 'reason')
+    list_filter = ('removed_at', 'reason')
+    ordering = ('-removed_at',)  # latest removals first
+
 
 @admin.register(ManagementUnit)
 class ManagementUnitAdmin(admin.ModelAdmin):
