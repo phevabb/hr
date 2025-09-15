@@ -21,20 +21,47 @@ class PasswordResetConfirmView(APIView):
 
 class UserLoginView(generics.GenericAPIView):
     serializer_class = UserLoginSerializer
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
 
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key,
-                         "user":{
-                             "id": user.id,
-                             "role": user.role,
-                             "full_name": user.full_name,
-                             "user_id":user.user_id,
-                         }
-                         }, status=status.HTTP_200_OK)
+
+        # Base user data
+        user_data = {
+            "id": user.id,
+            "role": user.role,
+            "full_name": user.full_name,
+            "user_id": user.user_id,
+        }
+
+        # Region mapping
+        REGION_CHOICES = [
+            'AHAFO', 'ASHANTI', 'BONO & BONO EAST', 'CENTRAL', 'EASTERN', 
+            'GREATER ACCRA', 'HEAD OFFICE', 'NORTHERN', 'UPPER EAST', 
+            'WESTERN', 'Greater Accra', 'WESTERN NORTH'
+        ]
+
+        if user.role == "Manager":
+            region_name = None
+            region_id = None
+            if hasattr(user, "manager_profile") and user.manager_profile.region:
+                region_name = user.manager_profile.region
+                # Use index in REGION_CHOICES as a pseudo-ID
+                region_id = REGION_CHOICES.index(region_name) + 1
+
+            user_data["region"] = region_name
+            user_data["region_id"] = region_id
+
+        return Response(
+            {
+                "token": token.key,
+                "user": user_data,
+            },
+            status=status.HTTP_200_OK,
+        )
 
 class UserLogoutView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]

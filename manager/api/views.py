@@ -17,7 +17,7 @@ from account.models import (
     User, Department, Classes, Region, Districts,
     ManagementUnit, CurrentGrade, ChangeOfGrade, UserRemovalLog
 )
-from superadmin.api import ses as api_ses
+from manager.api import ses as api_ses
 
 User = get_user_model()
 
@@ -42,7 +42,10 @@ def get_stat_data(request, model_field, choices=None, related_field=None, output
     Returns:
         Paginated Response with stat data.
     """
+    region_param = request.GET.get('region')
     users = User.objects.filter(is_active=True)
+    if region_param:
+        users = users.filter(region__region=region_param)
     if related_field:
         users = users.select_related(related_field).filter(**{f"{related_field}__isnull": False})
         counts = {obj[output_key]: 0 for obj in model_field.objects.values(output_key)}
@@ -65,7 +68,10 @@ def get_stat_data(request, model_field, choices=None, related_field=None, output
 @api_view(['GET'])
 def department_stats(request):
     """Return count of active users per department."""
+    region_param = request.GET.get('region')
     users = User.objects.filter(is_active=True)
+    if region_param:
+        users = users.filter(region__region=region_param)
     
     # Initialize counts for all departments
     counts = {dept.department_name: 0 for dept in Department.objects.all()}
@@ -83,7 +89,10 @@ def department_stats(request):
 @api_view(['GET'])
 def class_stats(request):
     """Return count of active users per class."""
+    region_param = request.GET.get('region')
     users = User.objects.filter(is_active=True)
+    if region_param:
+        users = users.filter(region__region=region_param)
     
     # Initialize counts for all classes
     counts = {cls.classes_name: 0 for cls in Classes.objects.all()}
@@ -105,7 +114,10 @@ def region_stats(request):
 
 @api_view(['GET'])
 def management_stats(request):
+    region_param = request.GET.get('region')
     users = User.objects.filter(is_active=True)
+    if region_param:
+        users = users.filter(region__region=region_param)
     counts = {mu.management_unit_name: 0 for mu in ManagementUnit.objects.all()}
 
     for user in users:
@@ -146,10 +158,15 @@ def pro_stats(request):
 @api_view(['GET'])
 def age_stats(request):
     """Return count of active users per age range."""
+    region_param = request.GET.get('region')
     age_ranges = {'20 - 30': (20, 30), '31 - 40': (31, 40), '41 - 50': (41, 50), '51 - 60': (51, 60), '61+': (61, 100)}
     counts = {key: 0 for key in age_ranges}
     
-    for user in User.objects.filter(is_active=True, date_of_birth__isnull=False):
+    users = User.objects.filter(is_active=True, date_of_birth__isnull=False)
+    if region_param:
+        users = users.filter(region__region=region_param)
+    
+    for user in users:
         age = user.age
         if age is not None:
             for range_label, (min_age, max_age) in age_ranges.items():
@@ -164,9 +181,14 @@ def age_stats(request):
 @api_view(['GET'])
 def grade_level_stats(request):
     """Return count of active users per salary level."""
+    region_param = request.GET.get('region')
     salary_levels = {f"SS.{i}": 0 for i in range(5, 26)}
     
-    for user in User.objects.filter(is_active=True, current_salary_level__isnull=False):
+    users = User.objects.filter(is_active=True, current_salary_level__isnull=False)
+    if region_param:
+        users = users.filter(region__region=region_param)
+    
+    for user in users:
         if user.current_salary_level in salary_levels:
             salary_levels[user.current_salary_level] += 1
 
@@ -178,7 +200,11 @@ def grade_level_stats(request):
 @api_view(['GET'])
 def admin_dashboard_summary(request):
     """Return summary stats for admin dashboard."""
-    stats = User.objects.filter(is_active=True).aggregate(
+    region_param = request.GET.get('region')
+    users = User.objects.filter(is_active=True)
+    if region_param:
+        users = users.filter(region__region=region_param)
+    stats = users.aggregate(
         num_of_users=Count('id'),
         num_of_females=Count('id', filter=Q(gender="Female")),
         num_of_males=Count('id', filter=Q(gender="Male")),
@@ -191,7 +217,11 @@ def admin_dashboard_summary(request):
 @api_view(['GET'])
 def all_users(request):
     """Return paginated list of all active users."""
-    users = User.objects.filter(is_active=True).order_by('first_name', 'last_name')
+    region_param = request.GET.get('region')
+    users = User.objects.filter(is_active=True)
+    if region_param:
+        users = users.filter(region__region=region_param)
+    users = users.order_by('first_name', 'last_name')
     paginator = PageNumberPagination()
     result_page = paginator.paginate_queryset(users, request)
     serializer = api_ses.UserSerializer(result_page, many=True)
@@ -200,7 +230,11 @@ def all_users(request):
 @api_view(['GET'])
 def all_users_to_excel(request):
     """Return all active users for Excel export."""
-    users = User.objects.filter(is_active=True).order_by('first_name', 'last_name')
+    region_param = request.GET.get('region')
+    users = User.objects.filter(is_active=True)
+    if region_param:
+        users = users.filter(region__region=region_param)
+    users = users.order_by('first_name', 'last_name')
     serializer = api_ses.UserSerializerToExcel(users, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -222,17 +256,6 @@ class UserUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = api_ses.UserUpdateSerializer
     lookup_field = 'pk'
     parser_classes = [MultiPartParser, FormParser, JSONParser]
-
-    def update(self, request, *args, **kwargs):
-        # Print incoming data
-        print("Incoming data:", request.data)
-
-        # Optionally, capture specific fields
-        region_input = request.data.get("region")
-        print("Region input:", region_input)
-
-        # Call the original update method to handle saving
-        return super().update(request, *args, **kwargs)
 
 class RegionList(generics.ListAPIView):
     """List all regions."""
@@ -331,6 +354,7 @@ def remove_user(request):
 def users_per_department(request):
     """Return paginated list of users filtered by department or other criteria."""
     dept = unquote(request.GET.get("dept", "")).strip()
+    region_param = unquote(request.GET.get("region", "")).strip()
     users = User.objects.none()
     filter_key = None
 
@@ -385,6 +409,9 @@ def users_per_department(request):
                         is_active=True
                     )
                 break
+
+        if region_param:
+            users = users.filter(region__region__iexact=region_param)
 
         paginator = PageNumberPagination()
         result_page = paginator.paginate_queryset(users, request)
@@ -413,6 +440,7 @@ def users_per_department(request):
 def users_per_department_no_pages(request):
     """Return non-paginated list of users filtered by department or other criteria."""
     dept = unquote(request.GET.get("dept", "")).strip()
+    region_param = unquote(request.GET.get("region", "")).strip()
     users = User.objects.none()
     filter_key = None
 
@@ -467,6 +495,9 @@ def users_per_department_no_pages(request):
                         is_active=True
                     )
                 break
+
+        if region_param:
+            users = users.filter(region__region__iexact=region_param)
 
         serializer = api_ses.UserSerializer(users, many=True)
         filtered_users = [

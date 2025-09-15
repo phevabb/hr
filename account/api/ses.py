@@ -156,6 +156,7 @@ class PasswordResetSerializer(serializers.Serializer):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
 
         # Construct reset link (frontend should handle actual reset form)
+        #  https://phevab1.pythonanywhere.com/
         reset_url = f"http://localhost:8080/password-reset-confirm/{uid}/{token}/"
 
         # Send email to the same user email stored in DB
