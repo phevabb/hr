@@ -90,12 +90,21 @@ WSGI_APPLICATION = 'A_sys.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
+
+# settings.py
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ahxrxvnjhzyiunkvauji',
+        'USER': 'fcmeqlpvapuuasadqlcg',
+        'PASSWORD': 'becfuglpsdgpbprgpsmqcwpbaunfxm',
+        'HOST': '9qasp5v56q8ckkf5dc.leapcellpool.com',
+        'PORT': '6438',
+        'OPTIONS': {'sslmode': 'require'}
     }
 }
+
 
 
 # Password validation
