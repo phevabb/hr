@@ -55,16 +55,24 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Security should come first
+    "django.middleware.security.SecurityMiddleware",
+
+    # WhiteNoise right after SecurityMiddleware
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
+    # CorsHeaders ideally before CommonMiddleware
+    "corsheaders.middleware.CorsMiddleware",
+
+    # Django’s standard middlewares
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 
 ROOT_URLCONF = 'A_sys.urls'
 
