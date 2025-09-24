@@ -587,7 +587,7 @@ class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True, db_index=True)
     
     marital_status = models.CharField(max_length=222, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
-    professional = models.CharField(max_length=50, choices=PROFESSIONAL_CHOICES, null=True, blank=True)
+    professional = models.CharField(max_length=222, choices=PROFESSIONAL_CHOICES, null=True, blank=True)
     current_salary_level = models.CharField(max_length=222, null=True, blank=True, choices=SALARY_LEVEL_RANGE)
     current_salary_point = models.CharField(max_length=222, null=True, blank=True, choices=POINT_CHOICES)
     next_salary_level = models.CharField(max_length=222, null=True, blank=True, choices=SALARY_LEVEL_RANGE)
@@ -624,14 +624,14 @@ class User(AbstractUser):
     ghana_card_number = models.CharField(max_length=222, unique=True, null=True, blank=True)
     social_security_number = models.CharField(max_length=222, unique=True, null=True, blank=True)
     national_health_insurance_number = models.CharField(max_length=222, unique=True, null=True, blank=True)
-    bank_name = models.CharField(max_length=50, null=True, blank=True)
-    bank_account_number = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    bank_name = models.CharField(max_length=222, null=True, blank=True)
+    bank_account_number = models.CharField(max_length=222, unique=True, null=True, blank=True)
     bank_account_branch = models.CharField(max_length=100, null=True, blank=True)
-    payroll_status = models.CharField(max_length=50, choices=(('ACTIVE (PAID)', 'ACTIVE (PAID)'), ('Inactive', 'Inactive'),
+    payroll_status = models.CharField(max_length=222, choices=(('ACTIVE (PAID)', 'ACTIVE (PAID)'), ('Inactive', 'Inactive'),
                                                               ('Suspended', 'Suspended')), null=True, blank=True)
     at_post_on_leave = models.CharField(max_length=222, choices=(('AT POST', 'AT POST'), ('ON LEAVE', 'ON LEAVE')),null=True, blank=True)
-    on_leave_type = models.CharField(max_length=50, blank=True, null=True, choices=ON_LEAVE_TYPE_CHOICES)
-    accommodation_status = models.CharField(max_length=50, choices=ACCOMMODATION_STATUS_CHOICES, null=True, blank=True)
+    on_leave_type = models.CharField(max_length=222, blank=True, null=True, choices=ON_LEAVE_TYPE_CHOICES)
+    accommodation_status = models.CharField(max_length=222, choices=ACCOMMODATION_STATUS_CHOICES, null=True, blank=True)
     supervisor_name = models.CharField(max_length=100, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     profile_picture = models.ImageField(

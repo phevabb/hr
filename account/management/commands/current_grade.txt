@@ -1,71 +1,294 @@
 from account.models import CurrentGrade
 
-grades = [
-    "IT/IM Officer",
-    "Assistant Information Officer",
-    "Higher Executive Officer",
-    "Stenographer Grade II",
-    "Senior Private Secretary",
-    "Revenue Inspector",
-    "Principal Stool Lands Inspector",
-    "Stool Lands Officer",
-    "Principal Stool Lands Officer",
-    "Assistant Stool Lands Officer",
-    "Assistant Director IIB",
-    "Chief Stool Lands Inspector",
-    "Stenographer Secretary",
-    "Senior Revenue Superintendent",
-    "Revenue Collector",
-    "Deputy Chief Stool Lands Inspector",
-    "Revenue Superintendent",
-    "Chief Revenue Superintendent",
-    "Records Officer",
-    "Stool Lands Inspector",
-    "Higher Revenue Inspector",
-    "Senior Stool Lands Officer",
-    "Yard Foreman",
-    "Deputy Director",
-    "Programme Officer",
-    "Deputy Stool Lands Inspector",
-    "Principal Revenue Superintendent",
-    "Deputy Chief Stool Lands Officer",
-    "Executive Officer",
-    "Accountant",
-    "Assistant Director IIA",
-    "Prin. Stool Lands Inspector",
-    "Principal Executive Officer",
-    "Assistant Accountant",
-    "Principal Accountant",
-    "Stenographer Grade I",
-    "Chief Accountant",
-    "Assistant Internal Auditor",
-    "Chief Executive Officer",
-    "Sanitary Labourer",
-    "Chief Headman Labourer",
-    "Senior Executive Officer",
-    "Watchman Night",
-    "Heavy Duty",
-    "Internal Auditor",
-    "Revenue",
-    "Assistant Chief Executive Officer",
-    "Chief Stool Lands Officer",
-    "Driver Grade III",
-    "Driver Grade II",
-    "Principal Account Technician",
-    "Procurement & Supply Chain Officer",
-    "Assistant Procurement & Supply Chain Manager",
-    "Driver Grade I",
-    "Assistant Chief Stool Lands Inspector",
-    "Senior Accountant",
-    "Ss11",
-    "Headman",
-    "Chief Headman",
-    "Administrator Of Stool Lands",
-    "Principal Procurement & Supply Chain Manager",
-]
+grades = """
+IT/IM Officer
+Assistant Information Officer
+Higher Executive Officer
+Stenographer Grade II
+Senior Private Secretary
+Revenue Inspector
+Principal Stool Lands Inspector
+Stool Lands Officer
+Revenue Inspector
+Senior Private Secretary
+Principal Stool Lands Officer
+Principal Stool Lands Officer
+Assistant Stool Lands Officer
+Assistant Director IIB
+Assistant Stool Lands Officer
+Chief Stool Lands Inspector
+Stool Lands Officer
+Stenographer Secretary
+Senior Revenue Superintendent
+Revenue Collector
+Deputy Chief Stool Lands Inspector
+Revenue Superintendent
+Revenue Superintendent
+Chief Revenue Superintendent
+Revenue Superintendent
+Chief Revenue Superintendent
+Revenue Inspector
+Revenue Inspector
+Revenue Superintendent
+Revenue Superintendent
+Revenue Inspector
+Records Officer
+Stool Lands Inspector
+Higher Revenue Inspector
+Senior Stool Lands Officer
+Yard Foreman
+Stool Lands Inspector
+Deputy Director
+Revenue Superintendent
+Programme Officer
+Deputy Stool Lands Inspector
+Principal Revenue Superintendent
+Principal Revenue Superintendent
+Chief Stool Lands Inspector
+Revenue Superintendent
+Senior Revenue Superintendent
+Deputy Chief Stool Lands Inspector
+Revenue Superintendent
+Stool Lands Inspector
+Stool Lands Inspector
+Revenue Inspector
+Executive Officer
+Revenue Inspector
+Deputy Chief Stool Lands Officer
+Stenographer Secretary
+Revenue Collector
+Revenue Superintendent
+Accountant
+Revenue Superintendent
+Revenue Superintendent
+Accountant
+Assistant Director IIA
+Prin. Stool Lands Inspector
+Chief Revenue Superintendent
+Chief Stool Lands Inspector
+Revenue Inspector
+Chief Stool Lands Inspector
+Revenue Inspector
+Senior Revenue Superintendent
+Principal Executive Officer
+Revenue Superintendent
+Revenue Superintendent
+Higher Revenue Superintendent
+Revenue Inspector
+Stool Lands Officer
+Deputy Chief Stool Lands Officer
+Revenue Collector
+Revenue Inspector
+Stenographer Secretary
+Chief Revenue Superintendent
+Senior Stool Lands Officer
+Assistant Stool Lands Officer
+Chief Stool Lands Inspector
+Revenue Collector
+Revenue Collector
+Higher Revenue Inspector
+Revenue Collector
+Senior Records Officer
+Revenue Superintendent
+Revenue Inspector
+Revenue Superintendent
+Chief Revenue Superintendent
+Deputy Chief Stool Lands Inspector
+Assistant Director IIB
+Private Secretary
+Revenue Inspector
+Stool Lands Inspector
+Stool Lands Inspector
+Chief Revenue Superintendent
+Stool Lands Inspector
+Revenue Superintendent
+Yard Foreman
+Stool Lands Inspector
+Assistant Stool Lands Officer
+Assistant Stool Lands Officer
+Revenue Inspector
+Revenue Inspector
+Assistant Accountant
+Principal Revenue Superintendent
+Principal Accountant
+Deputy Chief Stool Lands Officer
+Revenue Superintendent
+Chief Revenue Superintendent
+Stenographer Grade I
+Principal Revenue Superintendent
+Chief Accountant
+Principal Revenue Superintendent
+Deputy Chief Stool Lands Inspector
+Principal Stool Lands Inspector
+Deputy Chief Stool Lands Officer
+Chief Revenue Superintendent
+Principal Stool Lands Inspector
+Senior Revenue Superintendent
+Revenue Superintendent
+Revenue Inspector
+Assistant Internal Auditor
+Stool Lands Inspector
+Chief Executive Officer
+Revenue Inspector
+Deputy Chief Stool Lands Inspector
+Sanitary Labourer
+Chief Headman Labourer
+Stenographer Grade II
+Revenue Inspector
+Stool Lands Inspector
+Revenue Superintendent
+Senior Executive Officer
+Revenue Superintendent
+Revenue Inspector
+Principal Executive Officer
+Principal Revenue Superintendent
+Revenue Inspector
+Stool Lands Inspector
+Chief Revenue Superintendent
+Revenue Collector
+Stool Lands Inspector
+Watchman Night
+Senior Executive Officer
+Heavy Duty
+Chief Revenue Superintendent
+Accountant
+Assistant Accountant
+Chief Revenue Superintendent
+Revenue Inspector
+Revenue Inspector
+Assistant Stool Lands Officer
+Revenue Inspector
+Senior Revenue Superintendent
+Senior Revenue Superintendent
+Higher Revenue Inspector
+Revenue Inspector
+Revenue Inspector
+Senior Revenue Superintendent
+Revenue Collector
+Chief Revenue Superintendent
+Internal Auditor
+Chief Revenue Superintendent
+Deputy Chief Stool Lands Officer
+Revenue
+Principal Stool Lands Officer
+Revenue
+Assistant Chief Executive Officer
+Revenue
+Chief Stool Lands Inspector
+Revenue Inspector
+Stool Lands Officer
+Higher Revenue Inspector
+Principal Stool Lands Officer
+Stool Lands Inspector
+Revenue Superintendent
+Revenue Inspector
+Stool Lands Inspector
+Revenue
+Principal Stool Lands Officer
+Deputy Chief Stool Lands Officer
+Yard Foreman
+Driver Grade III
+Revenue Superintendent
+Principal Revenue Superintendent
+Revenue Inspector
+Senior Revenue Superintendent
+Revenue Inspector
+Higher Revenue Inspector
+Revenue Superintendent
+Chief Revenue Superintendent
+Driver Grade II
+Revenue Inspector
+Senior Revenue Superintendent
+Yard Foreman
+Senior Revenue Superintendent
+Principal Stool Lands Inspector
+Chief Stool Lands Inspector
+Chief Stool Lands Officer
+Stool Lands Inspector
+Stool Lands Inspector
+Principal Account Technician
+Assistant Stool Lands Officer
+Assistant Accountant
+Chief Revenue Superintendent
+Procurement & Supply Chain Officer
+Driver Grade II
+Principal Stool Lands Inspector
+Principal Stool Lands Officer
+Assistant Procurement & Supply Chain Manager
+Principal Accountant
+Driver Grade I
+Revenue Superintendent
+Senior Revenue Superintendent
+Stool Lands Inspector
+Higher Revenue Inspector
+Chief Stool Lands Officer
+Principal Accountant
+Assistant Chief Stool Lands Inspector
+Chief Revenue Superintendent
+Revenue Inspector
+Chief Stool Lands Officer
+Deputy Chief Stool Lands Inspector
+Senior Accountant
+Revenue Superintendent
+Revenue Superintendent
+Ss11
+Revenue
+Headman
+Deputy Chief Stool Lands Officer
+Revenue Superintendent
+Accountant
+Assistant Stool Lands Officer
+Revenue Superintendent
+Chief Stool Lands Officer
+Higher Revenue Inspector
+Revenue Superintendent
+Senior Revenue Superintendent
+Yard Foreman
+Chief Stool Lands Inspector
+Senior Stool Lands Officer
+Senior Revenue Superintendent
+Revenue Superintendent
+Senior Revenue Superintendent
+Chief Revenue Superintendent
+Assistant Stool Lands Officer
+Revenue Superintendent
+Assistant Stool Lands Officer
+Revenue Superintendent
+Revenue Inspector
+Chief Revenue Superintendent
+Deputy Chief Stool Lands Officer
+Revenue Superintendent
+Yard Foreman
+Chief Revenue Superintendent
+Deputy Chief Stool Lands Officer
+Chief Headman
+Senior Stool Lands Officer
+Chief Revenue Superintendent
+Chief Revenue Superintendent
+Principal Stool Lands Inspector
+Senior Revenue Superintendent
+Revenue Superintendent
+Chief Revenue Superintendent
+Chief Headman Labourer
+Principal Accountant
+Chief Revenue Superintendent
+Revenue Superintendent
+Chief Revenue Superintendent
+Higher Revenue Inspector
+Revenue Superintendent
+Revenue Inspector
+Higher Revenue Inspector
+Revenue Inspector
+Administrator Of Stool Lands
+Deputy Chief Stool Lands Officer
+Principal Procurement & Supply Chain Manager
+"""
 
-for g in grades:
-    CurrentGrade.objects.get_or_create(current_grade=g)
+# Remove duplicates + clean whitespace
+unique_grades = sorted(set(line.strip() for line in grades.splitlines() if line.strip()))
 
-print("✅ Current Grades inserted successfully!")
-print(len(grades), "unique grades added.")
+# Insert into DB
+for grade in unique_grades:
+    CurrentGrade.objects.get_or_create(current_grade=grade)
+
+print("Inserted:", len(unique_grades), "unique CurrentGrades")

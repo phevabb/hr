@@ -1,17 +1,20 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import UserRemovalLog, User, Department, Classes, CurrentGrade, ManagementUnit, Region, Districts, ChangeOfGrade, AcademicQualification
+from .models import UserRemovalLog, NextGrade, User, Department, Classes, CurrentGrade, ManagementUnit, Region, Districts, ChangeOfGrade, AcademicQualification
 
 
-#@admin.register(ChangeOfGrade)
-#class ChangeOfGradeAdmin(admin.ModelAdmin):
-#    list_display = ('grade',)
-#    search_fields = ('grade',)
+@admin.register(NextGrade)
+class NextGradeAdmin(admin.ModelAdmin):
+    list_display = ('next_grade',)
+    search_fields = ('next_grade',)
 
 
+@admin.register(Districts)
+class DistrictsAdmin(admin.ModelAdmin):
+    list_display = ('district',)
+    search_fields = ('district',)
 
 
-admin.site.register(Districts)
 
 #@admin.register(Region)
 ##class RegionAdmin(admin.ModelAdmin):
@@ -135,3 +138,11 @@ class CustomUserAdmin(UserAdmin):
             ),
         }),
     )
+
+
+from django.contrib import admin
+
+# Change admin titles
+admin.site.site_header = "Stoollands Admin"
+admin.site.site_title = "Stoollands Portal"
+admin.site.index_title = "Welcome to Stoollands Dashboard"
