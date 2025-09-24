@@ -146,15 +146,3 @@ admin.site.site_header = "Stoollands Admin"
 admin.site.site_title = "Stoollands Portal"
 admin.site.index_title = "Welcome to Stoollands Dashboard"
 
-# account/admin.py
-# account/admin.py
-from django.contrib import admin
-from django.contrib.auth import views as auth_views
-from .forms import AllowInactiveAuthenticationForm
-
-# Override the login view with custom form and template
-admin.site.login = auth_views.LoginView.as_view(
-    authentication_form=AllowInactiveAuthenticationForm,
-    template_name="admin/login.html"  # force Django to use the admin login template
-)
-
