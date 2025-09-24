@@ -5,6 +5,25 @@ from .models import User
 
 
 
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate
+
+class AllowInactiveAuthenticationForm(AuthenticationForm):
+    def confirm_login_allowed(self, user):
+        """
+        Override default behavior: do not block inactive users
+        """
+        if not user.is_staff:
+            raise forms.ValidationError(
+                "This account does not have admin access.",
+                code="no_admin_access",
+            )
+        # Notice: We do NOT check user.is_active here
+
+
+
+
+
 departments_choice = (
     ('Admin', "Admin"),  ('Manager',"Manager"), ("Staff", "Staff"),
 )

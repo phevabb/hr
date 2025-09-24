@@ -140,9 +140,19 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
-from django.contrib import admin
 
 # Change admin titles
 admin.site.site_header = "Stoollands Admin"
 admin.site.site_title = "Stoollands Portal"
 admin.site.index_title = "Welcome to Stoollands Dashboard"
+
+# account/admin.py
+
+from django.contrib.auth import views as auth_views
+from django.urls import path
+from .forms import AllowInactiveAuthenticationForm
+
+# Override the login view with custom form
+admin.site.login = auth_views.LoginView.as_view(
+    authentication_form=AllowInactiveAuthenticationForm
+)
