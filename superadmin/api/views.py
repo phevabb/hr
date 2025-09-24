@@ -224,12 +224,12 @@ class UserUpdateAPIView(generics.RetrieveUpdateAPIView):
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def update(self, request, *args, **kwargs):
-        # Print incoming data
-        print("Incoming data:", request.data)
+
+       
 
         # Optionally, capture specific fields
         region_input = request.data.get("region")
-        print("Region input:", region_input)
+     
 
         # Call the original update method to handle saving
         return super().update(request, *args, **kwargs)

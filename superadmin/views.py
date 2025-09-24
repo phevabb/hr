@@ -135,8 +135,8 @@ def index(request):
             try:
                 senior_junior_staff[user.staff_category] += 1
             except Exception as e:
-                print(f"Error processing user: {user} with staff_category: {user.staff_category}")
-                print(f"Exception: {e}")
+                pass 
+         
 
     senior_junior_staff_keys = list(senior_junior_staff.keys())
     senior_junior_staff_values = list(senior_junior_staff.values())
@@ -179,7 +179,7 @@ def index(request):
 
 
         except Exception as e:
-            print(f"the full time problem: {e} {user}")
+           pass
 
 
 
@@ -198,8 +198,7 @@ def index(request):
                 on_leave_count[user.on_leave_type] += 1
 
         except ValueError:
-            print(f"Invalid salary level: {user.on_leave_type} {user}")
-
+            pass
 
 
 
@@ -312,7 +311,7 @@ def index(request):
                     salary_range_counts['SS.21+'] += 1
 
             except ValueError:
-                print(f"Invalid salary level: {user.current_salary_level}")
+                pass 
 
 
 
@@ -413,7 +412,7 @@ from account.models import Department, Classes, ManagementUnit
 
 def users_by_department(request):
     dept = request.GET.get("dept", "")
-    print(dept)
+
 
     # get list of all department names
     total_dpts = Department.objects.values_list("department_name", flat=True)
