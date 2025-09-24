@@ -9,11 +9,9 @@ from .models import UserRemovalLog, User, Department, Classes, CurrentGrade, Man
 #    search_fields = ('grade',)
 
 
-#@admin.register(Districts)
-#class DistrictsAdmin(admin.ModelAdmin):
-#    list_display = ('district',)
-#    search_fields = ('district',)
 
+
+admin.site.register(Districts)
 
 #@admin.register(Region)
 ##class RegionAdmin(admin.ModelAdmin):

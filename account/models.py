@@ -39,6 +39,7 @@ class Region(models.Model):
         verbose_name = 'Region'
     def __str__(self):
         return self.region
+    
 
 class Districts(models.Model):
     district = models.CharField(max_length=120)
@@ -575,21 +576,21 @@ class User(AbstractUser):
     management_unit_cost_centre = models.ForeignKey( ManagementUnit, on_delete=models.SET_NULL, blank=True, null=True,  related_name = 'management_unitt')
 
 
-    user_id = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    title = models.CharField(max_length=20, choices=TITLE_CHOICES, null=True, blank=True)
-    first_name = models.CharField(max_length=20, null=True, blank=True)
-    last_name = models.CharField(max_length=20, null=True, blank=True)
-    middle_name = models.CharField(max_length=20, null=True, blank=True)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True)
-    maiden_name = models.CharField(max_length=20, null=True, blank=True)
-    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, null=True, blank=True)
+    user_id = models.CharField(max_length=222, unique=True, null=True, blank=True)
+    title = models.CharField(max_length=222, choices=TITLE_CHOICES, null=True, blank=True)
+    first_name = models.CharField(max_length=222, null=True, blank=True)
+    last_name = models.CharField(max_length=222, null=True, blank=True)
+    middle_name = models.CharField(max_length=222, null=True, blank=True)
+    role = models.CharField(max_length=222, choices=ROLE_CHOICES, null=True, blank=True)
+    maiden_name = models.CharField(max_length=222, null=True, blank=True)
+    gender = models.CharField(max_length=222, choices=GENDER_CHOICES, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True, db_index=True)
     
-    marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
+    marital_status = models.CharField(max_length=222, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
     professional = models.CharField(max_length=50, choices=PROFESSIONAL_CHOICES, null=True, blank=True)
-    current_salary_level = models.CharField(max_length=20, null=True, blank=True, choices=SALARY_LEVEL_RANGE)
-    current_salary_point = models.CharField(max_length=20, null=True, blank=True, choices=POINT_CHOICES)
-    next_salary_level = models.CharField(max_length=20, null=True, blank=True, choices=SALARY_LEVEL_RANGE)
+    current_salary_level = models.CharField(max_length=222, null=True, blank=True, choices=SALARY_LEVEL_RANGE)
+    current_salary_point = models.CharField(max_length=222, null=True, blank=True, choices=POINT_CHOICES)
+    next_salary_level = models.CharField(max_length=222, null=True, blank=True, choices=SALARY_LEVEL_RANGE)
     
     date_of_assumption_of_duty = models.DateField(null=True, blank=True)
     
@@ -607,7 +608,7 @@ class User(AbstractUser):
     academic_qualifications = models.ManyToManyField(AcademicQualification, blank=True)
 
     professional_qualification = models.CharField(max_length=100, null=True, blank=True)
-    staff_category = models.CharField(max_length=20, choices=STAFF_CHOICES, null=True, blank=True)
+    staff_category = models.CharField(max_length=222, choices=STAFF_CHOICES, null=True, blank=True)
 
     single_spine_monthly_salary = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
     monthly_gross_pay = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
@@ -619,16 +620,16 @@ class User(AbstractUser):
     number_of_targets_not_met = models.IntegerField(null=True, blank=True)
     overall_assessment_score = models.DecimalField(decimal_places=2, max_digits=5, null=True, blank=True)
     self_assessment_description = models.TextField(null=True, blank=True)
-    phone_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    ghana_card_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    social_security_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    national_health_insurance_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=222, unique=True, null=True, blank=True)
+    ghana_card_number = models.CharField(max_length=222, unique=True, null=True, blank=True)
+    social_security_number = models.CharField(max_length=222, unique=True, null=True, blank=True)
+    national_health_insurance_number = models.CharField(max_length=222, unique=True, null=True, blank=True)
     bank_name = models.CharField(max_length=50, null=True, blank=True)
     bank_account_number = models.CharField(max_length=50, unique=True, null=True, blank=True)
     bank_account_branch = models.CharField(max_length=100, null=True, blank=True)
     payroll_status = models.CharField(max_length=50, choices=(('ACTIVE (PAID)', 'ACTIVE (PAID)'), ('Inactive', 'Inactive'),
                                                               ('Suspended', 'Suspended')), null=True, blank=True)
-    at_post_on_leave = models.CharField(max_length=20, choices=(('AT POST', 'AT POST'), ('ON LEAVE', 'ON LEAVE')),null=True, blank=True)
+    at_post_on_leave = models.CharField(max_length=222, choices=(('AT POST', 'AT POST'), ('ON LEAVE', 'ON LEAVE')),null=True, blank=True)
     on_leave_type = models.CharField(max_length=50, blank=True, null=True, choices=ON_LEAVE_TYPE_CHOICES)
     accommodation_status = models.CharField(max_length=50, choices=ACCOMMODATION_STATUS_CHOICES, null=True, blank=True)
     supervisor_name = models.CharField(max_length=100, null=True, blank=True)

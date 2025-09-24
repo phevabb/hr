@@ -1,0 +1,28 @@
+from account.models import Classes
+
+classes = [
+    "Information Technology Class",
+    "Information Class",
+    "Executive Class",
+    "Secretarial Class",
+    "Stool Lands Revenue Class",
+    "Stool Lands Class",
+    "Revenue Class",
+    "Administrative Class",
+    "Stool Lands Inspectors Class",
+    "Records Class",
+    "Drivers Class",
+    "Programme Class",
+    "Accounts Class",
+    "Audit Class",
+    "Sanitation Class",
+    "Security Class",
+    "Procurement Class",
+    "Labourers Class",
+]
+
+for c in classes:
+    Classes.objects.get_or_create(classes_name=c)
+
+print("✅ Classes inserted successfully!")
+print(list(Classes.objects.values_list("classes_name", flat=True)))
