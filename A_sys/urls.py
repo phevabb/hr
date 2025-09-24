@@ -23,10 +23,8 @@ from account.api.views import PasswordResetConfirmView, UserLoginView, UserLogou
 
 
 urlpatterns = [
-    path('admin/logout/', auth_views.LogoutView.as_view(next_page='/admin/login/'), name='admin-logout'),
-    path('admin/login/', auth_views.LoginView.as_view(), name='admin-login'),
-
-
+    path('admin/logout/', auth_views.LogoutView.as_view(next_page='/admin/login/?next=/admin/'), name='admin-logout'),
+    
     path('admin/', admin.site.urls),
     path('', include('account.urls',)),
     path('superadmin/', include('superadmin.urls' , namespace='superadmin')),
