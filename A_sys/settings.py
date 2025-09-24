@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-import cloudinary_storage
+
 from pathlib import Path
 import os
 
@@ -186,12 +186,17 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
 }
 
+import cloudinary_storage 
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"  # or os.path.join(BASE_DIR, 'media')
 
 
 LOGIN_REDIRECT_URL = '/admin/'
+
+# Leave STATIC files as default (not Cloudinary)
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
