@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import cloudinary_storage
 from pathlib import Path
 import os
 
@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary',
+    'cloudinary_storage',
     'jazzmin', # third party
 
     'django.contrib.admin',
@@ -191,5 +193,11 @@ MEDIA_ROOT = BASE_DIR / "media"  # or os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = '/admin/'
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dtbx9zfg6',
+    'API_KEY': '737977856893919',
+    'API_SECRET': 'e8hhcIGJNiGGEB1bsbsqmz1OoG4',
+}
 
