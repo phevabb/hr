@@ -1,0 +1,18 @@
+.land-image {
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px 0 0 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    /* Removed fixed height and added responsive height */
+    height: 80vh; /* Reduced from 100vh to 80vh */
+    margin-top: 10vh; /* Centers the reduced height vertically */
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .land-image {
+        height: 300px; /* Fixed height for mobile */
+        margin-top: 0;
+        border-radius: 10px 10px 0 0;
+    }
+}

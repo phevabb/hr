@@ -10,6 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import cloudinary_storage
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dshe6c8db',
+    'API_KEY': '213798122585258',
+    'API_SECRET': 'ItL4DmcjTlTtAbdffHgwOrxBLPA',
+}
 from pathlib import Path
 import os
 
@@ -24,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-cbwl-bl0)=)z#-=zm1jn@yil@uh932v=&lir4yarb!(5!y395t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -32,6 +41,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
 
     'jazzmin', # third party
 
@@ -54,8 +64,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    
     'cloudinary',
     'cloudinary_storage',
+
 ]
 MIDDLEWARE = [
     # Security should come first
@@ -187,7 +199,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
 }
 
-import cloudinary_storage 
+
 
 MEDIA_URL = "/media/"
 # MEDIA_ROOT = BASE_DIR / "media"  # or os.path.join(BASE_DIR, 'media')
