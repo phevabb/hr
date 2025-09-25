@@ -634,11 +634,13 @@ class User(AbstractUser):
     accommodation_status = models.CharField(max_length=222, choices=ACCOMMODATION_STATUS_CHOICES, null=True, blank=True)
     supervisor_name = models.CharField(max_length=100, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
+    
     profile_picture = models.ImageField(
-        upload_to="profile_pics/",  # Folder inside MEDIA_ROOT
+        upload_to="profile_pics/",  
         blank=True,
         null=True
     )
+    
     standard_retirement_age = 60
     USERNAME_FIELD = "user_id"
     REQUIRED_FIELDS = []  # No required fields

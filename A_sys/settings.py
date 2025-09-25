@@ -32,8 +32,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'cloudinary',
-    'cloudinary_storage',
+
     'jazzmin', # third party
 
     'django.contrib.admin',
@@ -55,6 +54,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 MIDDLEWARE = [
     # Security should come first
@@ -189,20 +190,11 @@ REST_FRAMEWORK = {
 import cloudinary_storage 
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"  # or os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = BASE_DIR / "media"  # or os.path.join(BASE_DIR, 'media')
 
 
 LOGIN_REDIRECT_URL = '/admin/'
-
-# Leave STATIC files as default (not Cloudinary)
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dtbx9zfg6',
-    'API_KEY': '737977856893919',
-    'API_SECRET': 'e8hhcIGJNiGGEB1bsbsqmz1OoG4',
-}
 
