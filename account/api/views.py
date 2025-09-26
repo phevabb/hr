@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
 from .ses import UserLoginSerializer, ChangePasswordSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer
-
+from rest_framework.permissions import AllowAny
 User = get_user_model()
  
 
@@ -20,6 +20,7 @@ class PasswordResetConfirmView(APIView):
 
 
 class UserLoginView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
     serializer_class = UserLoginSerializer
 
     def post(self, request, *args, **kwargs):
