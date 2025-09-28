@@ -29,7 +29,7 @@ class ManagerProfile(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user.get_full_name} - {self.region}"
+        return f"{self.user.get_full_name()} - {self.region}"
 
 
 
