@@ -172,7 +172,8 @@ class PasswordResetSerializer(serializers.Serializer):
 
             # Choose environment reset URL
             # Production
-            reset_url = f"https://lands-ui.vercel.app/password-reset/confirm/{uid}/{token}/" # should always point to frontend
+            reset_url = f"https://lands-ui.vercel.app/password-reset-confirm/{uid}/{token}/"
+            #reset_url = f"https://lands-ui.vercel.app/password-reset/confirm/{uid}/{token}/" # should always point to frontend
 
 
             #reset_url = f"https://lands-ui.vercel.app/password-reset-confirm/{uid}/{token}/"
