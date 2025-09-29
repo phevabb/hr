@@ -172,10 +172,10 @@ class PasswordResetSerializer(serializers.Serializer):
 
             # Choose environment reset URL
             # Production
-            reset_url = f"https://hr-phevabb2997-bydwn27j.leapcell.dev/api/v1/auth/password-reset/confirm/{uid}/{token}/"
+            reset_url = f"https://lands-ui.vercel.app/password-reset/confirm/{uid}/{token}/" # should always point to frontend
 
 
-            #reset_url = f"https://hr-phevabb2997-bydwn27j.leapcell.dev/password-reset-confirm/{uid}/{token}/"
+            #reset_url = f"https://lands-ui.vercel.app/password-reset-confirm/{uid}/{token}/"
             # Localhost (uncomment to use locally)
             # reset_url = f"http://localhost:8080/password-reset-confirm/{uid}/{token}/"
 
