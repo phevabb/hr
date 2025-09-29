@@ -47,7 +47,7 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         user = self.validated_data["user"]
         user.set_password(password)
         user.save()
-        return user
+        return {"detail": "Password has been reset successfully."}
 
 class UserLoginSerializer(serializers.Serializer):
     staff_department = serializers.CharField(
@@ -172,11 +172,11 @@ class PasswordResetSerializer(serializers.Serializer):
 
             # Choose environment reset URL
             # Production
-            reset_url = f"https://lands-ui.vercel.app/password-reset-confirm/{uid}/{token}/"
-            #reset_url = f"https://lands-ui.vercel.app/password-reset/confirm/{uid}/{token}/" # should always point to frontend
+            reset_url = f"https://lands-ui.vercel.app/password-reset-confirm/{uid}/{token}/" # should always point to frontend
 
 
-            #reset_url = f"https://lands-ui.vercel.app/password-reset-confirm/{uid}/{token}/"
+
+          
             # Localhost (uncomment to use locally)
             # reset_url = f"http://localhost:8080/password-reset-confirm/{uid}/{token}/"
 

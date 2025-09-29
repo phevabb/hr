@@ -11,33 +11,52 @@ from rest_framework import generics, status
 from django.core.exceptions import ObjectDoesNotExist
 User = get_user_model()
  
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status, permissions
+from .ses import PasswordResetConfirmSerializer
 
 class PasswordResetConfirmView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.AllowAny]
 
-    def post(self, request, uidb64, token, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
+        print("UserLoginView called")  # Debug log
+        print("Incoming request data:", request.data)  # Debug log
         data = {
-            "uid": uidb64,
-            "token": token,
-            "new_password": request.data.get("new_password"),
+            "uidb64": request.data.get("uidb64"),
+            "token": request.data.get("token"),
+            "new_password1": request.data.get("new_password1"),
+            "new_password2": request.data.get("new_password2"),
         }
+
+        print("Payload passed to serializer:", data)  
         serializer = PasswordResetConfirmSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {"detail": "Password has been reset successfully."},
-                status=status.HTTP_200_OK,
-            )
+            try:
+                result = serializer.save()
+                print("Serializer save result:", result) 
+                return Response(
+                    result,  # Serializer returns {"detail": "Password has been reset successfully."}
+                    status=status.HTTP_200_OK,
+                )
+            except Exception as e:
+                print("Exception during save:", str(e))  
+                return Response(
+                    {"detail": f"An error occurred while resetting the password: {str(e)}"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+        else:
+            print("Serializer errors:", serializer.errors)  # <--- this will tell us the reason
+       
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 class UserLoginView(generics.GenericAPIView):
     permission_classes = [AllowAny]
     serializer_class = UserLoginSerializer
 
     def post(self, request, *args, **kwargs):
+        
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']

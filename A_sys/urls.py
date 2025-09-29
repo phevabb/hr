@@ -24,28 +24,17 @@ from account.api.views import PasswordResetConfirmView, UserLoginView, UserLogou
 
 urlpatterns = [
     path('admin/logout/', auth_views.LogoutView.as_view(next_page='/admin/login/?next=/admin/'), name='admin-logout'),
-    
     path('admin/', admin.site.urls),
-    path('', include('account.urls',)),
-    path('superadmin/', include('superadmin.urls' , namespace='superadmin')),
-    path('manager/', include('manager.urls' , namespace='manager')),
-    path('staff/', include('staff.urls' , namespace='staff')),
-
-    #APIS (registration, login, logout, password change, password reset)
+    path('', include('account.urls')),
+    path('superadmin/', include('superadmin.urls', namespace='superadmin')),
+    path('manager/', include('manager.urls', namespace='manager')),
+    path('staff/', include('staff.urls', namespace='staff')),
+    # APIs
     path('api/v1/auth/login', UserLoginView.as_view(), name='login_user'),
     path('api/v1/auth/logout', UserLogoutView.as_view(), name='logout_user'),
     path('api/v1/auth/change-password', ChangePasswordView.as_view(), name='change-password'),
-
-
-    path("api/v1/auth/password-reset", PasswordResetView.as_view(), name="password-reset"), # 1
-    path(
-    'api/v1/auth/password-reset/confirm/<uidb64>/<token>/',
-    PasswordResetConfirmView.as_view(),
-    name='password_reset_confirm'
-)
-
-   # path('api/v1/auth/password-reset/confirm', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-
+    path('api/v1/auth/password-reset', PasswordResetView.as_view(), name='password_reset'),
+    path('api/v1/auth/password-reset/confirm', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
