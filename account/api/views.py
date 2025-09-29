@@ -2,11 +2,13 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
-from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+from .ses import PasswordResetSerializer
 from django.contrib.auth import get_user_model
 from .ses import UserLoginSerializer, ChangePasswordSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer
 from rest_framework.permissions import AllowAny
+from rest_framework import generics, status
+from django.core.exceptions import ObjectDoesNotExist
 User = get_user_model()
  
 
@@ -21,10 +23,7 @@ class PasswordResetConfirmView(APIView):
 
 
 
-from rest_framework import generics, status
-from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from django.core.exceptions import ObjectDoesNotExist
+
 
 class UserLoginView(generics.GenericAPIView):
     permission_classes = [AllowAny]
@@ -105,13 +104,10 @@ class ChangePasswordView(APIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status, permissions
-import logging
 
-# Set up logging
-logger = logging.getLogger(__name__)
+
+
+
 
 class PasswordResetView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -123,10 +119,8 @@ class PasswordResetView(APIView):
                 result = serializer.save(request)
                 return Response(result, status=status.HTTP_200_OK)
             except Exception as e:
-                logger.error(f"Error in PasswordResetView: {str(e)}", exc_info=True)
                 return Response(
                     {"detail": "An error occurred while processing your request."},
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
-        logger.debug(f"Validation errors: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
