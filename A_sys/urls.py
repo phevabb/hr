@@ -35,8 +35,12 @@ urlpatterns = [
     path('api/v1/auth/login', UserLoginView.as_view(), name='login_user'),
     path('api/v1/auth/logout', UserLogoutView.as_view(), name='logout_user'),
     path('api/v1/auth/change-password', ChangePasswordView.as_view(), name='change-password'),
-    path("api/v1/auth/password-reset", PasswordResetView.as_view(), name="password-reset"),
-    path("api/v1/auth/password-reset/confirm", PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+
+
+    path("api/v1/auth/password-reset", PasswordResetView.as_view(), name="password-reset"), # 1
+
+    path('api/v1/auth/password-reset/confirm', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

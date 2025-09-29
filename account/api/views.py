@@ -11,6 +11,7 @@ User = get_user_model()
  
 
 class PasswordResetConfirmView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
         serializer = PasswordResetConfirmSerializer(data=request.data)
         if serializer.is_valid():
@@ -18,6 +19,12 @@ class PasswordResetConfirmView(APIView):
             return Response({"detail": "Password has been reset successfully."}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+from django.core.exceptions import ObjectDoesNotExist
 
 class UserLoginView(generics.GenericAPIView):
     permission_classes = [AllowAny]
@@ -35,34 +42,47 @@ class UserLoginView(generics.GenericAPIView):
             "id": user.id,
             "role": user.role,
             "full_name": user.full_name,
-            "user_id": user.user_id,
+            "user_id": getattr(user, 'user_id', None),  # Handle if user_id is optional
         }
 
         # Region mapping
         REGION_CHOICES = [
-            'AHAFO', 'ASHANTI', 'BONO & BONO EAST', 'CENTRAL', 'EASTERN', 
-            'GREATER ACCRA', 'HEAD OFFICE', 'NORTHERN', 'UPPER EAST', 
+            'AHAFO', 'ASHANTI', 'BONO & BONO EAST', 'CENTRAL', 'EASTERN',
+            'GREATER ACCRA', 'HEAD OFFICE', 'NORTHERN', 'UPPER EAST',
             'WESTERN', 'Greater Accra', 'WESTERN NORTH'
         ]
 
         if user.role == "Manager":
-            region_name = None
-            region_id = None
-            if hasattr(user, "manager_profile") and user.manager_profile.region:
-                region_name = user.manager_profile.region
-                # Use index in REGION_CHOICES as a pseudo-ID
-                region_id = REGION_CHOICES.index(region_name) + 1
+            if not hasattr(user, "manager_profile") or not user.manager_profile:
+                return Response(
+                    {"error": "Manager profile not found. Please contact Head Office to assign you a region."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            if not user.manager_profile.region:
+                return Response(
+                    {"error": "Manager profile not found. Please contact Head Office to assign you a region."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            region_name = user.manager_profile.region
 
+            try:
+                region_id = REGION_CHOICES.index(region_name.upper()) + 1  # Case-insensitive match
+            except ValueError:
+                return Response(
+                    {"error": f"Invalid region: {region_name} not in REGION_CHOICES."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             user_data["region"] = region_name
             user_data["region_id"] = region_id
 
-        return Response(
-            {
-                "token": token.key,
-                "user": user_data,
-            },
-            status=status.HTTP_200_OK,
-        )
+        response_data = {
+            "token": token.key,
+            "user": user_data,
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
+
+
 
 class UserLogoutView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -85,10 +105,28 @@ class ChangePasswordView(APIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status, permissions
+import logging
+
+# Set up logging
+logger = logging.getLogger(__name__)
+
 class PasswordResetView(APIView):
+    permission_classes = [permissions.AllowAny]
+
     def post(self, request, *args, **kwargs):
         serializer = PasswordResetSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(request)
-            return Response({"detail": "Password reset link sent."}, status=status.HTTP_200_OK)
+            try:
+                result = serializer.save(request)
+                return Response(result, status=status.HTTP_200_OK)
+            except Exception as e:
+                logger.error(f"Error in PasswordResetView: {str(e)}", exc_info=True)
+                return Response(
+                    {"detail": "An error occurred while processing your request."},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+        logger.debug(f"Validation errors: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

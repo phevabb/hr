@@ -179,6 +179,27 @@ AUTH_USER_MODEL = 'account.User'
 
 #  email configurtion
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
 
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "phevab1@gmail.com"

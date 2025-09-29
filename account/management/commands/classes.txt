@@ -24,5 +24,3 @@ classes = [
 for c in classes:
     Classes.objects.get_or_create(classes_name=c)
 
-print("✅ Classes inserted successfully!")
-print(list(Classes.objects.values_list("classes_name", flat=True)))
