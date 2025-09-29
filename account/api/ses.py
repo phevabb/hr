@@ -137,68 +137,66 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 
 
+
+
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
+from rest_framework import serializers
 
 
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
     def validate_email(self, value):
+        """
+        Validate that the email exists in the database.
+        """
         try:
             User.objects.get(email=value)
         except User.DoesNotExist:
+            # Even if the email doesn't exist, return a generic message for security
             pass
         return value
 
     def save(self, request):
         email = self.validated_data["email"]
+
         try:
             user = User.objects.get(email=email)
+
+            # Generate UID and token for the actual user
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
 
-            # http://127.0.0.1:8000/
-            # https://hr-phevabb2997-bydwn27j.leapcell.dev/
+            # Choose environment reset URL
+            # Production
+            reset_url = f"https://hr-phevabb2997-bydwn27j.leapcell.dev/password-reset-confirm/{uid}/{token}/"
+            # Localhost (uncomment to use locally)
+            # reset_url = f"http://localhost:8080/password-reset-confirm/{uid}/{token}/"
 
-            reset_url = "https://hr-phevabb2997-bydwn27j.leapcell.dev/api/v1/auth/password-reset/confirm"
-            try:
-                send_mail(
-                    subject="Password Reset Request",
-                    message=(
-                        f"Hi,\n\n"
-                        f"We received a request to reset your password. "
-                        f"Please send a POST request to the following URL with the provided UID, token, and your new password:\n\n"
-                        f"URL: {reset_url}\n"
-                        f"UID: {uid}\n"
-                        f"Token: {token}\n\n"
-                        f"Example JSON payload:\n"
-                        f"{{\n"
-                        f"  \"uid\": \"{uid}\",\n"
-                        f"  \"token\": \"{token}\",\n"
-                        f"  \"new_password\": \"your_new_password\"\n"
-                        f"}}\n\n"
-                        f"If you didn’t request this, you can ignore this email."
-                    ),
-                    from_email="phevab1@gmail.com",
-                    recipient_list=[email],
-                    fail_silently=False,
-                )
-            except Exception as e:
-                # Optionally notify admins
-                # from django.core.mail import mail_admins
-                # mail_admins(
-                #     subject="Password Reset Email Failure",
-                #     message=f"Failed to send password reset email to {email}: {str(e)}",
-                #     fail_silently=True,
-                # )
-                pass
+            # Send email
+            send_mail(
+                subject="Password Reset Request",
+                message=(
+                    f"Hi,\n\n"
+                    f"We received a request to reset your password. "
+                    f"Click the link below to reset it:\n\n{reset_url}\n\n"
+                    f"If you didn’t request this, you can ignore this email."
+                ),
+                from_email="phevab1@gmail.com",
+                recipient_list=[email],
+                fail_silently=False,
+            )
+
         except User.DoesNotExist:
+            # If the user doesn't exist, skip sending the email but return the same response
             pass
         except Exception as e:
-            raise
+            raise  # Let the view handle unexpected errors
+
+        # Always return a generic response to avoid leaking whether the email exists
         return {
             "detail": "If this email exists, you’ll receive a password reset link. "
                       "If you didn’t request this, you can ignore the email."
