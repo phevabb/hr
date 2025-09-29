@@ -38,8 +38,13 @@ urlpatterns = [
 
 
     path("api/v1/auth/password-reset", PasswordResetView.as_view(), name="password-reset"), # 1
+    path(
+    'api/v1/auth/password-reset/confirm/<uidb64>/<token>/',
+    PasswordResetConfirmView.as_view(),
+    name='password_reset_confirm'
+)
 
-    path('api/v1/auth/password-reset/confirm', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+   # path('api/v1/auth/password-reset/confirm', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 
 ]
 
