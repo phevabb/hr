@@ -1,0 +1,18 @@
+from account.models import Region
+
+regions = [
+    "HEAD OFFICE",
+    "AHAFO",
+    "WESTERN",
+    "BONO & BONO EAST",
+    "CENTRAL",
+    "ASHANTI",
+    "EASTERN",
+    "WESTERN NORTH",
+    "GREATER ACCRA",
+    "UPPER EAST",
+    "NORTHERN",
+]
+
+for c in regions:
+    Region.objects.get_or_create(region=c)

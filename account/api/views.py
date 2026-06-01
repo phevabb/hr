@@ -109,7 +109,6 @@ class UserLoginView(generics.GenericAPIView):
         return Response(response_data, status=status.HTTP_200_OK)
 
 
-
 class UserLogoutView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request, *args, **kwargs):
@@ -130,10 +129,6 @@ class ChangePasswordView(APIView):
             serializer.errors, 
             status=status.HTTP_400_BAD_REQUEST
         )
-
-
-
-
 
 
 class PasswordResetView(APIView):

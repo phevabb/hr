@@ -8,6 +8,13 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from rest_framework import serializers
+
+
 User = get_user_model()
 
 
@@ -134,16 +141,6 @@ class ChangePasswordSerializer(serializers.Serializer):
         user.set_password(new_password)
         user.save()
         return user
-
-
-
-
-
-from django.core.mail import send_mail
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.contrib.auth.tokens import default_token_generator
-from rest_framework import serializers
 
 
 class PasswordResetSerializer(serializers.Serializer):

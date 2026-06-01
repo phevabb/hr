@@ -115,20 +115,35 @@ WSGI_APPLICATION = 'A_sys.wsgi.application'
 
 
 
+
+
 # settings.py
+# settings.py
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ahxrxvnjhzyiunkvauji',
-        'USER': 'fcmeqlpvapuuasadqlcg',
-        'PASSWORD': 'becfuglpsdgpbprgpsmqcwpbaunfxm',
-        'HOST': '9qasp5v56q8ckkf5dc.leapcellpool.com',
-        'PORT': '6438',
-        'OPTIONS': {'sslmode': 'require'}
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "neondb",
+        "USER": "neondb_owner",
+        "PASSWORD": "npg_qBPEGxZ9lU6i",
+        "HOST": "ep-flat-salad-a2et4uem-pooler.eu-central-1.aws.neon.tech",
+        "PORT": "5432",
+        "OPTIONS": {
+            "sslmode": "require",
+            "channel_binding": "require",
+        },
     }
 }
 
+'''
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / "db.sqlite3",
+#     }
+# }
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -178,8 +193,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'account.User'
 
 #  email configurtion
-
-
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "phevab1@gmail.com"
 EMAIL_HOST_PASSWORD = "pxoniqqxstkmnjmi"

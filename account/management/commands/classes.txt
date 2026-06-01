@@ -10,6 +10,7 @@ classes = [
     "Revenue Class",
     "Administrative Class",
     "Stool Lands Inspectors Class",
+    "Revenue Inspector Class",
     "Records Class",
     "Drivers Class",
     "Programme Class",
@@ -20,6 +21,7 @@ classes = [
     "Procurement Class",
     "Labourers Class",
 ]
+
 
 for c in classes:
     Classes.objects.get_or_create(classes_name=c)

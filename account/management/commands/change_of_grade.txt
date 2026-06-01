@@ -1,0 +1,14 @@
+
+from account.models import ChangeOfGrade
+
+promotion_types = [
+    "Promotion",
+    "None",
+    "High Academic Qualification",
+    "Regrading (Conversion/Upgrading)",
+    "First Appointment",
+    "Letter Of Appointment",
+]
+
+for c in promotion_types:
+    ChangeOfGrade.objects.get_or_create(grade=c)

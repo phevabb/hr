@@ -1,0 +1,22 @@
+
+from account.models import Department
+
+Directorate = [
+    "Administration & Human Resource Directorate - ICT Unit",
+    "Administration & Human Resource Directorate - Information Unit & Public Relations Unit",
+    "General Administration & Human Resource Directorate",
+    "Land Administration Directorate",
+    "Operations Directorate",
+    "Finance Directorate",
+    "Administration & Human Resource Directorate - Transport Unit",
+    "Legal Unit",
+    "Administration & Human Resource Directorate - Records",
+    "Audit Unit",
+    "Administration & Human Resource Directorate - Procurement Unit",
+    "Policy Planning Directorate",
+    "Research Statistics & Information Management Directorate",
+]
+
+for c in Directorate:
+    Department.objects.get_or_create(department_name=c)
+
