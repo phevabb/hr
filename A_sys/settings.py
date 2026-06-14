@@ -201,6 +201,7 @@ EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = "phevab1@gmail.com"
 CSRF_TRUSTED_ORIGINS = [
     "https://hr-production-415c.up.railway.app",
+    "https://humanresourcebackend-7ritgqhp.b4a.run",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
