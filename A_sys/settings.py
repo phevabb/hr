@@ -231,15 +231,22 @@ CSRF_TRUSTED_ORIGINS = [
     "https://lands-ui-rccl.vercel.app",
     "https://hr-production-415c.up.railway.app",
     "https://humanresourcebackend-7ritgqhp.b4a.run",
+
+    # Local
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "https://lands-ui-rccl.vercel.app",
+
+    # Local
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
-# Keep django-cors-headers defaults, then add anything extra
 CORS_ALLOW_HEADERS = list(default_headers) + [
     "authorization",
 ]

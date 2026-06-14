@@ -98,25 +98,81 @@ def class_stats(request):
     result_page = paginator.paginate_queryset(data, request)
     return paginator.get_paginated_response(result_page)
 
+
 @api_view(['GET'])
 def region_stats(request):
     """Return count of active users per region."""
     return get_stat_data(request, Region, related_field='region', output_key='region')
 
+
+
+
+
+
+
+
+
+
+
+
+from django.db.models import Count
+from rest_framework.decorators import api_view
+from rest_framework.pagination import PageNumberPagination
+
 @api_view(['GET'])
 def management_stats(request):
-    users = User.objects.filter(is_active=True)
-    counts = {mu.management_unit_name: 0 for mu in ManagementUnit.objects.all()}
+    region_param = request.GET.get('region')
 
-    for user in users:
-        mu = getattr(user, 'management_unit_cost_centre', None)
-        if mu:
-            counts[mu.management_unit_name] += 1
+    users = User.objects.filter(is_active=True)
+
+    if region_param:
+        users = users.filter(region__region=region_param)
+
+    # Start with all management units at zero count
+    counts = {
+        mu.management_unit_name: 0
+        for mu in ManagementUnit.objects.all().only("management_unit_name")
+    }
+
+    # Let the database group and count users by management unit name
+    grouped = (
+        users.exclude(management_unit_cost_centre__isnull=True)
+        .values("management_unit_cost_centre__management_unit_name")
+        .annotate(count=Count("id"))
+        .order_by("management_unit_cost_centre__management_unit_name")
+    )
+
+    print("=== management_stats summary ===")
+    print("Region filter:", region_param)
+    print("Active users count:", users.count())
+    print("Grouped result count:", grouped.count())
+
+    for row in grouped:
+        mu_name = row["management_unit_cost_centre__management_unit_name"]
+        counts[mu_name] = row["count"]
 
     data = [{"management_unit": k, "count": v} for k, v in counts.items()]
+
     paginator = PageNumberPagination()
     result_page = paginator.paginate_queryset(data, request)
+
+    print("Final data length:", len(data))
+    print("Paginated result count:", len(result_page) if result_page is not None else 0)
+    print("=== management_stats finished ===")
+
     return paginator.get_paginated_response(result_page)
+
+
+
+
+
+
+
+
+
+
+
+
 
 @api_view(['GET'])
 def gender_stats(request):
