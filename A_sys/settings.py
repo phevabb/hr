@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import cloudinary_storage
+from corsheaders.defaults import default_headers, default_methods
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -69,17 +70,17 @@ INSTALLED_APPS = [
     'cloudinary_storage',
 
 ]
+
+
 MIDDLEWARE = [
-    # Security should come first
     "django.middleware.security.SecurityMiddleware",
 
-    # WhiteNoise right after SecurityMiddleware
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-
-    # CorsHeaders ideally before CommonMiddleware
+    # Put CORS as high as possible
     "corsheaders.middleware.CorsMiddleware",
 
-    # Django’s standard middlewares
+    # WhiteNoise after Security/CORS
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -87,7 +88,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
 
 ROOT_URLCONF = 'A_sys.urls'
 
@@ -199,31 +199,7 @@ EMAIL_HOST_PASSWORD = "pxoniqqxstkmnjmi"
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = "phevab1@gmail.com"
-CSRF_TRUSTED_ORIGINS = [
-    "https://lands-ui-rccl.vercel.app",
-    "https://hr-production-415c.up.railway.app",
-    "https://humanresourcebackend-7ritgqhp.b4a.run",
-]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://lands-ui-rccl.vercel.app",
-]
-
-CORS_ALLOW_HEADERS = [
-    "content-type",
-    "authorization",
-]
-
-CORS_ALLOW_METHODS = [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS",
-]
-
-CORS_ALLOW_CREDENTIALS = True
 
 
 REST_FRAMEWORK = {
@@ -251,3 +227,21 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://lands-ui-rccl.vercel.app",
+    "https://hr-production-415c.up.railway.app",
+    "https://humanresourcebackend-7ritgqhp.b4a.run",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://lands-ui-rccl.vercel.app",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Keep django-cors-headers defaults, then add anything extra
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "authorization",
+]
+
+CORS_ALLOW_METHODS = list(default_methods)
