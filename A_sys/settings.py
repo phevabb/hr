@@ -200,11 +200,31 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = "phevab1@gmail.com"
 CSRF_TRUSTED_ORIGINS = [
+    "https://lands-ui-rccl.vercel.app",
     "https://hr-production-415c.up.railway.app",
     "https://humanresourcebackend-7ritgqhp.b4a.run",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://lands-ui-rccl.vercel.app",
+]
+
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+]
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
