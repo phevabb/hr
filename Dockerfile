@@ -1,11 +1,11 @@
-# Use official Python image
+# Base image
 FROM python:3.10
 
-# Prevent Python from writing pyc files
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Environment settings
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Set working directory
+# Working directory
 WORKDIR /app
 
 # Copy project files
@@ -15,8 +15,8 @@ COPY . /app/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Expose port (Back4App expects 8000 typically)
+# Expose port
 EXPOSE 8000
 
-# Run Django app
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Run using Gunicorn (recommended)
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "A_sys.wsgi:application"]
